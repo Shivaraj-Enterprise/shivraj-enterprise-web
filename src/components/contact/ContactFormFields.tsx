@@ -6,6 +6,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -72,12 +73,15 @@ export const PhoneField = ({ form }: FormFieldsProps) => (
         <FormLabel className="text-sm font-medium text-gray-700">Phone Number *</FormLabel>
         <FormControl>
           <Input
-            placeholder="Enter your phone number"
+            placeholder="+1 555-123-4567"
             type="tel"
             {...field}
             className="w-full focus:ring-2 focus:ring-shivraj-500 focus:border-shivraj-500"
           />
         </FormControl>
+        <FormDescription className="text-xs text-gray-500">
+          Include country code (e.g., +1 for US, +44 for UK)
+        </FormDescription>
         <FormMessage />
       </FormItem>
     )}

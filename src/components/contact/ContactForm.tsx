@@ -17,11 +17,19 @@ import {
   MessageField 
 } from "./ContactFormFields";
 
+// Phone number regex that supports international format with country code
+// Accepts formats like: +1 123-456-7890, +44 1234 567890, etc.
+const phoneRegex = /^\+[1-9]\d{0,2}[\s-]?\d{1,4}[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
+
 // Form schema with validation
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Please enter a valid phone number"),
+  phone: z.string()
+    .min(10, "Phone number must be at least 10 characters")
+    .refine(val => phoneRegex.test(val), {
+      message: "Please enter a valid phone number with country code (e.g. +1 555-123-4567)",
+    }),
   inquiryType: z.enum(["service", "job", "quote", "other"]),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
