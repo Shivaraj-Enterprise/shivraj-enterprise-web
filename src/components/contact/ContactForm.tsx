@@ -5,26 +5,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue 
-} from "@/components/ui/select";
+import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
 import { ContactFormData } from "@/models/ContactSubmission";
+import { 
+  NameField, 
+  EmailField, 
+  PhoneField, 
+  InquiryTypeField, 
+  MessageField 
+} from "./ContactFormFields";
 
 // Form schema with validation
 const formSchema = z.object({
@@ -80,104 +71,11 @@ const ContactForm = () => {
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Full Name *</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="Enter your name" 
-                      {...field} 
-                      className="w-full focus:ring-2 focus:ring-shivraj-500 focus:border-shivraj-500" 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Email Address *</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="Enter your email" 
-                      type="email" 
-                      {...field} 
-                      className="w-full focus:ring-2 focus:ring-shivraj-500 focus:border-shivraj-500" 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Phone Number *</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="Enter your phone number" 
-                      type="tel" 
-                      {...field} 
-                      className="w-full focus:ring-2 focus:ring-shivraj-500 focus:border-shivraj-500" 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="inquiryType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Inquiry Type *</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="w-full focus:ring-2 focus:ring-shivraj-500 focus:border-shivraj-500">
-                        <SelectValue placeholder="Select an inquiry type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="service">Service Inquiry</SelectItem>
-                      <SelectItem value="job">Job Application</SelectItem>
-                      <SelectItem value="quote">Request a Quote</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Message *</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="How can we help you?" 
-                      {...field}
-                      rows={5}
-                      className="w-full focus:ring-2 focus:ring-shivraj-500 focus:border-shivraj-500" 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <NameField form={form} />
+            <EmailField form={form} />
+            <PhoneField form={form} />
+            <InquiryTypeField form={form} />
+            <MessageField form={form} />
             
             <Button 
               type="submit" 
