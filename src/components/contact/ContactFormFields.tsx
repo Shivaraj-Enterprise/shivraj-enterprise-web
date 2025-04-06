@@ -147,12 +147,22 @@ export const PhoneField = ({ form }: FormFieldsProps) => {
 export const WhatsAppField = ({ form }: FormFieldsProps) => {
   const [usePhoneNumber, setUsePhoneNumber] = useState(false);
   const phoneValue = form.getValues("phone");
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(commonCountryCodes[0]);
 
   React.useEffect(() => {
     if (usePhoneNumber && phoneValue) {
       form.setValue("whatsapp", phoneValue);
     }
   }, [usePhoneNumber, phoneValue, form]);
+
+  const handleCountrySelect = (country: CountryCode) => {
+    setSelectedCountry(country);
+    if (!usePhoneNumber) {
+      const currentValue = form.getValues("whatsapp") || "";
+      const numberPart = currentValue.replace(/^\+\d+\s?/, "");
+      form.setValue("whatsapp", `${country.dial_code} ${numberPart}`, { shouldValidate: true });
+    }
+  };
 
   return (
     <FormField
@@ -181,13 +191,43 @@ export const WhatsAppField = ({ form }: FormFieldsProps) => {
             </label>
           </div>
           <FormControl>
-            <Input
-              placeholder="+91 99984 98311"
-              type="tel"
-              {...field}
-              disabled={usePhoneNumber}
-              className="w-full focus:ring-2 focus:ring-shivraj-500 focus:border-shivraj-500"
-            />
+            <div className="flex gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    className="w-24 flex justify-between items-center"
+                    disabled={usePhoneNumber}
+                  >
+                    {selectedCountry.dial_code} <ChevronDown size={16} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="max-h-56 overflow-y-auto w-60">
+                  {commonCountryCodes.map((country) => (
+                    <DropdownMenuItem 
+                      key={country.code}
+                      onClick={() => handleCountrySelect(country)}
+                      className="cursor-pointer"
+                    >
+                      <span className="font-semibold mr-2">{country.dial_code}</span> {country.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Input
+                placeholder="99984 98311"
+                type="tel"
+                {...field}
+                disabled={usePhoneNumber}
+                className="w-full focus:ring-2 focus:ring-shivraj-500 focus:border-shivraj-500"
+                value={usePhoneNumber ? field.value : field.value.replace(/^\+\d+\s?/, "")}
+                onChange={(e) => {
+                  if (!usePhoneNumber) {
+                    field.onChange(`${selectedCountry.dial_code} ${e.target.value}`);
+                  }
+                }}
+              />
+            </div>
           </FormControl>
           <FormDescription className="text-xs text-gray-500">
             Include country code (e.g., +91 for India)
