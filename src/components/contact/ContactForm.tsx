@@ -28,7 +28,7 @@ const formSchema = z.object({
   phone: z.string()
     .min(10, "Phone number must be at least 10 characters")
     .refine(val => phoneRegex.test(val), {
-      message: "Please enter a valid phone number with country code (e.g. +1 555-123-4567)",
+      message: "Please enter a valid phone number with country code (e.g. +91 99984 98311)",
     }),
   inquiryType: z.enum(["service", "job", "quote", "other"]),
   message: z.string().min(10, "Message must be at least 10 characters"),
@@ -45,7 +45,7 @@ const ContactForm = () => {
     defaultValues: {
       name: "",
       email: "",
-      phone: "",
+      phone: "+91 ",
       inquiryType: "service",
       message: "",
     },

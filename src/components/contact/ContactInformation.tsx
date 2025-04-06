@@ -1,5 +1,5 @@
 
-import { Phone, Mail, MapPin, CheckCircle } from "lucide-react";
+import { Phone, Mail, MapPin, CheckCircle, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 
 const ContactInformation = () => {
@@ -30,6 +30,23 @@ const ContactInformation = () => {
             <a href="tel:+919998498311" className="text-gray-600 hover:text-shivraj-600 transition-colors">
               +91 99984 98311
             </a>
+          </div>
+        </motion.div>
+        
+        <motion.div 
+          className="flex items-start"
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 flex-shrink-0">
+            <MessageSquare size={22} />
+          </div>
+          <div>
+            <h3 className="font-semibold text-shivraj-800 text-lg">WhatsApp</h3>
+            <a href="https://wa.me/919998498311" className="text-gray-600 hover:text-green-600 transition-colors">
+              +91 99984 98311
+            </a>
+            <p className="text-xs text-gray-500 mt-1">Message us on WhatsApp for quick responses</p>
           </div>
         </motion.div>
         
