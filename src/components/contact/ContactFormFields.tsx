@@ -92,9 +92,7 @@ export const PhoneField = ({ form }: FormFieldsProps) => {
   const handleCountrySelect = (country: CountryCode) => {
     setSelectedCountry(country);
     const currentValue = form.getValues("phone") || "";
-    // Extract the number part without country code
     const numberPart = currentValue.replace(/^\+\d+\s?/, "");
-    // Set the new value with the selected country code
     form.setValue("phone", `${country.dial_code} ${numberPart}`, { shouldValidate: true });
   };
 

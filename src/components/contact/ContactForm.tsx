@@ -13,6 +13,7 @@ import {
   NameField, 
   EmailField, 
   PhoneField, 
+  WhatsAppField,
   InquiryTypeField, 
   MessageField 
 } from "./ContactFormFields";
@@ -30,6 +31,7 @@ const formSchema = z.object({
     .refine(val => phoneRegex.test(val), {
       message: "Please enter a valid phone number with country code (e.g. +91 99984 98311)",
     }),
+  whatsapp: z.string().optional(),
   inquiryType: z.enum(["service", "job", "quote", "other"]),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
@@ -46,6 +48,7 @@ const ContactForm = () => {
       name: "",
       email: "",
       phone: "+91 ",
+      whatsapp: "",
       inquiryType: "service",
       message: "",
     },
@@ -82,6 +85,7 @@ const ContactForm = () => {
             <NameField form={form} />
             <EmailField form={form} />
             <PhoneField form={form} />
+            <WhatsAppField form={form} />
             <InquiryTypeField form={form} />
             <MessageField form={form} />
             
