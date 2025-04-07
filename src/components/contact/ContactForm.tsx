@@ -63,8 +63,18 @@ const ContactForm = () => {
     console.log("Form submitted:", data);
     
     try {
+      // Ensure the data matches the ContactFormData type by explicitly creating the object
+      const contactData: ContactFormData = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        whatsapp: data.whatsapp,
+        inquiryType: data.inquiryType,
+        message: data.message,
+      };
+      
       // Save form data to database (or simulated for now)
-      const submission = await submitContactForm(data);
+      const submission = await submitContactForm(contactData);
       console.log("Submission created:", submission);
       
       // Format message for WhatsApp
