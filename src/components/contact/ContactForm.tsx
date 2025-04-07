@@ -17,7 +17,7 @@ import {
   WhatsAppField,
   InquiryTypeField, 
   MessageField 
-} from "./ContactFormFields";
+} from "./form-fields";
 
 // Phone number regex that supports international format with country code
 // Accepts formats like: +1 123-456-7890, +44 1234 567890, etc.
