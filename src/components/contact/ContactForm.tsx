@@ -39,9 +39,6 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-// Admin WhatsApp number where messages will be forwarded to
-const ADMIN_WHATSAPP_NUMBER = "919998498311"; // Replace with your WhatsApp number (without + sign)
-
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -63,7 +60,7 @@ const ContactForm = () => {
     console.log("Form submitted:", data);
     
     try {
-      // Ensure the data matches the ContactFormData type by explicitly creating the object
+      // Create a properly typed ContactFormData object
       const contactData: ContactFormData = {
         name: data.name,
         email: data.email,
@@ -73,34 +70,9 @@ const ContactForm = () => {
         message: data.message,
       };
       
-      // Save form data to database (or simulated for now)
+      // Submit form data and forward to WhatsApp (handled in the service)
       const submission = await submitContactForm(contactData);
       console.log("Submission created:", submission);
-      
-      // Format message for WhatsApp
-      const inquiryTypes = {
-        service: "Service Inquiry",
-        job: "Job Application",
-        quote: "Quote Request",
-        other: "Other Inquiry"
-      };
-      
-      const whatsappMessage = encodeURIComponent(
-        `*New Contact Form Submission*\n\n` +
-        `*Name:* ${data.name}\n` +
-        `*Email:* ${data.email}\n` +
-        `*Phone:* ${data.phone}\n` +
-        `*WhatsApp:* ${data.whatsapp || 'Not provided'}\n` +
-        `*Inquiry Type:* ${inquiryTypes[data.inquiryType]}\n\n` +
-        `*Message:*\n${data.message}\n\n` +
-        `Sent from Shivraj Enterprise website`
-      );
-      
-      // Generate WhatsApp API link
-      const whatsappLink = `https://api.whatsapp.com/send?phone=${ADMIN_WHATSAPP_NUMBER}&text=${whatsappMessage}`;
-      
-      // Open WhatsApp in new tab for admin
-      window.open(whatsappLink, '_blank');
       
       toast({
         title: "Message Sent Successfully!",
