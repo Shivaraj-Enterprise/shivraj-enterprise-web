@@ -9,6 +9,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Form } from "@/components/ui/form";
 import { motion } from "framer-motion";
 import { ContactFormData } from "@/models/ContactSubmission";
+import { submitContactForm } from "@/services/contactService";
 import { 
   NameField, 
   EmailField, 
@@ -38,6 +39,9 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+// Admin WhatsApp number where messages will be forwarded to
+const ADMIN_WHATSAPP_NUMBER = "919998498311"; // Replace with your WhatsApp number (without + sign)
+
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -54,12 +58,40 @@ const ContactForm = () => {
     },
   });
   
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     console.log("Form submitted:", data);
     
-    // Simulate form submission for now - in a real app, this would send data to a backend
-    setTimeout(() => {
+    try {
+      // Save form data to database (or simulated for now)
+      const submission = await submitContactForm(data);
+      console.log("Submission created:", submission);
+      
+      // Format message for WhatsApp
+      const inquiryTypes = {
+        service: "Service Inquiry",
+        job: "Job Application",
+        quote: "Quote Request",
+        other: "Other Inquiry"
+      };
+      
+      const whatsappMessage = encodeURIComponent(
+        `*New Contact Form Submission*\n\n` +
+        `*Name:* ${data.name}\n` +
+        `*Email:* ${data.email}\n` +
+        `*Phone:* ${data.phone}\n` +
+        `*WhatsApp:* ${data.whatsapp || 'Not provided'}\n` +
+        `*Inquiry Type:* ${inquiryTypes[data.inquiryType]}\n\n` +
+        `*Message:*\n${data.message}\n\n` +
+        `Sent from Shivraj Enterprise website`
+      );
+      
+      // Generate WhatsApp API link
+      const whatsappLink = `https://api.whatsapp.com/send?phone=${ADMIN_WHATSAPP_NUMBER}&text=${whatsappMessage}`;
+      
+      // Open WhatsApp in new tab for admin
+      window.open(whatsappLink, '_blank');
+      
       toast({
         title: "Message Sent Successfully!",
         description: "We'll get back to you as soon as possible.",
@@ -67,8 +99,16 @@ const ContactForm = () => {
       
       // Reset form
       form.reset();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Error Sending Message",
+        description: "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
