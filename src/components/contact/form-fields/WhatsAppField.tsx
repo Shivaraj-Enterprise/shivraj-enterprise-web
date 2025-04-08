@@ -19,6 +19,7 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { CountryCode } from "@/models/ContactSubmission";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Common country codes
 const commonCountryCodes: CountryCode[] = [
@@ -40,14 +41,24 @@ interface WhatsAppFieldProps {
 
 const WhatsAppField = ({ form }: WhatsAppFieldProps) => {
   const [usePhoneNumber, setUsePhoneNumber] = useState(false);
-  const phoneValue = form.getValues("phone");
   const [selectedCountry, setSelectedCountry] = useState<CountryCode>(commonCountryCodes[0]);
 
   useEffect(() => {
-    if (usePhoneNumber && phoneValue) {
-      form.setValue("whatsapp", phoneValue);
+    if (usePhoneNumber) {
+      const phoneValue = form.getValues("phone");
+      if (phoneValue) {
+        form.setValue("whatsapp", phoneValue, { shouldValidate: true });
+      }
     }
-  }, [usePhoneNumber, phoneValue, form]);
+  }, [usePhoneNumber, form]);
+
+  // Reset when phone number changes if using same as phone
+  useEffect(() => {
+    if (usePhoneNumber) {
+      const phoneValue = form.watch("phone");
+      form.setValue("whatsapp", phoneValue, { shouldValidate: true });
+    }
+  }, [form.watch("phone"), usePhoneNumber, form]);
 
   const handleCountrySelect = (country: CountryCode) => {
     setSelectedCountry(country);
@@ -68,21 +79,22 @@ const WhatsAppField = ({ form }: WhatsAppFieldProps) => {
             WhatsApp Number <span className="text-xs font-normal">(optional)</span>
           </FormLabel>
           <div className="flex items-center mb-2">
-            <input
-              type="checkbox"
-              id="use-same-number"
-              checked={usePhoneNumber}
-              onChange={() => {
-                setUsePhoneNumber(!usePhoneNumber);
-                if (!usePhoneNumber) {
-                  form.setValue("whatsapp", phoneValue);
-                }
-              }}
-              className="mr-2 h-4 w-4"
-            />
-            <label htmlFor="use-same-number" className="text-sm text-gray-600">
-              Same as phone number
-            </label>
+            <div className="flex items-center space-x-2">
+              <Checkbox 
+                id="use-same-number" 
+                checked={usePhoneNumber}
+                onCheckedChange={(checked) => {
+                  setUsePhoneNumber(checked === true);
+                  if (checked) {
+                    const phoneValue = form.getValues("phone");
+                    form.setValue("whatsapp", phoneValue, { shouldValidate: true });
+                  }
+                }}
+              />
+              <label htmlFor="use-same-number" className="text-sm text-gray-600 cursor-pointer">
+                Same as phone number
+              </label>
+            </div>
           </div>
           <FormControl>
             <div className="flex gap-2">
@@ -92,6 +104,7 @@ const WhatsAppField = ({ form }: WhatsAppFieldProps) => {
                     variant="outline" 
                     className="w-24 flex justify-between items-center"
                     disabled={usePhoneNumber}
+                    type="button"
                   >
                     {selectedCountry.dial_code} <ChevronDown size={16} />
                   </Button>
