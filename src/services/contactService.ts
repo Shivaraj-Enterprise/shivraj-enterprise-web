@@ -40,8 +40,11 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
 export const getContactSubmissions = async (): Promise<ContactSubmission[]> => {
   // This function will be replaced with actual Supabase implementation
   // For now, it returns submissions from localStorage
-  return new Promise((resolve) => {
+  try {
     const submissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
-    resolve(submissions);
-  });
+    return submissions;
+  } catch (error) {
+    console.error("Error retrieving submissions:", error);
+    return [];
+  }
 };
