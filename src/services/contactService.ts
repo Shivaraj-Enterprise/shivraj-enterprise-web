@@ -1,3 +1,4 @@
+
 import { ContactFormData, ContactSubmission } from "../models/ContactSubmission";
 import { supabase } from "@/integrations/supabase/client";
 
