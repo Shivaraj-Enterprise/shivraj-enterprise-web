@@ -76,7 +76,7 @@ const ContactInformation = () => {
           </div>
           <div>
             <h3 className="font-semibold text-shivraj-800 text-lg">Location</h3>
-            <p className="text-gray-600">Vapi, Gujarat, India</p>
+            <p className="text-gray-600">Plot No. 228, A/303, Ved Vihar,<br/>Near Oswal Samaj Hall, Chharwada,<br/>Vapi, Gujarat – 396191</p>
           </div>
         </motion.div>
       </div>

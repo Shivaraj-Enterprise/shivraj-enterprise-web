@@ -1,5 +1,4 @@
-
-import { Users, Shield, Award, BarChart } from "lucide-react";
+import { Users, Shield, Award, BarChart, FileCheck } from "lucide-react";
 import Layout from "@/components/Layout";
 
 const About = () => {
@@ -10,7 +9,7 @@ const About = () => {
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-4">About Us</h1>
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
-            Learn more about our company, our values, and our expertise in manpower supply
+            Learn more about our company, our values, and our expertise in manpower & housekeeping
           </p>
         </div>
       </section>
@@ -20,29 +19,23 @@ const About = () => {
         <div className="container mx-auto">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-6">Our Story</h2>
-            
+
             <div className="prose prose-lg max-w-none text-gray-700">
               <p className="mb-4">
-                SHIVRAJ ENTERPRISE PVT. LTD. is a trusted name in manpower supply and staffing solutions, 
-                providing skilled, semi-skilled, and unskilled labor to industries across various sectors. 
+                SHIVRAJ ENTERPRISE is a trusted name in manpower supply and housekeeping services,
+                with over 10 years of industry experience. We provide skilled, semi-skilled, and
+                unskilled labour to industries such as Engineering, Pharmaceuticals, Chemicals, and Packaging.
               </p>
-              
               <p className="mb-4">
-                With a strong focus on reliability, efficiency, and client satisfaction, we specialize in 
-                temporary staffing, contract labor, recruitment services, and industrial workforce management. 
-                Our team ensures timely deployment, compliance with labor laws, and customized workforce 
-                solutions tailored to meet each client's operational needs.
+                Known for reliability and tailored solutions, we ensure operational efficiency for both
+                short-term projects and long-term staffing needs, making us your dependable partner in
+                workforce outsourcing.
               </p>
-              
               <p className="mb-4">
-                Whether for short-term projects or long-term staffing support, SHIVRAJ ENTERPRISE is your 
-                dependable partner in human resource outsourcing. We are in this manpower supply/labor 
-                contractor industry for over 10+ years.
-              </p>
-              
-              <p className="mb-4">
-                We have contractors in many industries, one of which is AURORIUM. We provide services in 
-                many cities of Gujarat, mainly in GIDC Vapi, Daman, Dadra and Nagar Haveli, and Daman and Diu.
+                We believe in fostering long-term partnerships with our clients. By maintaining open
+                lines of communication and actively seeking feedback, we refine our services to meet
+                evolving needs — solidifying trust and contributing to the sustainability of operations
+                within the industries we serve.
               </p>
             </div>
           </div>
@@ -50,77 +43,69 @@ const About = () => {
           {/* Values Section */}
           <div className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-10 text-center">Our Core Values</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* Value 1 */}
-              <div className="text-center">
-                <div className="w-16 h-16 bg-shivraj-100 text-shivraj-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield size={32} />
+              {[
+                { icon: Shield, title: "Reliability", desc: "We deliver on our promises and ensure consistent service quality" },
+                { icon: Users, title: "Client Satisfaction", desc: "We prioritize our clients' needs and work to exceed expectations" },
+                { icon: Award, title: "Expertise", desc: "We leverage our industry knowledge to provide optimal staffing solutions" },
+                { icon: BarChart, title: "Efficiency", desc: "We optimize processes to deliver timely and effective results" },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="text-center">
+                  <div className="w-16 h-16 bg-shivraj-100 text-shivraj-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon size={32} />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2 text-shivraj-800">{title}</h3>
+                  <p className="text-gray-600">{desc}</p>
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-shivraj-800">Reliability</h3>
-                <p className="text-gray-600">We deliver on our promises and ensure consistent service quality</p>
-              </div>
-              
-              {/* Value 2 */}
-              <div className="text-center">
-                <div className="w-16 h-16 bg-shivraj-100 text-shivraj-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users size={32} />
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-shivraj-800">Client Satisfaction</h3>
-                <p className="text-gray-600">We prioritize our clients' needs and work to exceed expectations</p>
-              </div>
-              
-              {/* Value 3 */}
-              <div className="text-center">
-                <div className="w-16 h-16 bg-shivraj-100 text-shivraj-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Award size={32} />
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-shivraj-800">Expertise</h3>
-                <p className="text-gray-600">We leverage our industry knowledge to provide optimal staffing solutions</p>
-              </div>
-              
-              {/* Value 4 */}
-              <div className="text-center">
-                <div className="w-16 h-16 bg-shivraj-100 text-shivraj-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BarChart size={32} />
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-shivraj-800">Efficiency</h3>
-                <p className="text-gray-600">We optimize processes to deliver timely and effective results</p>
-              </div>
+              ))}
             </div>
           </div>
 
           {/* Why Choose Us */}
-          <div className="mt-20">
+          <div className="mt-20 max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-8 text-center">Why Choose Shivraj Enterprise?</h2>
-            
+
             <div className="bg-shivraj-50 rounded-lg p-8 border border-shivraj-100">
               <ul className="space-y-4">
-                <li className="flex">
-                  <span className="text-shivraj-600 font-bold mr-2">1.</span>
-                  <span className="text-gray-700"><strong>Decade of Experience:</strong> Over 10+ years in the manpower supply industry</span>
-                </li>
-                <li className="flex">
-                  <span className="text-shivraj-600 font-bold mr-2">2.</span>
-                  <span className="text-gray-700"><strong>Wide Network:</strong> Established presence across major industrial areas in Gujarat</span>
-                </li>
-                <li className="flex">
-                  <span className="text-shivraj-600 font-bold mr-2">3.</span>
-                  <span className="text-gray-700"><strong>Compliance Focused:</strong> Strict adherence to labor laws and regulations</span>
-                </li>
-                <li className="flex">
-                  <span className="text-shivraj-600 font-bold mr-2">4.</span>
-                  <span className="text-gray-700"><strong>Customized Solutions:</strong> Tailored workforce management strategies for each client</span>
-                </li>
-                <li className="flex">
-                  <span className="text-shivraj-600 font-bold mr-2">5.</span>
-                  <span className="text-gray-700"><strong>Quality Assurance:</strong> Rigorous screening process for all personnel</span>
-                </li>
-                <li className="flex">
-                  <span className="text-shivraj-600 font-bold mr-2">6.</span>
-                  <span className="text-gray-700"><strong>Timely Deployment:</strong> Efficient processes to meet urgent staffing needs</span>
-                </li>
+                {[
+                  ["Proven Experience", "10+ years serving leading industries with manpower and housekeeping solutions."],
+                  ["Quality & Reliability", "Trained workforce with strong attendance and punctuality systems."],
+                  ["Full Compliance", "Adherence to PF, ESIC, GST and all labour laws for client safety and transparency."],
+                  ["Skilled & Flexible Workforce", "Tailored solutions for short-term or long-term requirements."],
+                  ["Continuous Training", "Staff equipped with safety, operational, and service best practices."],
+                ].map(([title, desc], i) => (
+                  <li key={title} className="flex">
+                    <span className="text-shivraj-600 font-bold mr-2">{i + 1}.</span>
+                    <span className="text-gray-700"><strong>{title}:</strong> {desc}</span>
+                  </li>
+                ))}
               </ul>
+            </div>
+          </div>
+
+          {/* Licenses & Registrations */}
+          <div className="mt-20 max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-8 text-center">Licenses & Registrations</h2>
+            <p className="text-gray-600 text-center mb-8">
+              We hold all critical licenses and registrations confirming our compliance with industry regulations.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                ["PAN", "AERPY4658M"],
+                ["GSTIN", "24AERPY4658M1ZF"],
+                ["Provident Fund (PF) Registration", "1448586"],
+                ["ESIC Registration", "39000538650000300"],
+                ["Labour Law Compliance Certificates", "Active"],
+              ].map(([label, value]) => (
+                <div key={label} className="flex items-start bg-white border border-shivraj-100 rounded-lg p-4 shadow-sm">
+                  <FileCheck size={22} className="text-shivraj-600 mr-3 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-gray-500">{label}</p>
+                    <p className="font-semibold text-shivraj-800 break-all">{value}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
