@@ -18,7 +18,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
-import { CountryCode } from "@/models/ContactSubmission";
+import { CountryCode, ContactFormData } from "@/models/ContactSubmission";
 
 // Common country codes
 const commonCountryCodes: CountryCode[] = [
@@ -35,7 +35,7 @@ const commonCountryCodes: CountryCode[] = [
 ];
 
 interface PhoneFieldProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<ContactFormData>;
 }
 
 const PhoneField = ({ form }: PhoneFieldProps) => {

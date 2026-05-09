@@ -15,9 +15,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UseFormReturn } from "react-hook-form";
+import { ContactFormData } from "@/models/ContactSubmission";
 
 interface InquiryTypeFieldProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<ContactFormData>;
 }
 
 const InquiryTypeField = ({ form }: InquiryTypeFieldProps) => (

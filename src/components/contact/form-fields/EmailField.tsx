@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
+import { ContactFormData } from "@/models/ContactSubmission";
 
 interface EmailFieldProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<ContactFormData>;
 }
 
 const EmailField = ({ form }: EmailFieldProps) => (

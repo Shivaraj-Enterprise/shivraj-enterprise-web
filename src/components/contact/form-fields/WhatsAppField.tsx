@@ -18,7 +18,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
-import { CountryCode } from "@/models/ContactSubmission";
+import { CountryCode, ContactFormData } from "@/models/ContactSubmission";
 import { Checkbox } from "@/components/ui/checkbox";
 
 // Common country codes
@@ -36,7 +36,7 @@ const commonCountryCodes: CountryCode[] = [
 ];
 
 interface WhatsAppFieldProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<ContactFormData>;
 }
 
 const WhatsAppField = ({ form }: WhatsAppFieldProps) => {
