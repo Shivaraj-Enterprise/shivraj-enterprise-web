@@ -36,6 +36,12 @@ const Footer = () => {
               <li>
                 <Link to="/contact" className="text-shivraj-100 hover:text-white">Contact Us</Link>
               </li>
+              <li>
+                <Link to="/terms" className="text-shivraj-100 hover:text-white">Terms & Conditions</Link>
+              </li>
+              <li>
+                <a href="/SHIVRAJ_Enterprise_Company_Profile.pdf" target="_blank" rel="noopener noreferrer" className="text-shivraj-100 hover:text-white">Company Profile (PDF)</a>
+              </li>
             </ul>
           </div>
 
@@ -45,7 +51,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin size={18} className="mr-2 mt-1 flex-shrink-0" />
-                <span>Vapi, Gujarat, India</span>
+                <span>Plot No. 228, A/303, Ved Vihar, Near Oswal Samaj Hall, Chharwada, Vapi, Gujarat – 396191</span>
               </li>
               <li className="flex items-center">
                 <Phone size={18} className="mr-2 flex-shrink-0" />
