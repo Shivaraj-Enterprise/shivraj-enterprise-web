@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
+import { ContactFormData } from "@/models/ContactSubmission";
 
 interface MessageFieldProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<ContactFormData>;
 }
 
 const MessageField = ({ form }: MessageFieldProps) => (

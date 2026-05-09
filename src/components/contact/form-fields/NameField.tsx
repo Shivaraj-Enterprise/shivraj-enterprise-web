@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
+import { ContactFormData } from "@/models/ContactSubmission";
 
 interface NameFieldProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<ContactFormData>;
 }
 
 const NameField = ({ form }: NameFieldProps) => (
