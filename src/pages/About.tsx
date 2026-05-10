@@ -1,5 +1,6 @@
 import { Users, Shield, Award, BarChart, FileCheck } from "lucide-react";
 import Layout from "@/components/Layout";
+import logo from "@/assets/logo.png";
 
 const About = () => {
   return (
@@ -7,6 +8,11 @@ const About = () => {
       {/* Page Header */}
       <section className="bg-shivraj-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">
+          <div className="flex justify-center mb-4">
+            <div className="bg-white rounded-full p-3 shadow-md">
+              <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
+            </div>
+          </div>
           <h1 className="text-4xl font-bold mb-4">About Us</h1>
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
             Learn more about our company, our values, and our expertise in manpower & housekeeping

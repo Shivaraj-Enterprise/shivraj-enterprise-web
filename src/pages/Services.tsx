@@ -1,5 +1,6 @@
 import { CheckCircle, Users, Sparkles, PackageCheck, Truck, ClipboardCheck, Download } from "lucide-react";
 import Layout from "@/components/Layout";
+import logo from "@/assets/logo.png";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -41,6 +42,11 @@ const Services = () => {
       {/* Page Header */}
       <section className="bg-shivraj-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">
+          <div className="flex justify-center mb-4">
+            <div className="bg-white rounded-full p-3 shadow-md">
+              <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
+            </div>
+          </div>
           <h1 className="text-4xl font-bold mb-4">Our Services</h1>
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
             Comprehensive manpower, housekeeping and auxiliary solutions for your business

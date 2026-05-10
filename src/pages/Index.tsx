@@ -2,6 +2,7 @@ import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import logo from "@/assets/logo.png";
 
 const Index = () => {
   return (
@@ -10,6 +11,11 @@ const Index = () => {
       <section className="bg-gradient-to-br from-shivraj-800 to-shivraj-900 text-white">
         <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32">
           <div className="max-w-4xl mx-auto text-center">
+            <div className="flex justify-center mb-6">
+              <div className="bg-white rounded-full p-4 shadow-lg">
+                <img src={logo} alt="Shivraj Enterprise logo" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
+              </div>
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
               Trusted Manpower & Housekeeping Solutions Partner
             </h1>

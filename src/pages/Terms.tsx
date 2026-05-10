@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import logo from "@/assets/logo.png";
 
 const generalTerms = [
   ["Work Order", "Written purchase order issued by the company or organization for agreed terms."],
@@ -32,6 +33,11 @@ const Terms = () => {
     <Layout>
       <section className="bg-shivraj-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">
+          <div className="flex justify-center mb-4">
+            <div className="bg-white rounded-full p-3 shadow-md">
+              <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
+            </div>
+          </div>
           <h1 className="text-4xl font-bold mb-4">Terms & Conditions</h1>
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
             General terms of contract and statutory obligations for our services
