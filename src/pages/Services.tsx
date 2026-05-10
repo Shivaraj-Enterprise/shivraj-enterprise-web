@@ -53,7 +53,7 @@ const Services = () => {
           </p>
           <div className="mt-6">
             <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50">
-              <a href="/SHIVRAJ_Enterprise_Company_Profile.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+              <a href={`${import.meta.env.BASE_URL}SHIVRAJ_Enterprise_Company_Profile.pdf`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                 <Download size={18} /> Download Company Profile
               </a>
             </Button>

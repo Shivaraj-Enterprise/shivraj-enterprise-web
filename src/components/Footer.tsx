@@ -46,7 +46,7 @@ const Footer = () => {
                 <Link to="/terms" className="text-shivraj-100 hover:text-white">Terms & Conditions</Link>
               </li>
               <li>
-                <a href="/SHIVRAJ_Enterprise_Company_Profile.pdf" target="_blank" rel="noopener noreferrer" className="text-shivraj-100 hover:text-white">Company Profile (PDF)</a>
+                <a href={`${import.meta.env.BASE_URL}SHIVRAJ_Enterprise_Company_Profile.pdf`} target="_blank" rel="noopener noreferrer" className="text-shivraj-100 hover:text-white">Company Profile (PDF)</a>
               </li>
             </ul>
           </div>
