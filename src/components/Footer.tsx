@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +12,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <h2 className="text-2xl font-bold mb-4">SHIVRAJ ENTERPRISE PVT. LTD.</h2>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="bg-white rounded-full p-2 flex-shrink-0">
+                <img src={logo} alt="Shivraj Enterprise logo" className="h-10 w-10 object-contain" />
+              </div>
+              <h2 className="text-xl md:text-2xl font-bold">SHIVRAJ ENTERPRISE PVT. LTD.</h2>
+            </div>
             <p className="text-shivraj-100 mb-4">
               A trusted name in manpower supply and staffing solutions with over 10+ years of experience in the industry.
             </p>
