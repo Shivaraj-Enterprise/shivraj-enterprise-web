@@ -12,7 +12,7 @@ import { UseFormReturn } from "react-hook-form";
 import { ContactFormData } from "@/models/ContactSubmission";
 
 interface MessageFieldProps {
-  form: UseFormReturn<ContactFormData>;
+  form: UseFormReturn<any>;
 }
 
 const MessageField = ({ form }: MessageFieldProps) => (

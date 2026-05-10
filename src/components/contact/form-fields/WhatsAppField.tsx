@@ -36,7 +36,7 @@ const commonCountryCodes: CountryCode[] = [
 ];
 
 interface WhatsAppFieldProps {
-  form: UseFormReturn<ContactFormData>;
+  form: UseFormReturn<any>;
 }
 
 const WhatsAppField = ({ form }: WhatsAppFieldProps) => {

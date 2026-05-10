@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -33,7 +34,8 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center gap-3">
+            <img src={logo} alt="Shivraj Enterprise logo" className="h-10 md:h-12 w-auto" />
             <h1 className="text-xl md:text-2xl font-bold text-shivraj-800">
               SHIVRAJ ENTERPRISE <span className="text-shivraj-600 text-sm md:text-base">PVT. LTD.</span>
             </h1>
