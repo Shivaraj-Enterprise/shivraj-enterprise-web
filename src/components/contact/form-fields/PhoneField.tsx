@@ -35,7 +35,7 @@ const commonCountryCodes: CountryCode[] = [
 ];
 
 interface PhoneFieldProps {
-  form: UseFormReturn<ContactFormData>;
+  form: UseFormReturn<any>;
 }
 
 const PhoneField = ({ form }: PhoneFieldProps) => {
