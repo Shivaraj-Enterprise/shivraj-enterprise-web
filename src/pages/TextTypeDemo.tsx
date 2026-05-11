@@ -172,70 +172,57 @@ const TextTypeDemo = () => {
           </CardContent>
         </Card>
 
-        {/* Underline Effect - Basic */}
+        {/* Text Animation Example */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Underline Effect</CardTitle>
-            <CardDescription>Clean underline that grows as text types</CardDescription>
+            <CardTitle>Text Animation Example</CardTitle>
+            <CardDescription>Clean typing animation without underline</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-lg font-semibold text-cyan-600 min-h-16 flex items-center">
               <TextType
-                key={`underline-basic-${resetKey}`}
-                text="Text with elegant underline"
+                key={`example-basic-${resetKey}`}
+                text="Text animation without underline"
                 typingSpeed={60}
                 pauseDuration={2000}
                 showCursor={true}
-                showUnderline={true}
-                underlineColor="#06b6d4"
-                underlineHeight={2}
-                underlineGlow={false}
               />
             </div>
           </CardContent>
         </Card>
 
-        {/* Underline with Glow */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Underline with Glow Effect</CardTitle>
-            <CardDescription>Animated glowing underline for emphasis</CardDescription>
+            <CardTitle>Animated Text Example</CardTitle>
+            <CardDescription>Typing animation that appears clean and simple</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-lg font-semibold text-amber-600 min-h-16 flex items-center">
               <TextType
-                key={`underline-glow-${resetKey}`}
-                text="Glowing underline effect"
+                key={`example-glow-${resetKey}`}
+                text="Typing animation effect"
                 typingSpeed={50}
                 pauseDuration={2000}
                 showCursor={true}
-                showUnderline={true}
-                underlineColor="#f59e0b"
-                underlineHeight={3}
-                underlineGlow={true}
               />
             </div>
           </CardContent>
         </Card>
 
-        {/* Underline Multiple Colors */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Multiple Sentences with Colored Underlines</CardTitle>
-            <CardDescription>Each sentence gets its own underline color</CardDescription>
+            <CardTitle>Multiple Sentences Demo</CardTitle>
+            <CardDescription>Sequential typing for multiple sentences without underline</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-lg font-semibold min-h-16 flex items-center">
               <TextType
-                key={`underline-multi-${resetKey}`}
-                text={["Red underline journey", "Green growth phase", "Blue digital transformation"]}
+                key={`example-multi-${resetKey}`}
+                text={["Red journey", "Green growth", "Blue transformation"]}
                 typingSpeed={55}
                 pauseDuration={1500}
                 textColors={["#ef4444", "#22c55e", "#3b82f6"]}
                 showCursor={true}
-                showUnderline={true}
-                underlineColor="#94a3b8"
-                underlineHeight={2}
                 loop={true}
               />
             </div>
@@ -270,10 +257,6 @@ const TextTypeDemo = () => {
               <p><strong>variableSpeed:</strong> {'{min, max}'} - Random speed range for natural feel</p>
               <p><strong>startOnVisible:</strong> boolean - Start animation when visible</p>
               <p><strong>reverseMode:</strong> boolean - Type backwards (right to left)</p>
-              <p><strong>showUnderline:</strong> boolean (default: false) - Show animated underline</p>
-              <p><strong>underlineColor:</strong> string (default: 'currentColor') - Underline color</p>
-              <p><strong>underlineHeight:</strong> number (default: 2px) - Underline thickness</p>
-              <p><strong>underlineGlow:</strong> boolean (default: true) - Enable glow animation on underline</p>
             </div>
           </CardContent>
         </Card>

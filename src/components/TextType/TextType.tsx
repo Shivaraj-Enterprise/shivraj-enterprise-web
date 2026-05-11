@@ -22,10 +22,6 @@ interface TextTypeProps
   onSentenceComplete?: (sentence: string, index: number) => void;
   startOnVisible?: boolean;
   reverseMode?: boolean;
-  showUnderline?: boolean;
-  underlineColor?: string;
-  underlineHeight?: number;
-  underlineGlow?: boolean;
 }
 
 const TextType = ({
@@ -47,10 +43,6 @@ const TextType = ({
   onSentenceComplete,
   startOnVisible = false,
   reverseMode = false,
-  showUnderline = false,
-  underlineColor = 'currentColor',
-  underlineHeight = 2,
-  underlineGlow = true,
   ...props
 }: TextTypeProps) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -58,11 +50,9 @@ const TextType = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(!startOnVisible);
-  const [contentWidth, setContentWidth] = useState(0);
   const cursorRef = useRef<HTMLSpanElement>(null);
   const contentRef = useRef<HTMLSpanElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const underlineRef = useRef<HTMLDivElement>(null);
 
   const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
@@ -107,13 +97,6 @@ const TextType = ({
       });
     }
   }, [showCursor, cursorBlinkDuration]);
-
-  useEffect(() => {
-    if (showUnderline && contentRef.current) {
-      const width = contentRef.current.offsetWidth;
-      setContentWidth(width);
-    }
-  }, [displayedText, showUnderline]);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -196,22 +179,6 @@ const TextType = ({
       style: { color: getCurrentTextColor() || 'inherit' } 
     }, displayedText),
   ];
-
-  if (showUnderline) {
-    children.push(
-      createElement('div', {
-        key: 'underline',
-        ref: underlineRef,
-        className: `text-type__underline ${underlineGlow && displayedText ? 'text-type__underline--active' : ''}`,
-        style: {
-          width: `${contentWidth}px`,
-          height: `${underlineHeight}px`,
-          backgroundColor: underlineColor,
-          color: underlineColor
-        }
-      })
-    );
-  }
 
   if (showCursor) {
     children.push(
