@@ -51,7 +51,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-gray-600 mb-6">
-                SHIVRAJ ENTERPRISE is a trusted name in manpower supply and housekeeping services, with over 10 years of industry experience. We provide skilled, semi-skilled, and unskilled labour to industries such as Engineering, Pharmaceuticals, Chemicals, and Packaging.
+                Shivraj Enterprise is a trusted name in manpower supply and housekeeping services, with over 10 years of industry experience. We provide skilled, semi-skilled, and unskilled labour to industries such as Engineering, Pharmaceuticals, Chemicals, and Packaging.
               </p>
               <p className="text-gray-600 mb-6">
                 Known for reliability and tailored solutions, we ensure operational efficiency for both short-term projects and long-term staffing needs — making us your dependable partner in workforce outsourcing.
@@ -148,7 +148,7 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { quote: "Partnering with SHIVRAJ ENTERPRISE has transformed our productivity. Their skilled labour solutions seamlessly integrated with our operations, and the professionalism of their staff has significantly elevated our output.", name: "Ms. Dhara Dangarwala", role: "HR, Aurorium India Pvt. Ltd." },
+              { quote: "Partnering with Shivraj Enterprise has transformed our productivity. Their skilled labour solutions seamlessly integrated with our operations, and the professionalism of their staff has significantly elevated our output.", name: "Ms. Dhara Dangarwala", role: "HR, Aurorium India Pvt. Ltd." },
               { quote: "We rely on SHIVRAJ for our housekeeping services, and they never disappoint. Their attention to hygiene is unparalleled, ensuring that our facilities meet the highest health standards.", name: "Mr. Vivek Patel", role: "HR, Vertellus Specialty Pvt. Ltd." },
               { quote: "The flexibility SHIVRAJ provides in manpower supply is exceptional. Their ability to adjust workforce levels during peak periods has been invaluable, boosting our operational efficiency.", name: "Micro Orgo Chem Pvt. Ltd.", role: "Client" },
               { quote: "SHIVRAJ's customer service is top-notch. The accessibility and responsiveness of their team have made our collaboration effortless and successful.", name: "Ms. Anjali Mehta", role: "Supply Chain Director, Packaging Company" },
