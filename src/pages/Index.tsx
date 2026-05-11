@@ -166,6 +166,51 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Service Areas - Local SEO */}
+      <section className="section bg-shivraj-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="section-title">Service Areas Across Vapi GIDC & Surrounding Villages</h2>
+            <p className="section-subtitle">
+              Vapi GIDC is one of Asia's largest industrial hubs — covering over 1,140 hectares across four phases in Valsad District, Gujarat. With 1,500+ units in chemicals, pharmaceuticals, engineering and packaging, we proudly serve clients across the entire estate and nearby villages.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+              <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Vapi GIDC Industrial Phases We Serve</h3>
+              <ul className="space-y-3 text-gray-700">
+                <li><strong>Phase 1</strong> — GIDC Office Road area; chemicals & light engineering.</li>
+                <li><strong>Phase 2</strong> — Imran Nagar / Chala Road; MSME and mixed industrial units.</li>
+                <li><strong>Phase 3</strong> — Major chemical & pharmaceutical hub (Aarti Industries, Accra Pac, Dipak Engineering).</li>
+                <li><strong>Phase 4</strong> — Large manufacturing units and varied industries.</li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+              <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Villages & Areas Covered Near Vapi</h3>
+              <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-gray-700">
+                {["Ambheti","Balitha","Chala","Chandor","Chhiri","Karaya","Koparli","Morai","Mota Pondha","Namdha","Ozar","Pandor","Rata","Salvav","Vatar","Chanod","Chharwada","Dabhel","Dungra","Karvad","Chanvai"].map((v) => (
+                  <div key={v} className="flex items-center"><CheckCircle size={14} className="text-shivraj-600 mr-2 flex-shrink-0" />{v}</div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+              <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Pin Codes We Operate In</h3>
+              <ul className="space-y-2 text-gray-700">
+                <li><strong>396195</strong> — Chanod Colony / GIDC Area / Gunjan</li>
+                <li><strong>396191</strong> — Vapi / Chhiri / Balitha</li>
+                <li><strong>396030</strong> — Chharwada</li>
+                <li><strong>396415</strong> — Dabhel</li>
+                <li><strong>396193</strong> — Dungra / Karvad</li>
+                <li><strong>396020</strong> — Chanvai</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section className="py-16 bg-shivraj-800 text-white">
         <div className="container mx-auto px-4 text-center">

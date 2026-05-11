@@ -29,7 +29,7 @@ const About = () => {
             <div className="prose prose-lg max-w-none text-gray-700">
               <p className="mb-4">
                 Shivraj Enterprise is a trusted name in manpower supply and housekeeping services,
-                with over 10 years of industry experience. We provide skilled, semi-skilled, and
+                with over 10 years of industry experience serving <strong>Vapi GIDC (Phases 1–4)</strong> and surrounding villages including Ambheti, Balitha, Chala, Chandor, Chhiri, Karaya, Koparli, Morai, Mota Pondha, Namdha, Ozar, Pandor, Rata, Salvav, Vatar, Chanod, Chharwada, Dabhel, Dungra, Karvad and Chanvai. We provide skilled, semi-skilled, and
                 unskilled labour to industries such as Engineering, Pharmaceuticals, Chemicals, and Packaging.
               </p>
               <p className="mb-4">
