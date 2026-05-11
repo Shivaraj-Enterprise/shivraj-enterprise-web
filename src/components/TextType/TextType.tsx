@@ -1,8 +1,15 @@
-import { useEffect, useRef, useState, createElement, useMemo, useCallback, ReactNode, ElementType } from 'react';
+import { ElementType, useEffect, useRef, useState, createElement, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
 import './TextType.css';
 
-interface TextTypeProps {
+interface TextTypeProps
+  extends React.HTMLAttributes<HTMLElement> {
+  className?: string;
+  showCursor?: boolean;
+  hideCursorWhileTyping?: boolean;
+  cursorCharacter?: string | React.ReactNode;
+  cursorBlinkDuration?: number;
+  cursorClassName?: string;
   text: string | string[];
   as?: ElementType;
   typingSpeed?: number;
@@ -10,18 +17,11 @@ interface TextTypeProps {
   pauseDuration?: number;
   deletingSpeed?: number;
   loop?: boolean;
-  className?: string;
-  showCursor?: boolean;
-  hideCursorWhileTyping?: boolean;
-  cursorCharacter?: string | ReactNode;
-  cursorBlinkDuration?: number;
-  cursorClassName?: string;
   textColors?: string[];
   variableSpeed?: { min: number; max: number };
   onSentenceComplete?: (sentence: string, index: number) => void;
   startOnVisible?: boolean;
   reverseMode?: boolean;
-  [key: string]: any;
 }
 
 const TextType = ({
@@ -170,26 +170,32 @@ const TextType = ({
   const shouldHideCursor =
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
+  const children: React.ReactNode[] = [
+    createElement('span', { key: 'content', className: 'text-type__content', style: { color: getCurrentTextColor() || 'inherit' } }, displayedText),
+  ];
+
+  if (showCursor) {
+    children.push(
+      createElement(
+        'span',
+        {
+          key: 'cursor',
+          ref: cursorRef,
+          className: `text-type__cursor ${cursorClassName} ${shouldHideCursor ? 'text-type__cursor--hidden' : ''}`
+        },
+        cursorCharacter
+      )
+    );
+  }
+
   return createElement(
-    Component as any,
+    Component as ElementType,
     {
       ref: containerRef,
       className: `text-type ${className}`,
       ...props
     },
-    [
-      createElement('span', { key: 'content', className: 'text-type__content', style: { color: getCurrentTextColor() || 'inherit' } }, displayedText),
-      showCursor &&
-        createElement(
-          'span',
-          {
-            key: 'cursor',
-            ref: cursorRef,
-            className: `text-type__cursor ${cursorClassName} ${shouldHideCursor ? 'text-type__cursor--hidden' : ''}`
-          },
-          cursorCharacter
-        )
-    ]
+    ...children
   );
 };
 
