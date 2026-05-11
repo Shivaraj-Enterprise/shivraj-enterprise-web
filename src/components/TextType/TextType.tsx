@@ -171,15 +171,8 @@ const TextType = ({
   const shouldHideCursor =
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   const children: React.ReactNode[] = [
-    createElement('span', { 
-      key: 'content', 
-      ref: contentRef,
-      className: 'text-type__content', 
-      style: { color: getCurrentTextColor() || 'inherit' } 
-    }, displayedText),
+    createElement('span', { key: 'content', className: 'text-type__content', style: { color: getCurrentTextColor() || 'inherit' } }, displayedText),
   ];
 
   if (showCursor) {
@@ -196,30 +189,14 @@ const TextType = ({
     );
   }
 
-=======
->>>>>>> parent of 52962d2 (Fix TextType component rendering issue)
-=======
->>>>>>> parent of 52962d2 (Fix TextType component rendering issue)
   return createElement(
-    Component as any,
+    Component as ElementType,
     {
       ref: containerRef,
       className: `text-type ${className}`,
       ...props
     },
-    [
-      createElement('span', { key: 'content', className: 'text-type__content', style: { color: getCurrentTextColor() || 'inherit' } }, displayedText),
-      showCursor &&
-        createElement(
-          'span',
-          {
-            key: 'cursor',
-            ref: cursorRef,
-            className: `text-type__cursor ${cursorClassName} ${shouldHideCursor ? 'text-type__cursor--hidden' : ''}`
-          },
-          cursorCharacter
-        )
-    ]
+    ...children
   );
 };
 
