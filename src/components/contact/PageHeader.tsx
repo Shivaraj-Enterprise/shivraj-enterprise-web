@@ -16,9 +16,9 @@ const PageHeader = () => {
             <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
           </div>
         </div>
-        <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
+        <h1 className="text-4xl font-bold mb-4">Contact Shivraj Enterprise – Vapi GIDC, Gujarat</h1>
         <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
-          Get in touch with our team for inquiries, quotes, or any questions
+          Reach our team in Vapi for manpower & housekeeping inquiries across Vapi GIDC Phases 1–4 and surrounding villages
         </p>
       </div>
     </motion.section>

@@ -84,13 +84,13 @@ const ContactInformation = () => {
       <div className="bg-shivraj-50 p-6 rounded-lg border border-shivraj-100 shadow-sm">
         <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Our Service Areas</h3>
         <ul className="space-y-3">
-          {["GIDC Vapi", "Daman", "Dadra and Nagar Haveli", "Daman and Diu"].map((area, index) => (
+          {["Vapi GIDC Phase 1","Vapi GIDC Phase 2","Vapi GIDC Phase 3","Vapi GIDC Phase 4","Ambheti","Balitha","Chala","Chandor","Chhiri","Karaya","Koparli","Morai","Mota Pondha","Namdha","Ozar","Pandor","Rata","Salvav","Vatar","Chanod","Chharwada","Dabhel","Dungra","Karvad","Chanvai","Daman","Dadra and Nagar Haveli"].map((area, index) => (
             <motion.li 
               key={area} 
               className="flex items-center"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 + (index * 0.1), duration: 0.4 }}
+              transition={{ delay: 0.3 + (index * 0.03), duration: 0.3 }}
             >
               <CheckCircle size={18} className="text-shivraj-600 mr-2" />
               <span>{area}</span>

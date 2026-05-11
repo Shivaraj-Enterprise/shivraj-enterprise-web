@@ -47,9 +47,9 @@ const Services = () => {
               <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold mb-4">Our Services</h1>
+          <h1 className="text-4xl font-bold mb-4">Manpower & Housekeeping Services in Vapi GIDC</h1>
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
-            Comprehensive manpower, housekeeping and auxiliary solutions for your business
+            Comprehensive manpower, housekeeping and auxiliary solutions for businesses across Vapi GIDC Phases 1–4, Chala, Balitha, Salvav, Chharwada and surrounding villages.
           </p>
           <div className="mt-6">
             <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50">

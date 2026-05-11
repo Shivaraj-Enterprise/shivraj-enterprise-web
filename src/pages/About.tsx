@@ -13,9 +13,9 @@ const About = () => {
               <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold mb-4">About Us</h1>
+          <h1 className="text-4xl font-bold mb-4">About Shivraj Enterprise – Manpower Supplier in Vapi GIDC</h1>
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
-            Learn more about our company, our values, and our expertise in manpower & housekeeping
+            Trusted partner for manpower & housekeeping across Vapi GIDC Phases 1–4, Chala, Balitha, Chhiri, Salvav, Chharwada and nearby villages of Valsad District, Gujarat.
           </p>
         </div>
       </section>
@@ -29,7 +29,7 @@ const About = () => {
             <div className="prose prose-lg max-w-none text-gray-700">
               <p className="mb-4">
                 Shivraj Enterprise is a trusted name in manpower supply and housekeeping services,
-                with over 10 years of industry experience. We provide skilled, semi-skilled, and
+                with over 10 years of industry experience serving <strong>Vapi GIDC (Phases 1–4)</strong> and surrounding villages including Ambheti, Balitha, Chala, Chandor, Chhiri, Karaya, Koparli, Morai, Mota Pondha, Namdha, Ozar, Pandor, Rata, Salvav, Vatar, Chanod, Chharwada, Dabhel, Dungra, Karvad and Chanvai. We provide skilled, semi-skilled, and
                 unskilled labour to industries such as Engineering, Pharmaceuticals, Chemicals, and Packaging.
               </p>
               <p className="mb-4">

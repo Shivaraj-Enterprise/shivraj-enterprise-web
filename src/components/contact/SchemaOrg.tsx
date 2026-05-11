@@ -14,7 +14,7 @@ const SchemaOrg = () => {
           "telephone": "+919998498311",
           "contactType": "customer service",
           "email": "shivrajenterprise1234@gmail.com",
-          "areaServed": ["Vapi", "Daman", "Dadra and Nagar Haveli", "Daman and Diu"],
+          "areaServed": ["Vapi GIDC Phase 1","Vapi GIDC Phase 2","Vapi GIDC Phase 3","Vapi GIDC Phase 4","Vapi","Ambheti","Balitha","Chala","Chandor","Chhiri","Karaya","Koparli","Morai","Mota Pondha","Namdha","Ozar","Pandor","Rata","Salvav","Vatar","Chanod","Chharwada","Dabhel","Dungra","Karvad","Chanvai","Daman","Dadra and Nagar Haveli"],
           "availableLanguage": ["en", "hi", "gu"]
         },
         "address": {
