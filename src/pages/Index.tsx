@@ -2,6 +2,7 @@ import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import TextType from "@/components/TextType";
 import logo from "@/assets/logo.png";
 
 const Index = () => {
@@ -16,11 +17,27 @@ const Index = () => {
                 <img src={logo} alt="Shivraj Enterprise logo" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
-              Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              <TextType
+                as="span"
+                text="Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat"
+                typingSpeed={50}
+                pauseDuration={3000}
+                showCursor={true}
+                cursorCharacter={"|"}
+                loop={false}
+              />
             </h1>
-            <p className="text-xl mb-8 text-shivraj-100 animate-slide-up">
-              Over a decade of expertise supplying skilled, semi-skilled and unskilled labour to Engineering, Pharmaceutical, Chemical and Packaging industries across Vapi GIDC, Chala, Balitha, Chhiri, Salvav, Chharwada and surrounding villages of Valsad District, Gujarat.
+            <p className="text-xl mb-8 text-shivraj-100">
+              <TextType
+                as="span"
+                text="Over a decade of expertise supplying skilled, semi-skilled and unskilled labour to Engineering, Pharmaceutical, Chemical and Packaging industries across Vapi GIDC, Chala, Balitha, Chhiri, Salvav, Chharwada and surrounding villages of Valsad District, Gujarat."
+                typingSpeed={30}
+                pauseDuration={2500}
+                showCursor={false}
+                initialDelay={2000}
+                loop={false}
+              />
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg" className="bg-white text-shivraj-800 hover:bg-shivraj-50">
