@@ -57,8 +57,7 @@ const ContactForm = () => {
   
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    console.log("Form submitted:", data);
-    
+
     try {
       // Create a properly typed ContactFormData object
       const contactData: ContactFormData = {
@@ -71,8 +70,7 @@ const ContactForm = () => {
       };
       
       // Submit form data and forward to WhatsApp (handled in the service)
-      const submission = await submitContactForm(contactData);
-      console.log("Submission created:", submission);
+      await submitContactForm(contactData);
       
       toast({
         title: "Message Sent Successfully!",
