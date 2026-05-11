@@ -26,6 +26,10 @@ const Index = () => {
                 showCursor={true}
                 cursorCharacter={"|"}
                 loop={false}
+                showUnderline={true}
+                underlineColor="rgba(255, 255, 255, 0.6)"
+                underlineHeight={3}
+                underlineGlow={true}
               />
             </h1>
             <p className="text-xl mb-8 text-shivraj-100">
