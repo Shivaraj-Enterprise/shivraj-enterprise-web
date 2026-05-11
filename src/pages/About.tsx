@@ -28,7 +28,7 @@ const About = () => {
 
             <div className="prose prose-lg max-w-none text-gray-700">
               <p className="mb-4">
-                SHIVRAJ ENTERPRISE is a trusted name in manpower supply and housekeeping services,
+                Shivraj Enterprise is a trusted name in manpower supply and housekeeping services,
                 with over 10 years of industry experience. We provide skilled, semi-skilled, and
                 unskilled labour to industries such as Engineering, Pharmaceuticals, Chemicals, and Packaging.
               </p>

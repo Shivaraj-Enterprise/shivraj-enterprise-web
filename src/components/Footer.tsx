@@ -16,7 +16,7 @@ const Footer = () => {
               <div className="bg-white rounded-full p-2 flex-shrink-0">
                 <img src={logo} alt="Shivraj Enterprise logo" className="h-10 w-10 object-contain" />
               </div>
-              <h2 className="text-xl md:text-2xl font-bold">SHIVRAJ ENTERPRISE PVT. LTD.</h2>
+              <h2 className="text-xl md:text-2xl font-bold">Shivraj Enterprise</h2>
             </div>
             <p className="text-shivraj-100 mb-4">
               A trusted name in manpower supply and staffing solutions with over 10+ years of experience in the industry.
@@ -75,7 +75,7 @@ const Footer = () => {
 
         <div className="border-t border-shivraj-700 mt-8 pt-8 text-center">
           <p className="text-sm text-shivraj-300">
-            © {currentYear} SHIVRAJ ENTERPRISE PVT. LTD. All Rights Reserved.
+            © {currentYear} Shivraj Enterprise. All Rights Reserved.
           </p>
         </div>
       </div>
