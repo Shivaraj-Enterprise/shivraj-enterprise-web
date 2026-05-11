@@ -13,9 +13,9 @@ const About = () => {
               <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold mb-4">About Us</h1>
+          <h1 className="text-4xl font-bold mb-4">About Shivraj Enterprise – Manpower Supplier in Vapi GIDC</h1>
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
-            Learn more about our company, our values, and our expertise in manpower & housekeeping
+            Trusted partner for manpower & housekeeping across Vapi GIDC Phases 1–4, Chala, Balitha, Chhiri, Salvav, Chharwada and nearby villages of Valsad District, Gujarat.
           </p>
         </div>
       </section>

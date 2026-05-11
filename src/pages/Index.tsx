@@ -17,10 +17,10 @@ const Index = () => {
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
-              Trusted Manpower & Housekeeping Solutions Partner
+              Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat
             </h1>
             <p className="text-xl mb-8 text-shivraj-100 animate-slide-up">
-              Over a decade of expertise supplying skilled, semi-skilled and unskilled labour to Engineering, Pharmaceutical, Chemical and Packaging industries across Gujarat.
+              Over a decade of expertise supplying skilled, semi-skilled and unskilled labour to Engineering, Pharmaceutical, Chemical and Packaging industries across Vapi GIDC, Chala, Balitha, Chhiri, Salvav, Chharwada and surrounding villages of Valsad District, Gujarat.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button asChild size="lg" className="bg-white text-shivraj-800 hover:bg-shivraj-50">
