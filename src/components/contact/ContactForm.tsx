@@ -57,8 +57,7 @@ const ContactForm = () => {
   
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    console.log("Form submitted:", data);
-    
+
     try {
       // Create a properly typed ContactFormData object
       const contactData: ContactFormData = {
