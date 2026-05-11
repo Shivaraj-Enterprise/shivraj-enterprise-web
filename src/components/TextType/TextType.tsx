@@ -1,15 +1,8 @@
-import { ElementType, useEffect, useRef, useState, createElement, useMemo, useCallback } from 'react';
+import { useEffect, useRef, useState, createElement, useMemo, useCallback, ReactNode, ElementType } from 'react';
 import { gsap } from 'gsap';
 import './TextType.css';
 
-interface TextTypeProps
-  extends React.HTMLAttributes<HTMLElement> {
-  className?: string;
-  showCursor?: boolean;
-  hideCursorWhileTyping?: boolean;
-  cursorCharacter?: string | React.ReactNode;
-  cursorBlinkDuration?: number;
-  cursorClassName?: string;
+interface TextTypeProps {
   text: string | string[];
   as?: ElementType;
   typingSpeed?: number;
@@ -17,11 +10,18 @@ interface TextTypeProps
   pauseDuration?: number;
   deletingSpeed?: number;
   loop?: boolean;
+  className?: string;
+  showCursor?: boolean;
+  hideCursorWhileTyping?: boolean;
+  cursorCharacter?: string | ReactNode;
+  cursorBlinkDuration?: number;
+  cursorClassName?: string;
   textColors?: string[];
   variableSpeed?: { min: number; max: number };
   onSentenceComplete?: (sentence: string, index: number) => void;
   startOnVisible?: boolean;
   reverseMode?: boolean;
+  [key: string]: any;
 }
 
 const TextType = ({
@@ -171,6 +171,7 @@ const TextType = ({
   const shouldHideCursor =
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
+<<<<<<< HEAD
   const children: React.ReactNode[] = [
     createElement('span', { 
       key: 'content', 
@@ -194,14 +195,28 @@ const TextType = ({
     );
   }
 
+=======
+>>>>>>> parent of 52962d2 (Fix TextType component rendering issue)
   return createElement(
-    Component as ElementType,
+    Component as any,
     {
       ref: containerRef,
       className: `text-type ${className}`,
       ...props
     },
-    ...children
+    [
+      createElement('span', { key: 'content', className: 'text-type__content', style: { color: getCurrentTextColor() || 'inherit' } }, displayedText),
+      showCursor &&
+        createElement(
+          'span',
+          {
+            key: 'cursor',
+            ref: cursorRef,
+            className: `text-type__cursor ${cursorClassName} ${shouldHideCursor ? 'text-type__cursor--hidden' : ''}`
+          },
+          cursorCharacter
+        )
+    ]
   );
 };
 
