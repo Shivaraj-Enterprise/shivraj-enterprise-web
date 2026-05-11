@@ -172,6 +172,7 @@ const TextType = ({
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const children: React.ReactNode[] = [
     createElement('span', { 
       key: 'content', 
@@ -195,6 +196,8 @@ const TextType = ({
     );
   }
 
+=======
+>>>>>>> parent of 52962d2 (Fix TextType component rendering issue)
 =======
 >>>>>>> parent of 52962d2 (Fix TextType component rendering issue)
   return createElement(
