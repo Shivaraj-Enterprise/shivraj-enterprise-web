@@ -11,6 +11,8 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import TextTypeDemo from "./pages/TextTypeDemo";
+import AdminLogin from "./pages/AdminLogin";
+import AdminSubmissions from "./pages/AdminSubmissions";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
