@@ -1,7 +1,12 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const supabaseAdmin = createClient(
+  Deno.env.get("SUPABASE_URL")!,
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -177,6 +182,26 @@ const handler = async (req: Request): Promise<Response> => {
       </div>
     `;
 
+    // Save submission to database first so we never lose a lead, even if email fails
+    const { data: inserted, error: insertError } = await supabaseAdmin
+      .from("contact_submissions")
+      .insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        whatsapp: formData.whatsapp ?? null,
+        inquiry_type: formData.inquiryType,
+        message: formData.message,
+        ip_address: ip,
+        user_agent: req.headers.get("user-agent"),
+      })
+      .select("id")
+      .single();
+
+    if (insertError) {
+      console.error("DB insert error:", insertError);
+    }
+
     const emailResponse = await resend.emails.send({
       from: "Shivraj Enterprise <onboarding@resend.dev>",
       to: ["shivrajenterprise1234@gmail.com"],
@@ -191,6 +216,13 @@ const handler = async (req: Request): Promise<Response> => {
         JSON.stringify({ error: emailResponse.error.message || "Failed to send email" }),
         { status: 502, headers: { "Content-Type": "application/json", ...corsHeaders } },
       );
+    }
+
+    if (inserted?.id) {
+      await supabaseAdmin
+        .from("contact_submissions")
+        .update({ email_sent: true })
+        .eq("id", inserted.id);
     }
 
     console.log("Email sent successfully");
