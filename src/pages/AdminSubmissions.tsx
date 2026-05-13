@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -128,7 +128,10 @@ const AdminSubmissions = () => {
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-bold text-shivraj-800">Contact Submissions</h1>
-          <Button variant="outline" onClick={signOut}><LogOut className="mr-2" size={16} />Sign out</Button>
+          <div className="flex gap-2">
+            <Link to="/admin/audit-log"><Button variant="outline">Audit Log</Button></Link>
+            <Button variant="outline" onClick={signOut}><LogOut className="mr-2" size={16} />Sign out</Button>
+          </div>
         </div>
 
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex flex-wrap items-end gap-4">
