@@ -13,6 +13,7 @@ import Terms from "./pages/Terms";
 import TextTypeDemo from "./pages/TextTypeDemo";
 import AdminLogin from "./pages/AdminLogin";
 import AdminSubmissions from "./pages/AdminSubmissions";
+import AdminAuditLog from "./pages/AdminAuditLog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/texttype-demo" element={<TextTypeDemo />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
+            <Route path="/admin/audit-log" element={<AdminAuditLog />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
