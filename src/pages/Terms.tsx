@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import logo from "@/assets/logo.png";
 
@@ -31,6 +32,14 @@ const statutory = [
 const Terms = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Terms & Conditions – Shivraj Enterprise</title>
+        <meta name="description" content="Terms and conditions for engaging Shivraj Enterprise for manpower supply, housekeeping and auxiliary services." />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/terms" />
+        <meta property="og:title" content="Terms & Conditions – Shivraj Enterprise" />
+        <meta property="og:description" content="Engagement terms for manpower and housekeeping services." />
+        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/terms" />
+      </Helmet>
       <section className="bg-shivraj-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">
           <div className="flex justify-center mb-4">

@@ -1,4 +1,5 @@
 
+import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/contact/PageHeader";
 import ContactInformation from "@/components/contact/ContactInformation";
@@ -9,6 +10,14 @@ import SchemaOrg from "@/components/contact/SchemaOrg";
 const Contact = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Contact Shivraj Enterprise – Vapi, Gujarat</title>
+        <meta name="description" content="Get in touch with Shivraj Enterprise for manpower supply and housekeeping services in Vapi GIDC. Call +91 99984 98311 or send an inquiry." />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/contact" />
+        <meta property="og:title" content="Contact Shivraj Enterprise" />
+        <meta property="og:description" content="Reach out for manpower and housekeeping services in Vapi GIDC, Gujarat." />
+        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/contact" />
+      </Helmet>
       {/* Page Header */}
       <PageHeader />
       
