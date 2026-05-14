@@ -36,9 +36,9 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img src={logo} alt="Shivraj Enterprise logo" className="h-10 md:h-12 w-auto" />
-            <h1 className="text-xl md:text-2xl font-bold text-shivraj-800">
+            <span className="text-xl md:text-2xl font-bold text-shivraj-800">
               Shivraj Enterprise
-            </h1>
+            </span>
           </Link>
 
           {/* Desktop menu */}

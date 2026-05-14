@@ -75,7 +75,7 @@ const Index = () => {
               </p>
               <Button asChild className="bg-shivraj-600 hover:bg-shivraj-700">
                 <Link to="/about" className="flex items-center">
-                  Learn More <ArrowRight size={16} className="ml-2" />
+                  Learn more about Shivraj Enterprise <ArrowRight size={16} className="ml-2" />
                 </Link>
               </Button>
             </div>
