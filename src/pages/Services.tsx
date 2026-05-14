@@ -40,6 +40,14 @@ const rateCard = [
 const Services = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Services & Rate Card – Shivraj Enterprise Manpower Supply</title>
+        <meta name="description" content="Manpower outsourcing, housekeeping, loading & unloading and quality inspection services with transparent rate card. Serving Vapi GIDC industries." />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/services" />
+        <meta property="og:title" content="Services & Rate Card – Shivraj Enterprise" />
+        <meta property="og:description" content="Manpower, housekeeping and auxiliary services with transparent rates." />
+        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/services" />
+      </Helmet>
       {/* Page Header */}
       <section className="bg-shivraj-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">
