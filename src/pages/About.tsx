@@ -1,10 +1,19 @@
 import { Users, Shield, Award, BarChart, FileCheck } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import logo from "@/assets/logo.png";
 
 const About = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>About Shivraj Enterprise – 10+ Years in Manpower Supply</title>
+        <meta name="description" content="Learn about Shivraj Enterprise: a decade of experience supplying skilled labour and housekeeping staff to industries across Vapi GIDC, Gujarat." />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/about" />
+        <meta property="og:title" content="About Shivraj Enterprise" />
+        <meta property="og:description" content="A decade of experience supplying skilled labour and housekeeping staff to industries in Vapi GIDC." />
+        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/about" />
+      </Helmet>
       {/* Page Header */}
       <section className="bg-shivraj-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">

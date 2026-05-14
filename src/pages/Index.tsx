@@ -1,6 +1,7 @@
 import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, GraduationCap, Download, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
 import logo from "@/assets/logo.png";
@@ -8,6 +9,14 @@ import logo from "@/assets/logo.png";
 const Index = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Shivraj Enterprise – Manpower & Housekeeping in Vapi GIDC</title>
+        <meta name="description" content="Skilled, semi-skilled & unskilled manpower and housekeeping services across Vapi GIDC, Gujarat. Serving engineering, pharma, chemical & packaging industries." />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/" />
+        <meta property="og:title" content="Shivraj Enterprise – Manpower & Housekeeping in Vapi GIDC" />
+        <meta property="og:description" content="Skilled, semi-skilled & unskilled manpower and housekeeping services across Vapi GIDC, Gujarat." />
+        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/" />
+      </Helmet>
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-shivraj-800 to-shivraj-900 text-white">
         <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32">
