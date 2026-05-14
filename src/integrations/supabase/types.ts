@@ -56,6 +56,21 @@ export type Database = {
         }
         Relationships: []
       }
+      pre_approved_admins: {
+        Row: {
+          created_at: string
+          email: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+        }
+        Relationships: []
+      }
       role_audit_log: {
         Row: {
           action: string
