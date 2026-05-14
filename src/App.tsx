@@ -46,6 +46,7 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/texttype-demo" element={<TextTypeDemo />} />
             <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/reset-password" element={<AdminResetPassword />} />
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
             <Route path="/admin/audit-log" element={<AdminAuditLog />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
