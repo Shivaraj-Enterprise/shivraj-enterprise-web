@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import TextTypeDemo from "./pages/TextTypeDemo";
 import AdminLogin from "./pages/AdminLogin";
+import AdminResetPassword from "./pages/AdminResetPassword";
 import AdminSubmissions from "./pages/AdminSubmissions";
 import AdminAuditLog from "./pages/AdminAuditLog";
 import NotFound from "./pages/NotFound";
