@@ -1,0 +1,11 @@
+# Shivraj Enterprise
+
+> Manpower supply and housekeeping services across Vapi GIDC and surrounding villages in Valsad District, Gujarat. Skilled, semi-skilled and unskilled labour for engineering, pharmaceutical, chemical and packaging industries.
+
+## Pages
+
+- [Home](/): Overview of services, presence, and why choose Shivraj Enterprise.
+- [About](/#/about): Company background, experience, and core values.
+- [Services](/#/services): Manpower outsourcing, housekeeping, auxiliary services and rate card.
+- [Contact](/#/contact): Phone, email, address and inquiry form.
+- [Terms](/#/terms): Terms and conditions for engagement.
