@@ -26,6 +26,25 @@ const AdminLogin = () => {
   const redirectUrl = `${window.location.origin}/#/admin/submissions`;
   const resetRedirectUrl = `${window.location.origin}/#/admin/reset-password`;
 
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: `${window.location.origin}/`,
+      });
+      if (result.error) throw new Error(result.error.message || "Google sign-in failed");
+      if (result.redirected) return;
+      navigate("/admin/submissions");
+    } catch (err) {
+      toast({
+        title: "Google sign-in failed",
+        description: err instanceof Error ? err.message : "Please try again.",
+        variant: "destructive",
+      });
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
