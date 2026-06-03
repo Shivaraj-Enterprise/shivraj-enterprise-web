@@ -43,12 +43,11 @@ const AdminSubmissions = () => {
         navigate("/admin/login");
         return;
       }
-      const { data: roles } = await supabase
-        .from("user_roles" as never)
-        .select("role")
-        .eq("user_id", sess.session.user.id);
-      const admin = (roles as { role: string }[] | null)?.some((r) => r.role === "admin") ?? false;
-      setIsAdmin(admin);
+      const { data: isAdminRpc } = await supabase.rpc("has_role", {
+        _user_id: sess.session.user.id,
+        _role: "admin",
+      });
+      setIsAdmin(!!isAdminRpc);
       setAuthChecked(true);
     };
     init();
