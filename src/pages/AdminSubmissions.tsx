@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/table";
 import { toast } from "@/components/ui/use-toast";
 import { Download, LogOut, RefreshCw } from "lucide-react";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
+import AdminGate from "@/components/admin/AdminGate";
 
 type Submission = {
   id: string;
@@ -28,30 +30,12 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 const AdminSubmissions = () => {
   const navigate = useNavigate();
-  const [authChecked, setAuthChecked] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const auth = useAdminAuth();
   const [rows, setRows] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(false);
   const [from, setFrom] = useState(firstOfMonth());
   const [to, setTo] = useState(today());
   const [type, setType] = useState<string>("all");
-
-  useEffect(() => {
-    const init = async () => {
-      const { data: sess } = await supabase.auth.getSession();
-      if (!sess.session) {
-        navigate("/admin/login");
-        return;
-      }
-      const { data: isAdminRpc } = await supabase.rpc("has_role", {
-        _user_id: sess.session.user.id,
-        _role: "admin",
-      });
-      setIsAdmin(!!isAdminRpc);
-      setAuthChecked(true);
-    };
-    init();
-  }, [navigate]);
 
   const load = async () => {
     setLoading(true);
@@ -72,9 +56,9 @@ const AdminSubmissions = () => {
   };
 
   useEffect(() => {
-    if (isAdmin) load();
+    if (auth.isAdmin) load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAdmin]);
+  }, [auth.isAdmin]);
 
   const exportCsv = () => {
     const header = ["Date", "Name", "Email", "Phone", "WhatsApp", "Inquiry", "Message", "Email Sent"];
@@ -108,109 +92,98 @@ const AdminSubmissions = () => {
     navigate("/admin/login");
   };
 
-  if (!authChecked) return <div className="p-8">Loading…</div>;
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-8 gap-4">
-        <h1 className="text-xl font-semibold">Access denied</h1>
-        <p className="text-muted-foreground text-center max-w-md">
-          Your account does not have admin access. Ask the site owner to grant the <code>admin</code> role to your account.
-        </p>
-        <Button variant="outline" onClick={signOut}><LogOut className="mr-2" size={16} />Sign out</Button>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-shivraj-50 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold text-shivraj-800">Contact Submissions</h1>
-          <div className="flex gap-2">
-            <Link to="/admin/audit-log"><Button variant="outline">Audit Log</Button></Link>
-            <Button variant="outline" onClick={signOut}><LogOut className="mr-2" size={16} />Sign out</Button>
+    <AdminGate auth={auth}>
+      <div className="min-h-screen bg-shivraj-50 p-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <h1 className="text-2xl font-bold text-shivraj-800">Contact Submissions</h1>
+            <div className="flex gap-2">
+              <Link to="/admin/roles"><Button variant="outline">Manage Roles</Button></Link>
+              <Link to="/admin/audit-log"><Button variant="outline">Audit Log</Button></Link>
+              <Button variant="outline" onClick={signOut}><LogOut className="mr-2" size={16} />Sign out</Button>
+            </div>
           </div>
-        </div>
 
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex flex-wrap items-end gap-4">
-          <div>
-            <Label htmlFor="from">From</Label>
-            <Input id="from" type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex flex-wrap items-end gap-4">
+            <div>
+              <Label htmlFor="from">From</Label>
+              <Input id="from" type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+            </div>
+            <div>
+              <Label htmlFor="to">To</Label>
+              <Input id="to" type="date" value={to} onChange={(e) => setTo(e.target.value)} />
+            </div>
+            <div>
+              <Label htmlFor="type">Type</Label>
+              <select
+                id="type"
+                className="border rounded-md h-10 px-3"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              >
+                <option value="all">All</option>
+                <option value="service">Service</option>
+                <option value="job">Job</option>
+                <option value="quote">Quote</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <Button onClick={load} disabled={loading} className="bg-shivraj-600 hover:bg-shivraj-700">
+              <RefreshCw className="mr-2" size={16} />{loading ? "Loading..." : "Apply"}
+            </Button>
+            <Button onClick={exportCsv} variant="outline" disabled={!rows.length}>
+              <Download className="mr-2" size={16} />Export CSV
+            </Button>
+            <div className="ml-auto flex flex-wrap gap-2 text-sm">
+              <Badge variant="secondary">Total: {rows.length}</Badge>
+              <Badge variant="secondary">Service: {stats.service ?? 0}</Badge>
+              <Badge variant="secondary">Job: {stats.job ?? 0}</Badge>
+              <Badge variant="secondary">Quote: {stats.quote ?? 0}</Badge>
+              <Badge variant="secondary">Other: {stats.other ?? 0}</Badge>
+            </div>
           </div>
-          <div>
-            <Label htmlFor="to">To</Label>
-            <Input id="to" type="date" value={to} onChange={(e) => setTo(e.target.value)} />
-          </div>
-          <div>
-            <Label htmlFor="type">Type</Label>
-            <select
-              id="type"
-              className="border rounded-md h-10 px-3"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="all">All</option>
-              <option value="service">Service</option>
-              <option value="job">Job</option>
-              <option value="quote">Quote</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <Button onClick={load} disabled={loading} className="bg-shivraj-600 hover:bg-shivraj-700">
-            <RefreshCw className="mr-2" size={16} />{loading ? "Loading..." : "Apply"}
-          </Button>
-          <Button onClick={exportCsv} variant="outline" disabled={!rows.length}>
-            <Download className="mr-2" size={16} />Export CSV
-          </Button>
-          <div className="ml-auto flex flex-wrap gap-2 text-sm">
-            <Badge variant="secondary">Total: {rows.length}</Badge>
-            <Badge variant="secondary">Service: {stats.service ?? 0}</Badge>
-            <Badge variant="secondary">Job: {stats.job ?? 0}</Badge>
-            <Badge variant="secondary">Quote: {stats.quote ?? 0}</Badge>
-            <Badge variant="secondary">Other: {stats.other ?? 0}</Badge>
-          </div>
-        </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>WhatsApp</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Message</TableHead>
-                <TableHead>Email</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {rows.map((r) => (
-                <TableRow key={r.id}>
-                  <TableCell className="whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</TableCell>
-                  <TableCell>{r.name}</TableCell>
-                  <TableCell>{r.email}</TableCell>
-                  <TableCell>{r.phone}</TableCell>
-                  <TableCell>{r.whatsapp ?? "—"}</TableCell>
-                  <TableCell><Badge>{r.inquiry_type}</Badge></TableCell>
-                  <TableCell className="max-w-md whitespace-pre-wrap">{r.message}</TableCell>
-                  <TableCell>{r.email_sent ? "✅" : "❌"}</TableCell>
-                </TableRow>
-              ))}
-              {!rows.length && !loading && (
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-x-auto">
+            <Table>
+              <TableHeader>
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
-                    No submissions in this range.
-                  </TableCell>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Phone</TableHead>
+                  <TableHead>WhatsApp</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Message</TableHead>
+                  <TableHead>Email</TableHead>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {rows.map((r) => (
+                  <TableRow key={r.id}>
+                    <TableCell className="whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</TableCell>
+                    <TableCell>{r.name}</TableCell>
+                    <TableCell>{r.email}</TableCell>
+                    <TableCell>{r.phone}</TableCell>
+                    <TableCell>{r.whatsapp ?? "—"}</TableCell>
+                    <TableCell><Badge>{r.inquiry_type}</Badge></TableCell>
+                    <TableCell className="max-w-md whitespace-pre-wrap">{r.message}</TableCell>
+                    <TableCell>{r.email_sent ? "✅" : "❌"}</TableCell>
+                  </TableRow>
+                ))}
+                {!rows.length && !loading && (
+                  <TableRow>
+                    <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
+                      No submissions in this range.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </div>
-    </div>
+    </AdminGate>
   );
 };
 
