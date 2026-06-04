@@ -10,7 +10,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
-import TextTypeDemo from "./pages/TextTypeDemo";
+
 import AdminLogin from "./pages/AdminLogin";
 import AdminResetPassword from "./pages/AdminResetPassword";
 import AdminSubmissions from "./pages/AdminSubmissions";
@@ -33,7 +33,7 @@ const App = () => (
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
-            <Route path="/texttype-demo" element={<TextTypeDemo />} />
+            
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/reset-password" element={<AdminResetPassword />} />
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
