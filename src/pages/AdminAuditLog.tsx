@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -53,6 +54,11 @@ const AdminAuditLog = () => {
 
   return (
     <AdminGate auth={auth}>
+      <Helmet>
+        <title>Admin Audit Log – Shivraj Admin</title>
+        <meta name="description" content="Track admin role changes and security events for Shivraj Enterprise." />
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div className="min-h-screen bg-shivraj-50 p-6">
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
