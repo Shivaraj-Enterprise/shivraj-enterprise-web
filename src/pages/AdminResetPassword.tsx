@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,6 +51,11 @@ const AdminResetPassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-shivraj-50 p-4">
+      <Helmet>
+        <title>Reset Password – Shivraj Admin</title>
+        <meta name="description" content="Set a new password for your Shivraj Enterprise admin account." />
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-md space-y-4 border border-gray-100"
