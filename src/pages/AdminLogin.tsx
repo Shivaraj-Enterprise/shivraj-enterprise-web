@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
+
 
 type Mode = "login" | "signup" | "forgot";
 
@@ -134,6 +136,11 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-shivraj-50 p-4">
+      <Helmet>
+        <title>Admin Login – Shivraj Enterprise</title>
+        <meta name="description" content="Secure sign-in for Shivraj Enterprise administrators to manage contact submissions and site content." />
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-md space-y-4 border border-gray-100"

@@ -7,8 +7,8 @@ const SchemaOrg = () => {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Shivraj Enterprise Pvt. Ltd.",
-        "url": "https://shivrajenterprise.com",
-        "logo": "https://shivrajenterprise.com/logo.png",
+        "url": "https://shivraj-enterprise.lovable.app/",
+        "logo": "https://shivraj-enterprise.lovable.app/placeholder.svg",
         "contactPoint": {
           "@type": "ContactPoint",
           "telephone": "+919998498311",
