@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -86,6 +87,11 @@ const AdminRoles = () => {
 
   return (
     <AdminGate auth={auth}>
+      <Helmet>
+        <title>Manage Admin Roles – Shivraj Admin</title>
+        <meta name="description" content="Grant or revoke administrator access for the Shivraj Enterprise admin panel." />
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div className="min-h-screen bg-shivraj-50 p-6">
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">

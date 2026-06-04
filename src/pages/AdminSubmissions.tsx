@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -94,6 +95,11 @@ const AdminSubmissions = () => {
 
   return (
     <AdminGate auth={auth}>
+      <Helmet>
+        <title>Contact Submissions – Shivraj Admin</title>
+        <meta name="description" content="Review and export contact form submissions for Shivraj Enterprise." />
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div className="min-h-screen bg-shivraj-50 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
