@@ -16,6 +16,7 @@ import AdminResetPassword from "./pages/AdminResetPassword";
 import AdminSubmissions from "./pages/AdminSubmissions";
 import AdminAuditLog from "./pages/AdminAuditLog";
 import AdminRoles from "./pages/AdminRoles";
+import AdminCompanyProfile from "./pages/AdminCompanyProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
             <Route path="/admin/audit-log" element={<AdminAuditLog />} />
             <Route path="/admin/roles" element={<AdminRoles />} />
+            <Route path="/admin/company-profile" element={<AdminCompanyProfile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
