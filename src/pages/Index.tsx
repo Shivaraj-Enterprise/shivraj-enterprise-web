@@ -5,8 +5,10 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
 import logo from "@/assets/logo.png";
+import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
 
 const Index = () => {
+  const profileUrl = useCompanyProfileUrl();
   return (
     <Layout>
       <Helmet>
