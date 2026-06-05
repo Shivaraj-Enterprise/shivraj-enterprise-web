@@ -6,6 +6,11 @@ import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
 import logo from "@/assets/logo.png";
 import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
+import auroriumLogo from "@/assets/clients/aurorium.png.asset.json";
+import vertellusLogo from "@/assets/clients/vertellus.jpg.asset.json";
+import microOrgoLogo from "@/assets/clients/micro-orgo-chem.jpg.asset.json";
+import hexacellLogo from "@/assets/clients/hexacell.jpg.asset.json";
+import vpiLogo from "@/assets/clients/vpi.jpg.asset.json";
 
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
