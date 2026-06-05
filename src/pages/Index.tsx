@@ -5,8 +5,10 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
 import logo from "@/assets/logo.png";
+import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
 
 const Index = () => {
+  const profileUrl = useCompanyProfileUrl();
   return (
     <Layout>
       <Helmet>
@@ -56,7 +58,7 @@ const Index = () => {
                 <Link to="/contact">Contact Us</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white text-shivraj-900 font-medium hover:bg-white/10 hover:text-white">
-                <a href={`${import.meta.env.BASE_URL}SHIVRAJ_Enterprise_Company_Profile.pdf`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                   <Download size={18} /> Company Profile
                 </a>
               </Button>
