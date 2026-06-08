@@ -42,10 +42,12 @@ const Header = () => {
           </Link>
 
           {/* Desktop menu */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-6">
             <Link to="/" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Home</Link>
-            <Link to="/about" className="text-shivraj-700 hover:text-shivraj-500 font-medium">About Us</Link>
+            <Link to="/about" className="text-shivraj-700 hover:text-shivraj-500 font-medium">About</Link>
             <Link to="/services" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Services</Link>
+            <Link to="/locations" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Locations</Link>
+            <Link to="/blog" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Blog</Link>
             <Link to="/contact" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Contact</Link>
           </nav>
 
@@ -92,22 +94,16 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link 
-                  to="/services" 
-                  className="block text-shivraj-700 hover:text-shivraj-500 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Services
-                </Link>
+                <Link to="/services" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Services</Link>
               </li>
               <li>
-                <Link 
-                  to="/contact" 
-                  className="block text-shivraj-700 hover:text-shivraj-500 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact
-                </Link>
+                <Link to="/locations" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Locations</Link>
+              </li>
+              <li>
+                <Link to="/blog" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Blog</Link>
+              </li>
+              <li>
+                <Link to="/contact" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
               </li>
               <li className="pt-2">
                 <Button asChild className="w-full bg-shivraj-600 hover:bg-shivraj-700">

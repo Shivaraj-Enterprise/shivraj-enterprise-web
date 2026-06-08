@@ -106,6 +106,7 @@ const AdminSubmissions = () => {
             <h1 className="text-2xl font-bold text-shivraj-800">Contact Submissions</h1>
             <div className="flex gap-2">
               <Link to="/admin/roles"><Button variant="outline">Manage Roles</Button></Link>
+              <Link to="/admin/blog"><Button variant="outline">Blog Posts</Button></Link>
               <Link to="/admin/company-profile"><Button variant="outline">Company Profile PDF</Button></Link>
               <Link to="/admin/audit-log"><Button variant="outline">Audit Log</Button></Link>
               <Button variant="outline" onClick={signOut}><LogOut className="mr-2" size={16} />Sign out</Button>
