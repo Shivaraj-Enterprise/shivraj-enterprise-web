@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
+import PostCard from "@/components/blog/PostCard";
+import { useBlogPosts } from "@/hooks/useBlogPosts";
 import logo from "@/assets/logo.png";
 import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
 import auroriumLogo from "@/assets/clients/aurorium.png.asset.json";
@@ -14,6 +16,7 @@ import vpiLogo from "@/assets/clients/vpi.jpg.asset.json";
 
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
+  const { posts: latestPosts } = useBlogPosts({ limit: 3 });
   return (
     <Layout>
       <Helmet>
