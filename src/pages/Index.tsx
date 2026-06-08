@@ -248,8 +248,38 @@ const Index = () => {
               </ul>
             </div>
           </div>
+          <div className="text-center mt-10">
+            <Button asChild variant="outline" className="border-shivraj-600 text-shivraj-700 hover:bg-shivraj-100">
+              <Link to="/locations" className="flex items-center">
+                View full coverage map <ArrowRight size={16} className="ml-2" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
+
+      {/* Latest News */}
+      {latestPosts.length > 0 && (
+        <section className="section bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="section-title">Latest News & Updates</h2>
+              <p className="section-subtitle">Recent posts from our team</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {latestPosts.map((p) => <PostCard key={p.id} post={p} />)}
+            </div>
+            <div className="text-center mt-10">
+              <Button asChild className="bg-shivraj-600 hover:bg-shivraj-700">
+                <Link to="/blog" className="flex items-center">
+                  View all posts <ArrowRight size={16} className="ml-2" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
+
 
       {/* Call to Action */}
       <section className="py-16 bg-shivraj-800 text-white">
