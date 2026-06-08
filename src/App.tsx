@@ -10,6 +10,9 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
+import Locations from "./pages/Locations";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 import AdminLogin from "./pages/AdminLogin";
 import AdminResetPassword from "./pages/AdminResetPassword";
@@ -17,6 +20,8 @@ import AdminSubmissions from "./pages/AdminSubmissions";
 import AdminAuditLog from "./pages/AdminAuditLog";
 import AdminRoles from "./pages/AdminRoles";
 import AdminCompanyProfile from "./pages/AdminCompanyProfile";
+import AdminBlogList from "./pages/AdminBlogList";
+import AdminBlogEditor from "./pages/AdminBlogEditor";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,13 +39,19 @@ const App = () => (
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
-            
+            <Route path="/locations" element={<Locations />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/reset-password" element={<AdminResetPassword />} />
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
             <Route path="/admin/audit-log" element={<AdminAuditLog />} />
             <Route path="/admin/roles" element={<AdminRoles />} />
             <Route path="/admin/company-profile" element={<AdminCompanyProfile />} />
+            <Route path="/admin/blog" element={<AdminBlogList />} />
+            <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
+            <Route path="/admin/blog/:id/edit" element={<AdminBlogEditor />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
