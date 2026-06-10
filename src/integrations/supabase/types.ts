@@ -164,6 +164,42 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_card_items: {
+        Row: {
+          created_at: string
+          id: string
+          rate12: string
+          rate8: string
+          service: string
+          sort_order: number
+          unit12: string
+          unit8: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          rate12?: string
+          rate8?: string
+          service: string
+          sort_order?: number
+          unit12?: string
+          unit8?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          rate12?: string
+          rate8?: string
+          service?: string
+          sort_order?: number
+          unit12?: string
+          unit8?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       role_audit_log: {
         Row: {
           action: string

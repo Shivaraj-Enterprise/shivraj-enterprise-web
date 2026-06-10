@@ -22,6 +22,7 @@ import AdminRoles from "./pages/AdminRoles";
 import AdminCompanyProfile from "./pages/AdminCompanyProfile";
 import AdminBlogList from "./pages/AdminBlogList";
 import AdminBlogEditor from "./pages/AdminBlogEditor";
+import AdminRateCard from "./pages/AdminRateCard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/admin/blog" element={<AdminBlogList />} />
             <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
             <Route path="/admin/blog/:id/edit" element={<AdminBlogEditor />} />
+            <Route path="/admin/rate-card" element={<AdminRateCard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -5,6 +5,7 @@ import logo from "@/assets/logo.png";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useRateCard } from "@/hooks/useRateCard";
 
 const coreServices = [
   {
@@ -38,6 +39,10 @@ const rateCard = [
 ];
 
 const Services = () => {
+  const { items: dbRateCard, loading: rateCardLoading } = useRateCard();
+  const displayedRateCard = dbRateCard.length > 0
+    ? dbRateCard.map((r) => ({ service: r.service, unit8: r.unit8, rate8: r.rate8, unit12: r.unit12, rate12: r.rate12 }))
+    : rateCard;
   return (
     <Layout>
       <Helmet>
@@ -141,7 +146,9 @@ const Services = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {rateCard.map((r) => (
+                  {rateCardLoading && dbRateCard.length === 0 ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-6 text-muted-foreground">Loading rates…</TableCell></TableRow>
+                  ) : displayedRateCard.map((r) => (
                     <TableRow key={r.service}>
                       <TableCell className="font-medium">{r.service}</TableCell>
                       <TableCell>{r.unit8}</TableCell>
