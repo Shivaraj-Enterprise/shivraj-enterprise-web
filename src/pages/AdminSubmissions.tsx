@@ -108,6 +108,7 @@ const AdminSubmissions = () => {
               <Link to="/admin/roles"><Button variant="outline">Manage Roles</Button></Link>
               <Link to="/admin/blog"><Button variant="outline">Blog Posts</Button></Link>
               <Link to="/admin/company-profile"><Button variant="outline">Company Profile PDF</Button></Link>
+              <Link to="/admin/rate-card"><Button variant="outline">Rate Card</Button></Link>
               <Link to="/admin/audit-log"><Button variant="outline">Audit Log</Button></Link>
               <Button variant="outline" onClick={signOut}><LogOut className="mr-2" size={16} />Sign out</Button>
             </div>
