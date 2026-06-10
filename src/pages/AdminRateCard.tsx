@@ -40,7 +40,7 @@ const AdminRateCard = () => {
     setBusy(true);
     const { error } = await supabase
       .from("rate_card_items" as never)
-      .update(patch)
+      .update(patch as never)
       .eq("id", row.id);
     setBusy(false);
     if (error) return toast({ title: "Save failed", description: error.message, variant: "destructive" });
@@ -75,8 +75,8 @@ const AdminRateCard = () => {
     if (!a || !b) return;
     setBusy(true);
     // swap sort_order values
-    await supabase.from("rate_card_items" as never).update({ sort_order: b.sort_order }).eq("id", a.id);
-    await supabase.from("rate_card_items" as never).update({ sort_order: a.sort_order }).eq("id", b.id);
+    await supabase.from("rate_card_items" as never).update({ sort_order: b.sort_order } as never).eq("id", a.id);
+    await supabase.from("rate_card_items" as never).update({ sort_order: a.sort_order } as never).eq("id", b.id);
     setBusy(false);
     reload();
   };
