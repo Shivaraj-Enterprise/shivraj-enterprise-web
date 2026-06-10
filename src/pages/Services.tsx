@@ -5,6 +5,7 @@ import logo from "@/assets/logo.png";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useRateCard } from "@/hooks/useRateCard";
 
 const coreServices = [
   {
