@@ -12,8 +12,8 @@ type Row = {
   blog_post_tags: { blog_tags: { slug: string; name: string } | null }[] | null;
 };
 
-export const useBlogPosts = (opts: { limit?: number; tagSlug?: string | null } = {}) => {
-  const { limit, tagSlug } = opts;
+export const useBlogPosts = (opts: { limit?: number; tagSlug?: string | null; search?: string } = {}) => {
+  const { limit, tagSlug, search } = opts;
   const [posts, setPosts] = useState<BlogPostCard[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,11 +39,19 @@ export const useBlogPosts = (opts: { limit?: number; tagSlug?: string | null } =
         tags: (r.blog_post_tags ?? []).map((pt) => pt.blog_tags).filter(Boolean) as { slug: string; name: string }[],
       }));
       if (tagSlug) rows = rows.filter((p) => p.tags?.some((t) => t.slug === tagSlug));
+      if (search && search.trim()) {
+        const s = search.trim().toLowerCase();
+        rows = rows.filter(
+          (p) =>
+            p.title.toLowerCase().includes(s) ||
+            (p.excerpt ?? "").toLowerCase().includes(s)
+        );
+      }
       setPosts(rows);
       setLoading(false);
     })();
     return () => { cancelled = true; };
-  }, [limit, tagSlug]);
+  }, [limit, tagSlug, search]);
 
   return { posts, loading };
 };
