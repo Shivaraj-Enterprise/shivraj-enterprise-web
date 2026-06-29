@@ -106,6 +106,23 @@ export default {
 				'slide-up': {
 					from: { transform: 'translateY(20px)', opacity: '0' },
 					to: { transform: 'translateY(0)', opacity: '1' }
+				},
+				'marquee': {
+					from: { transform: 'translateX(0)' },
+					to: { transform: 'translateX(-50%)' }
+				},
+				'blob': {
+					'0%, 100%': { transform: 'translate(0,0) scale(1)' },
+					'33%': { transform: 'translate(40px,-30px) scale(1.1)' },
+					'66%': { transform: 'translate(-30px,40px) scale(0.95)' }
+				},
+				'gradientShift': {
+					'0%': { backgroundPosition: '0% 50%' },
+					'100%': { backgroundPosition: '200% 50%' }
+				},
+				'shimmer': {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' }
 				}
 			},
 			animation: {
