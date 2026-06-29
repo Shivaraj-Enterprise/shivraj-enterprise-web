@@ -160,27 +160,30 @@ const Index = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="section bg-shivraj-50">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="section-title">Our Core Services</h2>
+      <section className="section bg-shivraj-50 relative overflow-hidden">
+        <AuroraBackground intensity="subtle" className="opacity-40" />
+        <div className="container relative mx-auto">
+          <FadeContent className="text-center mb-12">
+            <BlurText as="h2" text="Our Core Services" className="section-title" />
             <p className="section-subtitle">
               A comprehensive suite of manpower, housekeeping and auxiliary services
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          </FadeContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 [perspective:1200px]">
             {[
               { icon: Users, title: "Manpower Outsourcing", desc: "Flexible access to skilled, semi-skilled and unskilled labour with strict vetting for productivity and reliability." },
               { icon: Sparkles, title: "Housekeeping Solutions", desc: "Industrial, commercial and event housekeeping that keeps your workspace clean, safe and welcoming." },
               { icon: PackageCheck, title: "Auxiliary Services", desc: "Loading & unloading, material handling, dispatch and quality & packaging inspectors." },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white rounded-lg shadow-md p-6 transition-transform hover:scale-105">
-                <div className="w-12 h-12 rounded-full bg-shivraj-100 text-shivraj-600 flex items-center justify-center mb-4">
-                  <Icon size={24} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-shivraj-800">{title}</h3>
-                <p className="text-gray-600">{desc}</p>
-              </div>
+            ].map(({ icon: Icon, title, desc }, i) => (
+              <FadeContent key={title} delay={i * 0.1}>
+                <TiltedCard className="bg-white rounded-xl shadow-md p-6 hover:shadow-2xl transition-shadow border border-shivraj-100/50 h-full">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-shivraj-500 to-shivraj-700 text-white flex items-center justify-center mb-4 shadow-lg shadow-shivraj-500/30">
+                    <Icon size={24} />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 text-shivraj-800">{title}</h3>
+                  <p className="text-gray-600">{desc}</p>
+                </TiltedCard>
+              </FadeContent>
             ))}
           </div>
           <div className="text-center mt-10">
