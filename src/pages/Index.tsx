@@ -2,7 +2,6 @@ import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { Suspense, lazy } from "react";
 import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
 import PostCard from "@/components/blog/PostCard";
@@ -21,14 +20,10 @@ import CountUp from "@/components/reactbits/CountUp";
 import TiltedCard from "@/components/reactbits/TiltedCard";
 import GradientText from "@/components/reactbits/GradientText";
 import Marquee from "@/components/reactbits/Marquee";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
-
-const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
   const { posts: latestPosts } = useBlogPosts({ limit: 3 });
-  const reduced = useReducedMotion();
   return (
     <Layout>
       <Helmet>
@@ -42,13 +37,6 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white">
         <AuroraBackground intensity="bold" />
-        {!reduced && (
-          <div className="hidden md:block absolute inset-0">
-            <Suspense fallback={null}>
-              <HeroScene />
-            </Suspense>
-          </div>
-        )}
         <div className="container relative z-10 mx-auto px-4 py-16 md:py-24 lg:py-32">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
