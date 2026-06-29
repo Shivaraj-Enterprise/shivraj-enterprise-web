@@ -28,6 +28,7 @@ const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
   const { posts: latestPosts } = useBlogPosts({ limit: 3 });
+  const reduced = useReducedMotion();
   return (
     <Layout>
       <Helmet>
@@ -39,8 +40,16 @@ const Index = () => {
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/" />
       </Helmet>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-shivraj-800 to-shivraj-900 text-white">
-        <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32">
+      <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white">
+        <AuroraBackground intensity="bold" />
+        {!reduced && (
+          <div className="hidden md:block absolute inset-0">
+            <Suspense fallback={null}>
+              <HeroScene />
+            </Suspense>
+          </div>
+        )}
+        <div className="container relative z-10 mx-auto px-4 py-16 md:py-24 lg:py-32">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
               <div className="bg-white rounded-full p-4 shadow-lg">
