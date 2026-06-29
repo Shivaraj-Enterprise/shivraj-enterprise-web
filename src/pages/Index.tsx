@@ -225,6 +225,9 @@ const Index = () => {
                 src={l.url}
                 alt="Client logo"
                 loading="lazy"
+                width={120}
+                height={64}
+                decoding="async"
                 className="h-14 md:h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100"
               />
             ))}
