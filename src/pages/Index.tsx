@@ -224,10 +224,24 @@ const Index = () => {
       {/* Testimonials */}
       <section className="section bg-shivraj-50">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="section-title">What Our Clients Say</h2>
+          <FadeContent className="text-center mb-8">
+            <BlurText as="h2" text="What Our Clients Say" className="section-title" />
             <p className="section-subtitle">Trusted by leading companies across industries</p>
-          </div>
+          </FadeContent>
+
+          {/* Client logo marquee */}
+          <Marquee speed={28} className="mb-10 py-4 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+            {[auroriumLogo, vertellusLogo, microOrgoLogo, hexacellLogo, vpiLogo].map((l, i) => (
+              <img
+                key={i}
+                src={l.url}
+                alt="Client logo"
+                loading="lazy"
+                className="h-14 md:h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100"
+              />
+            ))}
+          </Marquee>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { quote: "Partnering with Shivraj Enterprise has transformed our productivity. Their skilled labour solutions seamlessly integrated with our operations, and the professionalism of their staff has significantly elevated our output.", name: "Ms. Dhara Dangarwala", role: "HR, Aurorium India Pvt. Ltd.", logo: auroriumLogo.url },
@@ -235,18 +249,20 @@ const Index = () => {
               { quote: "The flexibility SHIVRAJ provides in manpower supply is exceptional. Their ability to adjust workforce levels during peak periods has been invaluable, boosting our operational efficiency.", name: "Mrs. Nimish Sawant", role: "HR, Micro Orgo Chem Pvt. Ltd.", logo: microOrgoLogo.url },
               { quote: "SHIVRAJ's customer service is top-notch. The accessibility and responsiveness of their team have made our collaboration effortless and successful.", name: "Ms. Anjali Mehta", role: "Supply Chain Director, Hexacell Packaging Pvt. Ltd.", logo: hexacellLogo.url },
               { quote: "Shivraj Enterprise has been a reliable manpower partner for our operations. Their team is professional, punctual and consistently delivers quality workforce that meets our production needs.", name: "Mr. Dhruv Parmar", role: "HR Leader, Vapi Products Industries Pvt. Ltd.", logo: vpiLogo.url },
-            ].map((t) => (
-              <div key={t.name} className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-start gap-4 mb-3">
-                  <img src={t.logo} alt={`${t.role} logo`} loading="lazy" className="w-16 h-16 rounded-full object-contain bg-white border border-shivraj-100 p-1 flex-shrink-0" />
-                  <Quote size={24} className="text-shivraj-300 mt-2" />
+            ].map((t, i) => (
+              <FadeContent key={t.name} delay={i * 0.08}>
+                <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow border border-shivraj-100/60 h-full">
+                  <div className="flex items-start gap-4 mb-3">
+                    <img src={t.logo} alt={`${t.role} logo`} loading="lazy" className="w-16 h-16 rounded-full object-contain bg-white border border-shivraj-100 p-1 flex-shrink-0" />
+                    <Quote size={24} className="text-shivraj-300 mt-2" />
+                  </div>
+                  <p className="text-gray-700 italic mb-4">"{t.quote}"</p>
+                  <div>
+                    <p className="font-semibold text-shivraj-800">{t.name}</p>
+                    <p className="text-sm text-gray-500">{t.role}</p>
+                  </div>
                 </div>
-                <p className="text-gray-700 italic mb-4">"{t.quote}"</p>
-                <div>
-                  <p className="font-semibold text-shivraj-800">{t.name}</p>
-                  <p className="text-sm text-gray-500">{t.role}</p>
-                </div>
-              </div>
+              </FadeContent>
             ))}
           </div>
         </div>
