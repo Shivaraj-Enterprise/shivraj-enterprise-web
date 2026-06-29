@@ -126,7 +126,7 @@ const Index = () => {
             <p className="section-subtitle">
               A reliable manpower & housekeeping company with over a decade of industry experience
             </p>
-          </div>
+          </FadeContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-gray-600 mb-6">
