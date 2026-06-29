@@ -2,6 +2,7 @@ import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { Suspense, lazy } from "react";
 import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
 import PostCard from "@/components/blog/PostCard";
@@ -13,10 +14,21 @@ import vertellusLogo from "@/assets/clients/vertellus.jpg.asset.json";
 import microOrgoLogo from "@/assets/clients/micro-orgo-chem.jpg.asset.json";
 import hexacellLogo from "@/assets/clients/hexacell.jpg.asset.json";
 import vpiLogo from "@/assets/clients/vpi.jpg.asset.json";
+import AuroraBackground from "@/components/three/AuroraBackground";
+import FadeContent from "@/components/reactbits/FadeContent";
+import BlurText from "@/components/reactbits/BlurText";
+import CountUp from "@/components/reactbits/CountUp";
+import TiltedCard from "@/components/reactbits/TiltedCard";
+import GradientText from "@/components/reactbits/GradientText";
+import Marquee from "@/components/reactbits/Marquee";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+
+const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
   const { posts: latestPosts } = useBlogPosts({ limit: 3 });
+  const reduced = useReducedMotion();
   return (
     <Layout>
       <Helmet>
@@ -28,8 +40,16 @@ const Index = () => {
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/" />
       </Helmet>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-shivraj-800 to-shivraj-900 text-white">
-        <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32">
+      <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white">
+        <AuroraBackground intensity="bold" />
+        {!reduced && (
+          <div className="hidden md:block absolute inset-0">
+            <Suspense fallback={null}>
+              <HeroScene />
+            </Suspense>
+          </div>
+        )}
+        <div className="container relative z-10 mx-auto px-4 py-16 md:py-24 lg:py-32">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
               <div className="bg-white rounded-full p-4 shadow-lg">
@@ -75,15 +95,38 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Stats Strip */}
+      <section className="bg-white border-b border-shivraj-100">
+        <div className="container mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {[
+            { end: 10, suffix: "+", label: "Years Experience" },
+            { end: 1500, suffix: "+", label: "Workers Deployed" },
+            { end: 50, suffix: "+", label: "Industrial Clients" },
+            { end: 24, suffix: "/7", label: "Support Availability" },
+          ].map((s, i) => (
+            <FadeContent key={s.label} delay={i * 0.08}>
+              <div>
+                <p className="text-3xl md:text-4xl font-bold">
+                  <GradientText>
+                    <CountUp end={s.end} suffix={s.suffix} />
+                  </GradientText>
+                </p>
+                <p className="text-sm md:text-base text-gray-600 mt-1">{s.label}</p>
+              </div>
+            </FadeContent>
+          ))}
+        </div>
+      </section>
+
       {/* About Summary Section */}
       <section className="section bg-white">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="section-title">About Shivraj Enterprise</h2>
+          <FadeContent className="text-center mb-12">
+            <BlurText as="h2" text="About Shivraj Enterprise" className="section-title" />
             <p className="section-subtitle">
               A reliable manpower & housekeeping company with over a decade of industry experience
             </p>
-          </div>
+          </FadeContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-gray-600 mb-6">
@@ -117,27 +160,30 @@ const Index = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="section bg-shivraj-50">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="section-title">Our Core Services</h2>
+      <section className="section bg-shivraj-50 relative overflow-hidden">
+        <AuroraBackground intensity="subtle" className="opacity-40" />
+        <div className="container relative mx-auto">
+          <FadeContent className="text-center mb-12">
+            <BlurText as="h2" text="Our Core Services" className="section-title" />
             <p className="section-subtitle">
               A comprehensive suite of manpower, housekeeping and auxiliary services
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          </FadeContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 [perspective:1200px]">
             {[
               { icon: Users, title: "Manpower Outsourcing", desc: "Flexible access to skilled, semi-skilled and unskilled labour with strict vetting for productivity and reliability." },
               { icon: Sparkles, title: "Housekeeping Solutions", desc: "Industrial, commercial and event housekeeping that keeps your workspace clean, safe and welcoming." },
               { icon: PackageCheck, title: "Auxiliary Services", desc: "Loading & unloading, material handling, dispatch and quality & packaging inspectors." },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white rounded-lg shadow-md p-6 transition-transform hover:scale-105">
-                <div className="w-12 h-12 rounded-full bg-shivraj-100 text-shivraj-600 flex items-center justify-center mb-4">
-                  <Icon size={24} />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-shivraj-800">{title}</h3>
-                <p className="text-gray-600">{desc}</p>
-              </div>
+            ].map(({ icon: Icon, title, desc }, i) => (
+              <FadeContent key={title} delay={i * 0.1}>
+                <TiltedCard className="bg-white rounded-xl shadow-md p-6 hover:shadow-2xl transition-shadow border border-shivraj-100/50 h-full">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-shivraj-500 to-shivraj-700 text-white flex items-center justify-center mb-4 shadow-lg shadow-shivraj-500/30">
+                    <Icon size={24} />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 text-shivraj-800">{title}</h3>
+                  <p className="text-gray-600">{desc}</p>
+                </TiltedCard>
+              </FadeContent>
             ))}
           </div>
           <div className="text-center mt-10">
@@ -178,10 +224,24 @@ const Index = () => {
       {/* Testimonials */}
       <section className="section bg-shivraj-50">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="section-title">What Our Clients Say</h2>
+          <FadeContent className="text-center mb-8">
+            <BlurText as="h2" text="What Our Clients Say" className="section-title" />
             <p className="section-subtitle">Trusted by leading companies across industries</p>
-          </div>
+          </FadeContent>
+
+          {/* Client logo marquee */}
+          <Marquee speed={28} className="mb-10 py-4 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+            {[auroriumLogo, vertellusLogo, microOrgoLogo, hexacellLogo, vpiLogo].map((l, i) => (
+              <img
+                key={i}
+                src={l.url}
+                alt="Client logo"
+                loading="lazy"
+                className="h-14 md:h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100"
+              />
+            ))}
+          </Marquee>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { quote: "Partnering with Shivraj Enterprise has transformed our productivity. Their skilled labour solutions seamlessly integrated with our operations, and the professionalism of their staff has significantly elevated our output.", name: "Ms. Dhara Dangarwala", role: "HR, Aurorium India Pvt. Ltd.", logo: auroriumLogo.url },
@@ -189,18 +249,20 @@ const Index = () => {
               { quote: "The flexibility SHIVRAJ provides in manpower supply is exceptional. Their ability to adjust workforce levels during peak periods has been invaluable, boosting our operational efficiency.", name: "Mrs. Nimish Sawant", role: "HR, Micro Orgo Chem Pvt. Ltd.", logo: microOrgoLogo.url },
               { quote: "SHIVRAJ's customer service is top-notch. The accessibility and responsiveness of their team have made our collaboration effortless and successful.", name: "Ms. Anjali Mehta", role: "Supply Chain Director, Hexacell Packaging Pvt. Ltd.", logo: hexacellLogo.url },
               { quote: "Shivraj Enterprise has been a reliable manpower partner for our operations. Their team is professional, punctual and consistently delivers quality workforce that meets our production needs.", name: "Mr. Dhruv Parmar", role: "HR Leader, Vapi Products Industries Pvt. Ltd.", logo: vpiLogo.url },
-            ].map((t) => (
-              <div key={t.name} className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-start gap-4 mb-3">
-                  <img src={t.logo} alt={`${t.role} logo`} loading="lazy" className="w-16 h-16 rounded-full object-contain bg-white border border-shivraj-100 p-1 flex-shrink-0" />
-                  <Quote size={24} className="text-shivraj-300 mt-2" />
+            ].map((t, i) => (
+              <FadeContent key={t.name} delay={i * 0.08}>
+                <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow border border-shivraj-100/60 h-full">
+                  <div className="flex items-start gap-4 mb-3">
+                    <img src={t.logo} alt={`${t.role} logo`} loading="lazy" className="w-16 h-16 rounded-full object-contain bg-white border border-shivraj-100 p-1 flex-shrink-0" />
+                    <Quote size={24} className="text-shivraj-300 mt-2" />
+                  </div>
+                  <p className="text-gray-700 italic mb-4">"{t.quote}"</p>
+                  <div>
+                    <p className="font-semibold text-shivraj-800">{t.name}</p>
+                    <p className="text-sm text-gray-500">{t.role}</p>
+                  </div>
                 </div>
-                <p className="text-gray-700 italic mb-4">"{t.quote}"</p>
-                <div>
-                  <p className="font-semibold text-shivraj-800">{t.name}</p>
-                  <p className="text-sm text-gray-500">{t.role}</p>
-                </div>
-              </div>
+              </FadeContent>
             ))}
           </div>
         </div>

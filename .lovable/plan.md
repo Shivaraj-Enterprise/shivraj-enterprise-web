@@ -1,94 +1,67 @@
+# Plan: React Bits + 3D revamp (full site, professional tone)
 
-## Overview
+Transform every public page with React Bits animated components, a shader background, and an interactive 3D hero object — while keeping the existing shivraj-blue palette, typography, and copy so the site still reads as a serious B2B manpower brand.
 
-Two new features:
-1. **Locations page** at `/locations` — expanded version of the existing "Service Areas" section (kept on home too).
-2. **Blog/Articles system** — public listing/detail pages, admin CRUD with rich text + cover image upload + tags, plus a "Latest News" teaser on the home page.
+## What the user will see
 
----
+**Home (`/`)**
+- New hero: Three.js `<Canvas>` with (a) a shader background (Aurora/Threads-style flowing gradient in shivraj blues) and (b) a slowly rotating, mouse-reactive 3D object (low-poly abstract industrial shape — interlocking torus/ico cluster) floating behind the headline. Existing TextType headline stays on top.
+- Stats strip with `CountUp` (10+ years, 1500+ workers, 50+ clients, etc.).
+- Service cards animate in with `TiltedCard` hover (subtle 3D tilt).
+- Testimonials become a `InfiniteScroll`/marquee row of client logos + cards.
+- Section reveals via `FadeContent` / `BlurText` on scroll.
+- "Latest News" and "Service Areas" sections keep current content but gain scroll-reveal + hover lift.
 
-## 1. Locations page (`/locations`)
+**About / Services / Contact / Locations / Blog**
+- Shared `AnimatedBackground` (very subtle Threads/Particles shader, low opacity) behind page headers so the brand feels cohesive.
+- Page titles use `SplitText` or `BlurText` reveal.
+- Section content uses `AnimatedContent`/`FadeContent` on scroll.
+- Services rate-card rows animate in with stagger.
+- Contact form gets a `GlareHover` accent on the submit button.
+- Locations page: small rotating 3D globe/marker accent next to the map.
 
-New page reusing the existing home-page block, expanded with:
-- Page hero ("Our Service Areas in Vapi GIDC")
-- All three cards from home: **Vapi GIDC Industrial Phases**, **Villages & Areas Covered Near Vapi**, **Pin Codes We Operate In**
-- Embedded Google Map (reuse `LocationMap` component)
-- Local SEO meta tags + LocalBusiness JSON-LD
-- CTA to Contact
-- Header nav link added: Home / About / Services / **Locations** / Blog / Contact
-- Footer link added
-- Sitemap.xml updated
+**Global polish**
+- Sticky header gets a `GradientText` brand wordmark and subtle blur-on-scroll.
+- Buttons gain a tasteful `ShinyText`/`GlareHover` variant for primary CTAs only.
+- Page transitions: fade + slight slide between routes.
+- Reduced-motion respected everywhere (`prefers-reduced-motion` disables 3D + shaders, falls back to static gradient).
 
-Home page keeps its current Service Areas section and gets a "View full coverage map" link to `/locations`.
+## How it's built (technical)
 
----
+**Dependencies**
+- `three@^0.160`, `@react-three/fiber@^8.18`, `@react-three/drei@^9.122` (pinned — required for React 18).
+- `gsap` (already used by some react-bits components) and `motion` (Framer Motion v11) for scroll/reveal animations.
+- React Bits components copied directly into `src/components/reactbits/` from the official registry (`https://reactbits.dev/r/{name}.json`) — no MCP needed, the registry JSON contains the source. Components planned:
+  - Backgrounds: `Aurora`, `Threads` (pick one for hero, one ultra-subtle for inner pages)
+  - Text: `TextType` (already present), `SplitText`, `BlurText`, `GradientText`, `ShinyText`, `CountUp`
+  - Components: `TiltedCard`, `GlareHover`, `InfiniteScroll`, `AnimatedContent`, `FadeContent`, `MagnetLines`
+- `components.json` updated with the `@react-bits` registry entry for future installs.
 
-## 2. Blog system
+**New files**
+- `src/components/three/HeroScene.tsx` — R3F canvas: shader plane + rotating 3D shape, mouse parallax, suspense fallback.
+- `src/components/three/SubtleBackground.tsx` — low-cost shader background for inner pages.
+- `src/components/reactbits/*` — copied React Bits source files (one per component used).
+- `src/hooks/useReducedMotion.ts` — gate 3D/shader mounting.
 
-### Database (Lovable Cloud)
-- `blog_posts` table: `slug` (unique), `title`, `excerpt`, `content` (HTML), `cover_image_url`, `published` (bool), `published_at`, `author_id`
-- `blog_tags` table: `slug`, `name`
-- `blog_post_tags` join table
-- RLS: anyone (anon + authenticated) can SELECT published posts; admins can do everything (using existing `has_role(uid,'admin')`)
-- Standard GRANTs (anon SELECT for published, authenticated full, service_role all)
-- `updated_at` trigger
+**Files edited**
+- `src/pages/Index.tsx` — swap hero, wrap sections in reveal components, add stats strip.
+- `src/pages/About.tsx`, `Services.tsx`, `Contact.tsx`, `Locations.tsx`, `Blog.tsx`, `BlogPost.tsx` — add `SubtleBackground` to page header, wrap content in reveal components, animate titles.
+- `src/components/Header.tsx` — gradient wordmark, scroll blur.
+- `src/components/Footer.tsx` — subtle gradient divider.
+- `src/index.css` / `tailwind.config.ts` — add gradient tokens and shimmer keyframes; no palette change.
+- `components.json` — add `registries["@react-bits"]`.
 
-### Storage
-- New private bucket `blog-assets` for cover images
-- RLS on `storage.objects`: public SELECT for `blog-assets`, admin-only INSERT/UPDATE/DELETE
-- Signed URLs fetched via a hook (same pattern as `useCompanyProfileUrl`)
+**Performance & safety**
+- 3D canvas lazy-loaded with `React.lazy` + `Suspense`; never blocks first paint.
+- Shader uses `dpr={[1, 1.5]}` cap and `frameloop="demand"` on inner pages.
+- Mobile (<768px): hero 3D object hidden; shader background swapped for static CSS gradient.
+- All animations honor `prefers-reduced-motion`.
 
-### Public pages
-- `/blog` — paginated list of published posts (cover thumb, title, excerpt, date, tags), tag filter chips
-- `/blog/:slug` — full post: hero cover, title, date, tags, rendered HTML body
-- SEO: per-post `<title>`, meta description from excerpt, Open Graph image, **Article JSON-LD**, canonical
-- Sanitized HTML rendering via DOMPurify (added dep) to safely render the rich-text content
+**Out of scope**
+- No backend/data changes. No copy rewrites. No palette change. Admin pages untouched.
 
-### Admin pages
-- `/admin/blog` — list with status badges, search, "New post" button, edit/delete actions
-- `/admin/blog/new` and `/admin/blog/:id/edit` — form with:
-  - Title (auto-generates slug, editable)
-  - Excerpt (short summary)
-  - Cover image upload → `blog-assets` bucket
-  - **Rich-text editor** (TipTap — headings, bold, italic, lists, links, blockquote, image)
-  - Tag multi-select (create new tag inline)
-  - Publish toggle + scheduled publish date
-- Gated with `useAdminAuth` + `AdminGate` (same pattern as other admin pages)
-- Nav link "Blog Posts" added to admin sidebar/links in `AdminSubmissions`
-
-### Home page
-- New "Latest News & Updates" section showing 3 most recent published posts → links to `/blog`
-
-### Routing
-- Add to `App.tsx`: `/locations`, `/blog`, `/blog/:slug`, `/admin/blog`, `/admin/blog/new`, `/admin/blog/:id/edit`
-
----
-
-## Technical details
-
-**New deps:** `@tiptap/react`, `@tiptap/starter-kit`, `@tiptap/extension-link`, `@tiptap/extension-image`, `dompurify`, `@types/dompurify`, `date-fns` (already present likely).
-
-**New files (high level):**
-- `src/pages/Locations.tsx`
-- `src/pages/Blog.tsx`, `src/pages/BlogPost.tsx`
-- `src/pages/AdminBlogList.tsx`, `src/pages/AdminBlogEditor.tsx`
-- `src/components/blog/PostCard.tsx`, `BlogTagFilter.tsx`, `RichTextEditor.tsx`, `RichTextRenderer.tsx`
-- `src/hooks/useBlogPosts.ts`, `useBlogPost.ts`, `useBlogCoverUpload.ts`
-- 1 migration: tables + RLS + GRANTs + triggers
-- Storage bucket created via tool, RLS policies via migration
-
-**Edits:**
-- `src/App.tsx` — 6 new routes
-- `src/components/Header.tsx` — add Locations + Blog nav links
-- `src/components/Footer.tsx` — add Locations + Blog links
-- `src/pages/Index.tsx` — Latest News teaser, "View full coverage" link
-- `src/pages/AdminSubmissions.tsx` — admin nav link to Blog Posts
-- `public/sitemap.xml` — `/locations` + `/blog`
-- `public/robots.txt` — allow as needed
-
-**Security:**
-- All form inputs validated with zod (title/slug/excerpt length, slug pattern)
-- HTML body sanitized with DOMPurify before render
-- Admin checks server-side via existing `has_role` + RLS
-
-**Out of scope:** comments, drafts autosave, multi-author analytics, RSS feed (can add later if needed).
+## Acceptance
+- Every public page has at least one React Bits reveal animation and the shared subtle background.
+- Home hero renders a working 3D object + shader background on desktop, gracefully degrades on mobile / reduced-motion.
+- Existing content, routing, SEO tags, and shivraj blue theme remain intact.
+- No console errors; Lighthouse perf stays ≥ 70 on home.
