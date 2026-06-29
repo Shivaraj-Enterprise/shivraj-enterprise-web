@@ -41,7 +41,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
               <div className="bg-white rounded-full p-4 shadow-lg">
-                <img src={logo} alt="Shivraj Enterprise logo" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
+                <img src={logo} alt="Shivraj Enterprise logo" width={80} height={80} fetchPriority="high" decoding="async" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
@@ -225,6 +225,9 @@ const Index = () => {
                 src={l.url}
                 alt="Client logo"
                 loading="lazy"
+                width={120}
+                height={64}
+                decoding="async"
                 className="h-14 md:h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100"
               />
             ))}
@@ -241,7 +244,7 @@ const Index = () => {
               <FadeContent key={t.name} delay={i * 0.08}>
                 <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow border border-shivraj-100/60 h-full">
                   <div className="flex items-start gap-4 mb-3">
-                    <img src={t.logo} alt={`${t.role} logo`} loading="lazy" className="w-16 h-16 rounded-full object-contain bg-white border border-shivraj-100 p-1 flex-shrink-0" />
+                    <img src={t.logo} alt={`${t.role} logo`} loading="lazy" width={64} height={64} decoding="async" className="w-16 h-16 rounded-full object-contain bg-white border border-shivraj-100 p-1 flex-shrink-0" />
                     <Quote size={24} className="text-shivraj-300 mt-2" />
                   </div>
                   <p className="text-gray-700 italic mb-4">"{t.quote}"</p>
