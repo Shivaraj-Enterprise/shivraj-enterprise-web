@@ -2,6 +2,8 @@ import { Users, Shield, Award, BarChart, FileCheck } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import logo from "@/assets/logo.png";
+import AuroraBackground from "@/components/three/AuroraBackground";
+import BlurText from "@/components/reactbits/BlurText";
 
 const About = () => {
   return (
@@ -15,14 +17,16 @@ const About = () => {
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/about" />
       </Helmet>
       {/* Page Header */}
-      <section className="bg-shivraj-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">
+      <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white py-20">
+        <AuroraBackground intensity="bold" />
+        <div className="container relative z-10 mx-auto px-4 text-center">
           <div className="flex justify-center mb-4">
-            <div className="bg-white rounded-full p-3 shadow-md">
+            <div className="bg-white rounded-full p-3 shadow-2xl shadow-shivraj-500/40 ring-2 ring-white/20">
               <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold mb-4">About Shivraj Enterprise – Manpower Supplier in Vapi GIDC</h1>
+          <BlurText as="h1" text="About Shivraj Enterprise – Manpower Supplier in Vapi GIDC" className="text-4xl md:text-5xl font-bold mb-4" />
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
             Trusted partner for manpower & housekeeping across Vapi GIDC Phases 1–4, Chala, Balitha, Chhiri, Salvav, Chharwada and nearby villages of Valsad District, Gujarat.
           </p>

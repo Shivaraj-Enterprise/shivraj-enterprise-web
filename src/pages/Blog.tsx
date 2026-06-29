@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Newspaper, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import AuroraBackground from "@/components/three/AuroraBackground";
+import BlurText from "@/components/reactbits/BlurText";
 
 const PAGE_SIZE = 6;
 
@@ -46,12 +48,13 @@ const Blog = () => {
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/blog" />
       </Helmet>
 
-      <section className="bg-gradient-to-br from-shivraj-800 to-shivraj-900 text-white py-14">
-        <div className="container mx-auto px-4 text-center">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 mb-4">
+      <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white py-16">
+        <AuroraBackground intensity="bold" />
+        <div className="container relative z-10 mx-auto px-4 text-center">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 backdrop-blur ring-2 ring-white/20 mb-4">
             <Newspaper size={28} />
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold mb-3">News & Updates</h1>
+          <BlurText as="h1" text="News & Updates" className="text-3xl md:text-5xl font-bold mb-3" />
           <p className="text-shivraj-100 max-w-2xl mx-auto">
             Industry insights, company news and daily updates from Shivraj Enterprise.
           </p>
