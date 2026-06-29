@@ -41,7 +41,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
               <div className="bg-white rounded-full p-4 shadow-lg">
-                <img src={logo} alt="Shivraj Enterprise logo" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
+                <img src={logo} alt="Shivraj Enterprise logo" width={80} height={80} fetchPriority="high" decoding="async" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
