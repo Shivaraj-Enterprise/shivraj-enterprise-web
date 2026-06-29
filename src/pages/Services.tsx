@@ -56,7 +56,6 @@ const Services = () => {
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/services" />
       </Helmet>
       {/* Page Header */}
-        <div className="container mx-auto px-4 text-center">
       <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white py-20">
         <AuroraBackground intensity="bold" />
         <div className="container relative z-10 mx-auto px-4 text-center">
