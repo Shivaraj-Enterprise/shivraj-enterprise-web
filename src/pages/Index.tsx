@@ -2,6 +2,7 @@ import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { Suspense, lazy } from "react";
 import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
 import PostCard from "@/components/blog/PostCard";
@@ -13,6 +14,16 @@ import vertellusLogo from "@/assets/clients/vertellus.jpg.asset.json";
 import microOrgoLogo from "@/assets/clients/micro-orgo-chem.jpg.asset.json";
 import hexacellLogo from "@/assets/clients/hexacell.jpg.asset.json";
 import vpiLogo from "@/assets/clients/vpi.jpg.asset.json";
+import AuroraBackground from "@/components/three/AuroraBackground";
+import FadeContent from "@/components/reactbits/FadeContent";
+import BlurText from "@/components/reactbits/BlurText";
+import CountUp from "@/components/reactbits/CountUp";
+import TiltedCard from "@/components/reactbits/TiltedCard";
+import GradientText from "@/components/reactbits/GradientText";
+import Marquee from "@/components/reactbits/Marquee";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+
+const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
