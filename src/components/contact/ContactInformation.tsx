@@ -1,6 +1,7 @@
 
 import { Phone, Mail, MapPin, CheckCircle, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
+import SocialLinks from "@/components/SocialLinks";
 
 const ContactInformation = () => {
   return (
