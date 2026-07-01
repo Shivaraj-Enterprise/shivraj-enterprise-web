@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
+import SocialLinks from "@/components/SocialLinks";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -23,8 +24,8 @@ const Footer = () => {
             <p className="text-shivraj-100 mb-4">
               A trusted name in manpower supply and staffing solutions with over 10+ years of experience in the industry.
             </p>
-            <div className="flex space-x-4 mt-4">
-              {/* Social media icons would go here */}
+            <div className="mt-4">
+              <SocialLinks iconOnly variant="dark" />
             </div>
           </div>
 
