@@ -1,6 +1,7 @@
 
 import { Phone, Mail, MapPin, CheckCircle, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
+import SocialLinks from "@/components/SocialLinks";
 
 const ContactInformation = () => {
   return (
@@ -81,6 +82,11 @@ const ContactInformation = () => {
         </motion.div>
       </div>
       
+      <div className="bg-shivraj-50 p-6 rounded-lg border border-shivraj-100 shadow-sm mb-8">
+        <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Connect With Us</h3>
+        <SocialLinks variant="light" />
+      </div>
+
       <div className="bg-shivraj-50 p-6 rounded-lg border border-shivraj-100 shadow-sm">
         <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Our Service Areas</h3>
         <ul className="space-y-3">
