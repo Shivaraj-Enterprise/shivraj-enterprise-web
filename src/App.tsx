@@ -13,6 +13,7 @@ import Terms from "./pages/Terms";
 import Locations from "./pages/Locations";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import ScrollToTop from "./components/ScrollToTop";
 
 import AdminLogin from "./pages/AdminLogin";
 import AdminResetPassword from "./pages/AdminResetPassword";
@@ -34,6 +35,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <HashRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
