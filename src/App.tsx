@@ -13,6 +13,7 @@ import Terms from "./pages/Terms";
 import Locations from "./pages/Locations";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import GstTdsGuide from "./pages/GstTdsGuide";
 import ScrollToTop from "./components/ScrollToTop";
 
 import AdminLogin from "./pages/AdminLogin";
@@ -44,7 +45,9 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/locations" element={<Locations />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/gst-tds-manpower-supply-guide" element={<GstTdsGuide />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+
 
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/reset-password" element={<AdminResetPassword />} />
