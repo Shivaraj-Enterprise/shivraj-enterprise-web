@@ -13,6 +13,7 @@ import Terms from "./pages/Terms";
 import Locations from "./pages/Locations";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import GstTdsGuide from "./pages/GstTdsGuide";
 import ScrollToTop from "./components/ScrollToTop";
 
 import AdminLogin from "./pages/AdminLogin";
