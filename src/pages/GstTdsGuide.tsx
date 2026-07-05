@@ -208,7 +208,53 @@ const GstTdsGuide = () => {
               finance and HR audits clean.
             </p>
 
-            <hr />
+            <div className="not-prose bg-shivraj-50 border border-shivraj-100 rounded-xl p-6 md:p-8 my-10">
+              <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-3">
+                Need compliant manpower or housekeeping services in Vapi GIDC?
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Shivraj Enterprise Pvt. Ltd. is a GST-registered, private limited manpower contractor. We bill under Forward Charge, handle PF/ESIC and labour licence, and issue Section 194C-ready invoices so your finance and HR audits stay clean.
+              </p>
+              <ul className="grid sm:grid-cols-2 gap-3 mb-8 text-sm text-gray-700">
+                <li className="flex items-start gap-2">
+                  <CheckCircle size={16} className="text-shivraj-600 mt-0.5 shrink-0" />
+                  18% GST invoices with SAC 998519
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle size={16} className="text-shivraj-600 mt-0.5 shrink-0" />
+                  PF, ESIC, labour licence &amp; statutory compliance
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle size={16} className="text-shivraj-600 mt-0.5 shrink-0" />
+                  Section 194C-ready TDS on taxable value only
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle size={16} className="text-shivraj-600 mt-0.5 shrink-0" />
+                  Skilled, semi-skilled &amp; unskilled workforce
+                </li>
+              </ul>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+                <Button asChild size="lg">
+                  <Link to="/contact" className="inline-flex items-center gap-2">
+                    Request a Quote <ArrowRight size={18} />
+                  </Link>
+                </Button>
+                <Button asChild variant="secondary" size="lg">
+                  <a href="tel:+919998498311" className="inline-flex items-center gap-2">
+                    <Phone size={18} /> +91 99984 98311
+                  </a>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <a href="https://wa.me/919998498311" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2">
+                    <MessageSquare size={18} /> WhatsApp
+                  </a>
+                </Button>
+              </div>
+              <p className="text-sm text-gray-500 mt-4">
+                Free consultation for engineering, pharma, chemical &amp; packaging units in Vapi GIDC.
+              </p>
+            </div>
+
             <p>
               <strong>Need compliant manpower or housekeeping services in Vapi GIDC?</strong>{" "}
               <Link to="/contact" className="text-shivraj-700 hover:underline">Talk to Shivraj Enterprise Pvt. Ltd.</Link>{" "}
