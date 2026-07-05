@@ -255,11 +255,6 @@ const GstTdsGuide = () => {
               </p>
             </div>
 
-            <p>
-              <strong>Need compliant manpower or housekeeping services in Vapi GIDC?</strong>{" "}
-              <Link to="/contact" className="text-shivraj-700 hover:underline">Talk to Shivraj Enterprise Pvt. Ltd.</Link>{" "}
-              — GST-registered, private limited, Forward-Charge billing, PF/ESIC on every workman.
-            </p>
 
             <p className="text-xs text-muted-foreground mt-8">
               Disclaimer: This article is a general guide as of July 2026 and is not tax or legal advice. GST
