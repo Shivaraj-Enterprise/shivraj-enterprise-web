@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
-import PostCard from "@/components/blog/PostCard";
+import PostCard, { type BlogPostCard } from "@/components/blog/PostCard";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -12,13 +12,32 @@ import BlurText from "@/components/reactbits/BlurText";
 
 const PAGE_SIZE = 6;
 
+// Static/featured guides that live as their own routes (not in the DB).
+// They still appear in the listing so users can discover and filter them.
+const STATIC_POSTS: BlogPostCard[] = [
+  {
+    id: "static-gst-tds-manpower-supply-guide",
+    slug: "gst-tds-manpower-supply-guide",
+    title: "GST & TDS on Manpower Supply Services in India – A Compliance Guide",
+    excerpt:
+      "A practical guide to GST (18% Forward Charge, RCM) and TDS Section 194C for manpower outsourcing in India — for procurement, finance and HR managers.",
+    cover_image_url: null,
+    published_at: "2026-07-03",
+    tags: [
+      { slug: "compliance", name: "Compliance" },
+      { slug: "gst", name: "GST" },
+      { slug: "tds", name: "TDS" },
+    ],
+  },
+];
+
 const Blog = () => {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [tags, setTags] = useState<{ slug: string; name: string }[]>([]);
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
   const [page, setPage] = useState(1);
-  const { posts, loading } = useBlogPosts({ tagSlug: activeTag, search: debounced });
+  const { posts: dbPosts, loading } = useBlogPosts({ tagSlug: activeTag, search: debounced });
 
   useEffect(() => {
     (async () => {
@@ -33,6 +52,40 @@ const Blog = () => {
   }, [search]);
 
   useEffect(() => { setPage(1); }, [activeTag, debounced]);
+
+  // Merge static featured posts with DB posts, applying the same search/tag filters.
+  const posts = useMemo(() => {
+    let statics = STATIC_POSTS;
+    if (activeTag) statics = statics.filter((p) => p.tags?.some((t) => t.slug === activeTag));
+    if (debounced.trim()) {
+      const s = debounced.trim().toLowerCase();
+      statics = statics.filter(
+        (p) =>
+          p.title.toLowerCase().includes(s) ||
+          (p.excerpt ?? "").toLowerCase().includes(s)
+      );
+    }
+    const combined = [...statics, ...dbPosts];
+    // De-duplicate by slug (DB entry wins if it exists)
+    const seen = new Set<string>();
+    return combined.filter((p) => {
+      if (seen.has(p.slug)) return false;
+      seen.add(p.slug);
+      return true;
+    }).sort((a, b) => {
+      const da = a.published_at ? new Date(a.published_at).getTime() : 0;
+      const db = b.published_at ? new Date(b.published_at).getTime() : 0;
+      return db - da;
+    });
+  }, [dbPosts, activeTag, debounced]);
+
+  // Merge static tags into the filter list
+  const mergedTags = useMemo(() => {
+    const map = new Map<string, { slug: string; name: string }>();
+    for (const t of tags) map.set(t.slug, t);
+    for (const p of STATIC_POSTS) for (const t of p.tags ?? []) if (!map.has(t.slug)) map.set(t.slug, t);
+    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+  }, [tags]);
 
   const totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
   const paged = useMemo(
@@ -74,7 +127,7 @@ const Blog = () => {
             />
           </div>
 
-          {tags.length > 0 && (
+          {mergedTags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-8 justify-center">
               <button
                 onClick={() => setActiveTag(null)}
@@ -84,7 +137,7 @@ const Blog = () => {
               >
                 All
               </button>
-              {tags.map((t) => (
+              {mergedTags.map((t) => (
                 <button
                   key={t.slug}
                   onClick={() => setActiveTag(t.slug)}
