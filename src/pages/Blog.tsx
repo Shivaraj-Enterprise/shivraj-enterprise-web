@@ -127,7 +127,7 @@ const Blog = () => {
             />
           </div>
 
-          {tags.length > 0 && (
+          {mergedTags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-8 justify-center">
               <button
                 onClick={() => setActiveTag(null)}
@@ -137,7 +137,7 @@ const Blog = () => {
               >
                 All
               </button>
-              {tags.map((t) => (
+              {mergedTags.map((t) => (
                 <button
                   key={t.slug}
                   onClick={() => setActiveTag(t.slug)}
