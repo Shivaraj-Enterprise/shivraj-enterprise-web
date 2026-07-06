@@ -5,6 +5,8 @@ import { Calendar, ArrowLeft } from "lucide-react";
 import Layout from "@/components/Layout";
 import RichTextRenderer from "@/components/blog/RichTextRenderer";
 import { supabase } from "@/integrations/supabase/client";
+import Breadcrumbs from "@/components/blog/Breadcrumbs";
+import RelatedPosts from "@/components/blog/RelatedPosts";
 
 type Post = {
   id: string;
