@@ -89,6 +89,7 @@ const BlogPost = () => {
           </div>
         )}
         <div className="container mx-auto px-4 py-10 max-w-3xl">
+          <Breadcrumbs items={[{ label: "Blog", to: "/blog" }, { label: post.title }]} />
           <Link to="/blog" className="inline-flex items-center text-sm text-shivraj-700 hover:underline mb-6">
             <ArrowLeft size={14} className="mr-1" /> Back to blog
           </Link>
