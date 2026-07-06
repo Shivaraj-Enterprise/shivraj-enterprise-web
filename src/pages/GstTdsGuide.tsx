@@ -282,6 +282,10 @@ const GstTdsGuide = () => {
           </div>
         </div>
       </article>
+      <RelatedPosts
+        currentSlug="gst-tds-manpower-supply-guide"
+        currentTagSlugs={["compliance", "gst", "tds"]}
+      />
     </Layout>
   );
 };
