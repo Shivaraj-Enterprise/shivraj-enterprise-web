@@ -219,7 +219,11 @@ const GstTdsGuide = () => {
               non-compliant contractor can freeze the client's ITC or trigger principal-employer liability under
               the Contract Labour Act. Working with a GST-registered <em>private limited</em> manpower partner that
               bills under Forward Charge, files GSTR on time and shares PF/ESIC challans keeps procurement,
-              finance and HR audits clean.
+              finance and HR audits clean. Explore our{" "}
+              <Link to="/services" className="text-shivraj-700 underline">manpower &amp; housekeeping services</Link>,{" "}
+              learn more{" "}
+              <Link to="/about" className="text-shivraj-700 underline">about Shivraj Enterprise</Link>, or{" "}
+              <Link to="/contact" className="text-shivraj-700 underline">contact our team</Link> for a compliant quote.
             </p>
 
             <div className="not-prose bg-shivraj-50 border border-shivraj-100 rounded-xl p-6 md:p-8 my-10">
