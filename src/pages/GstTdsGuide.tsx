@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet-async";
 import { ArrowLeft, Calendar, ArrowRight, Phone, MessageSquare, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
+import Breadcrumbs from "@/components/blog/Breadcrumbs";
+import RelatedPosts from "@/components/blog/RelatedPosts";
 
 const url = "https://shivraj-enterprise.lovable.app/#/blog/gst-tds-manpower-supply-guide";
 const title = "GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide";
@@ -72,10 +74,22 @@ const GstTdsGuide = () => {
             ],
           })}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://shivraj-enterprise.lovable.app/" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/#/blog" },
+              { "@type": "ListItem", position: 3, name: "GST & TDS on Manpower Supply", item: url },
+            ],
+          })}
+        </script>
       </Helmet>
 
       <article className="bg-white">
         <div className="container mx-auto px-4 py-10 max-w-3xl">
+          <Breadcrumbs items={[{ label: "Blog", to: "/blog" }, { label: "GST & TDS on Manpower Supply" }]} />
           <Link to="/blog" className="inline-flex items-center text-sm text-shivraj-700 hover:underline mb-6">
             <ArrowLeft size={14} className="mr-1" /> Back to blog
           </Link>
@@ -205,7 +219,11 @@ const GstTdsGuide = () => {
               non-compliant contractor can freeze the client's ITC or trigger principal-employer liability under
               the Contract Labour Act. Working with a GST-registered <em>private limited</em> manpower partner that
               bills under Forward Charge, files GSTR on time and shares PF/ESIC challans keeps procurement,
-              finance and HR audits clean.
+              finance and HR audits clean. Explore our{" "}
+              <Link to="/services" className="text-shivraj-700 underline">manpower &amp; housekeeping services</Link>,{" "}
+              learn more{" "}
+              <Link to="/about" className="text-shivraj-700 underline">about Shivraj Enterprise</Link>, or{" "}
+              <Link to="/contact" className="text-shivraj-700 underline">contact our team</Link> for a compliant quote.
             </p>
 
             <div className="not-prose bg-shivraj-50 border border-shivraj-100 rounded-xl p-6 md:p-8 my-10">
@@ -264,6 +282,10 @@ const GstTdsGuide = () => {
           </div>
         </div>
       </article>
+      <RelatedPosts
+        currentSlug="gst-tds-manpower-supply-guide"
+        currentTagSlugs={["compliance", "gst", "tds"]}
+      />
     </Layout>
   );
 };
