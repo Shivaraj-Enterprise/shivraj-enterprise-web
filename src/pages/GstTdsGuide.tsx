@@ -74,10 +74,22 @@ const GstTdsGuide = () => {
             ],
           })}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://shivraj-enterprise.lovable.app/" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/#/blog" },
+              { "@type": "ListItem", position: 3, name: "GST & TDS on Manpower Supply", item: url },
+            ],
+          })}
+        </script>
       </Helmet>
 
       <article className="bg-white">
         <div className="container mx-auto px-4 py-10 max-w-3xl">
+          <Breadcrumbs items={[{ label: "Blog", to: "/blog" }, { label: "GST & TDS on Manpower Supply" }]} />
           <Link to="/blog" className="inline-flex items-center text-sm text-shivraj-700 hover:underline mb-6">
             <ArrowLeft size={14} className="mr-1" /> Back to blog
           </Link>
