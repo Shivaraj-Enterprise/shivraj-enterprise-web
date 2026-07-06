@@ -109,6 +109,7 @@ const BlogPost = () => {
           <RichTextRenderer html={post.content} />
         </div>
       </article>
+      <RelatedPosts currentSlug={post.slug} currentTagSlugs={tags.map((t) => t.slug)} />
     </Layout>
   );
 };
