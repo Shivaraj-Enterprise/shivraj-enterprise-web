@@ -10,26 +10,9 @@ import { Newspaper, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
 
-const PAGE_SIZE = 6;
+import { STATIC_POSTS } from "@/data/staticPosts";
 
-// Static/featured guides that live as their own routes (not in the DB).
-// They still appear in the listing so users can discover and filter them.
-const STATIC_POSTS: BlogPostCard[] = [
-  {
-    id: "static-gst-tds-manpower-supply-guide",
-    slug: "gst-tds-manpower-supply-guide",
-    title: "GST & TDS on Manpower Supply Services in India – A Compliance Guide",
-    excerpt:
-      "A practical guide to GST (18% Forward Charge, RCM) and TDS Section 194C for manpower outsourcing in India — for procurement, finance and HR managers.",
-    cover_image_url: null,
-    published_at: "2026-07-03",
-    tags: [
-      { slug: "compliance", name: "Compliance" },
-      { slug: "gst", name: "GST" },
-      { slug: "tds", name: "TDS" },
-    ],
-  },
-];
+const PAGE_SIZE = 6;
 
 const Blog = () => {
   const [activeTag, setActiveTag] = useState<string | null>(null);
