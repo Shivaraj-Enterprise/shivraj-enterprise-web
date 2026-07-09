@@ -97,6 +97,7 @@ const Services = () => {
         <meta property="og:title" content="Services & Rate Card – Shivraj Enterprise" />
         <meta property="og:description" content="Manpower, housekeeping and auxiliary services with transparent rates." />
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/services" />
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
       {/* Page Header */}
       <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white py-20">
