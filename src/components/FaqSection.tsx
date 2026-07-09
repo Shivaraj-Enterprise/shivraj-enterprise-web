@@ -60,10 +60,10 @@ const FaqSection = ({
                       }`}
                     />
                   </button>
-                  <div
+                    <div
                     id={`faq-answer-${index}`}
                     className={`overflow-hidden transition-all ${
-                      isOpen ? "max-h-96" : "max-h-0"
+                      isOpen ? "max-h-[800px]" : "max-h-0"
                     }`}
                   >
                     <div className="px-5 pb-5 text-gray-600 leading-relaxed">{item.answer}</div>

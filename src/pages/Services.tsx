@@ -49,6 +49,11 @@ const serviceFaqs: FaqItem[] = [
       "Manpower supply services provide businesses with skilled, semi-skilled and unskilled workers on a temporary, contract or project basis. Shivraj Enterprise handles recruitment, onboarding, payroll, statutory compliance (PF, ESIC, wages) and replacements, so you can scale your workforce without the overhead of direct employment.",
   },
   {
+    question: "What is manpower outsourcing services?",
+    answer:
+      "Manpower outsourcing services let a company hire an external agency like Shivraj Enterprise to manage part or all of its workforce needs. We recruit, train, deploy, pay and handle statutory compliance (ESI, EPF, wages) for workers assigned to your factory, warehouse or commercial site, while you focus on core operations.",
+  },
+  {
     question: "What is TDS applicable for service contract for manpower supply?",
     answer:
       "For manpower supply or labour work contracts, TDS under Section 194C applies at 1% when paying an individual or HUF, and 2% for companies, firms or other entities. TDS is deducted when a single payment exceeds ₹30,000 or aggregate payments exceed ₹1,00,000 in a financial year. GST is excluded from TDS if it is shown separately on the invoice.",
@@ -57,6 +62,16 @@ const serviceFaqs: FaqItem[] = [
     question: "What is the GST rate on manpower supply services?",
     answer:
       "Manpower supply services generally attract 18% GST. It is usually charged under forward charge, meaning the manpower supplier issues a tax invoice and the client can claim input tax credit. Reverse Charge Mechanism (RCM) applies only in specific notified cases, which our team can clarify during billing setup.",
+  },
+  {
+    question: "Is ESI and EPF applicable for manpower supply?",
+    answer:
+      "Yes. Workers supplied by a manpower agency are employees of the agency, so the supplier deducts and deposits ESI and EPF contributions. EPF generally applies to establishments with 20 or more employees, while ESI applies to factories and notified establishments above the applicable employee threshold in each state. Shivraj Enterprise manages these statutory deductions and provides monthly compliance proof.",
+  },
+  {
+    question: "Who is responsible for ESI, EPF and labour welfare compliance for outsourced workers?",
+    answer:
+      "Under Indian labour laws, the manpower supplier is the principal employer of its own workers and is primarily responsible for ESI, EPF, professional tax and labour welfare fund contributions. The client site also has a duty to verify compliance under the Contract Labour (Regulation and Abolition) Act. We share monthly statutory challans and compliance reports for complete transparency.",
   },
   {
     question: "Do you provide housekeeping, loading and inspection staff too?",
