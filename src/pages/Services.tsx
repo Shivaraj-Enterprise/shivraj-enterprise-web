@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { useRateCard } from "@/hooks/useRateCard";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
+import FaqSection from "@/components/FaqSection";
+import type { FaqItem } from "@/components/FaqSection";
 
 const coreServices = [
   {
