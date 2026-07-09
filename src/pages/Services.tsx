@@ -227,6 +227,13 @@ const Services = () => {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <FaqSection
+        title="Frequently Asked Questions"
+        subtitle="Quick answers to common questions about manpower supply, TDS and GST compliance."
+        items={serviceFaqs}
+      />
+
       {/* Call to Action */}
       <section className="py-16 bg-shivraj-700 text-white">
         <div className="container mx-auto px-4 text-center">
