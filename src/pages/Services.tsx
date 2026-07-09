@@ -42,6 +42,47 @@ const rateCard = [
   { service: "Loading / Unloading", unit8: "Per Tonne", rate8: "₹200", unit12: "—", rate12: "—" },
 ];
 
+const serviceFaqs: FaqItem[] = [
+  {
+    question: "What is manpower supply services?",
+    answer:
+      "Manpower supply services provide businesses with skilled, semi-skilled and unskilled workers on a temporary, contract or project basis. Shivraj Enterprise handles recruitment, onboarding, payroll, statutory compliance (PF, ESIC, wages) and replacements, so you can scale your workforce without the overhead of direct employment.",
+  },
+  {
+    question: "What is TDS applicable for service contract for manpower supply?",
+    answer:
+      "For manpower supply or labour work contracts, TDS under Section 194C applies at 1% when paying an individual or HUF, and 2% for companies, firms or other entities. TDS is deducted when a single payment exceeds ₹30,000 or aggregate payments exceed ₹1,00,000 in a financial year. GST is excluded from TDS if it is shown separately on the invoice.",
+  },
+  {
+    question: "What is the GST rate on manpower supply services?",
+    answer:
+      "Manpower supply services generally attract 18% GST. It is usually charged under forward charge, meaning the manpower supplier issues a tax invoice and the client can claim input tax credit. Reverse Charge Mechanism (RCM) applies only in specific notified cases, which our team can clarify during billing setup.",
+  },
+  {
+    question: "Do you provide housekeeping, loading and inspection staff too?",
+    answer:
+      "Yes. Along with industrial manpower, we supply housekeeping staff, loading and unloading labour, material handlers and quality/packaging inspectors for factories, warehouses and commercial sites across Vapi GIDC and surrounding areas.",
+  },
+  {
+    question: "How quickly can workers be deployed?",
+    answer:
+      "We can usually mobilize screened workers within 24–48 hours for standard roles, depending on the skill category, headcount and site readiness. Supervisors and specialized roles may require a little more lead time.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: serviceFaqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
 const Services = () => {
   const { items: dbRateCard, loading: rateCardLoading } = useRateCard();
   const displayedRateCard = dbRateCard.length > 0
