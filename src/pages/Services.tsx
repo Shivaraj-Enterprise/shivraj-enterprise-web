@@ -14,15 +14,33 @@ import type { FaqItem } from "@/components/FaqSection";
 const coreServices = [
   {
     icon: Users,
-    title: "Manpower Outsourcing",
-    desc: "Flexible access to skilled, semi-skilled and unskilled labour while reducing the burden of recruitment and management.",
-    bullets: ["Cost-effective recruitment & training", "Scalable workforce to match demand", "Strict vetting for productivity & reliability"],
+    title: "Manpower Outsourcing Services",
+    desc: "End-to-end manpower outsourcing services covering recruitment, payroll, statutory compliance (PF, ESIC, wages) and day-to-day supervision — so you get a fully managed workforce without the HR overhead.",
+    bullets: [
+      "Skilled, semi-skilled and unskilled workers deployed on contract",
+      "Fully managed payroll, PF, ESIC and statutory compliance",
+      "Scalable headcount with rapid replacements and backups",
+    ],
+  },
+  {
+    icon: Users,
+    title: "Manpower Supply Services",
+    desc: "Reliable manpower supply services for factories, warehouses and commercial sites across Vapi GIDC — supervisors, operators, fitters, helpers and housekeeping staff supplied on 8-hour or 12-hour shifts.",
+    bullets: [
+      "Screened operators, fitters, helpers and supervisors",
+      "Flexible 8-hour and 12-hour shift deployment",
+      "GST-compliant invoicing with transparent rate card",
+    ],
   },
   {
     icon: Sparkles,
-    title: "Housekeeping Solutions",
-    desc: "Clean, safe and welcoming environments for industrial, commercial and event settings.",
-    bullets: ["Industrial housekeeping with safety compliance", "Commercial cleaning that boosts productivity", "Pre & post event cleaning services"],
+    title: "Industrial Housekeeping Solutions",
+    desc: "Clean, safe and welcoming environments for industrial, commercial and event settings — with trained staff and safety compliance.",
+    bullets: [
+      "Industrial housekeeping with safety compliance",
+      "Commercial cleaning that boosts productivity",
+      "Pre & post event cleaning services",
+    ],
   },
 ];
 
