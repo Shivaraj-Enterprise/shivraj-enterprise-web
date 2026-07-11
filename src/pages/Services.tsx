@@ -159,13 +159,13 @@ const Services = () => {
       <section className="section bg-white">
         <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold text-shivraj-800 mb-4">Core Services</h2>
+            <h2 className="text-3xl font-bold text-shivraj-800 mb-4">Manpower Outsourcing & Manpower Supply Services</h2>
             <p className="text-lg text-gray-600">
-              Tailored to meet the diverse needs of clients across Engineering, Pharmaceuticals, Chemicals and Packaging.
+              Tailored manpower outsourcing and manpower supply services for Engineering, Pharmaceuticals, Chemicals, Packaging and Logistics companies across Vapi GIDC.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {coreServices.map(({ icon: Icon, title, desc, bullets }) => (
               <div key={title} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="bg-shivraj-50 p-6">
