@@ -14,15 +14,33 @@ import type { FaqItem } from "@/components/FaqSection";
 const coreServices = [
   {
     icon: Users,
-    title: "Manpower Outsourcing",
-    desc: "Flexible access to skilled, semi-skilled and unskilled labour while reducing the burden of recruitment and management.",
-    bullets: ["Cost-effective recruitment & training", "Scalable workforce to match demand", "Strict vetting for productivity & reliability"],
+    title: "Manpower Outsourcing Services",
+    desc: "End-to-end manpower outsourcing services covering recruitment, payroll, statutory compliance (PF, ESIC, wages) and day-to-day supervision — so you get a fully managed workforce without the HR overhead.",
+    bullets: [
+      "Skilled, semi-skilled and unskilled workers deployed on contract",
+      "Fully managed payroll, PF, ESIC and statutory compliance",
+      "Scalable headcount with rapid replacements and backups",
+    ],
+  },
+  {
+    icon: Users,
+    title: "Manpower Supply Services",
+    desc: "Reliable manpower supply services for factories, warehouses and commercial sites across Vapi GIDC — supervisors, operators, fitters, helpers and housekeeping staff supplied on 8-hour or 12-hour shifts.",
+    bullets: [
+      "Screened operators, fitters, helpers and supervisors",
+      "Flexible 8-hour and 12-hour shift deployment",
+      "GST-compliant invoicing with transparent rate card",
+    ],
   },
   {
     icon: Sparkles,
-    title: "Housekeeping Solutions",
-    desc: "Clean, safe and welcoming environments for industrial, commercial and event settings.",
-    bullets: ["Industrial housekeeping with safety compliance", "Commercial cleaning that boosts productivity", "Pre & post event cleaning services"],
+    title: "Industrial Housekeeping Solutions",
+    desc: "Clean, safe and welcoming environments for industrial, commercial and event settings — with trained staff and safety compliance.",
+    bullets: [
+      "Industrial housekeeping with safety compliance",
+      "Commercial cleaning that boosts productivity",
+      "Pre & post event cleaning services",
+    ],
   },
 ];
 
@@ -106,11 +124,11 @@ const Services = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Services & Rate Card – Shivraj Enterprise Manpower Supply</title>
-        <meta name="description" content="Manpower outsourcing, housekeeping, loading & unloading and quality inspection services with transparent rate card. Serving Vapi GIDC industries." />
+        <title>Manpower Outsourcing & Manpower Supply Services – Shivraj Enterprise</title>
+        <meta name="description" content="Manpower outsourcing services and manpower supply services in Vapi GIDC – skilled, semi-skilled and unskilled labour with full PF, ESIC & GST compliance. Transparent rate card." />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/services" />
-        <meta property="og:title" content="Services & Rate Card – Shivraj Enterprise" />
-        <meta property="og:description" content="Manpower, housekeeping and auxiliary services with transparent rates." />
+        <meta property="og:title" content="Manpower Outsourcing & Supply Services – Shivraj Enterprise" />
+        <meta property="og:description" content="Manpower outsourcing and manpower supply services with transparent rates and full statutory compliance." />
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/services" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
@@ -123,9 +141,9 @@ const Services = () => {
               <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
             </div>
           </div>
-          <BlurText as="h1" text="Manpower & Housekeeping Services in Vapi GIDC" className="text-4xl md:text-5xl font-bold mb-4" />
+          <BlurText as="h1" text="Manpower Outsourcing & Manpower Supply Services in Vapi GIDC" className="text-4xl md:text-5xl font-bold mb-4" />
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
-            Comprehensive manpower, housekeeping and auxiliary solutions for businesses across Vapi GIDC Phases 1–4, Chala, Balitha, Salvav, Chharwada and surrounding villages.
+            Shivraj Enterprise provides end-to-end manpower outsourcing services and manpower supply services for factories, warehouses and commercial sites across Vapi GIDC Phases 1–4, Chala, Balitha, Salvav, Chharwada and surrounding villages.
           </p>
           <div className="mt-6">
             <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50">
@@ -141,13 +159,13 @@ const Services = () => {
       <section className="section bg-white">
         <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold text-shivraj-800 mb-4">Core Services</h2>
+            <h2 className="text-3xl font-bold text-shivraj-800 mb-4">Manpower Outsourcing & Manpower Supply Services</h2>
             <p className="text-lg text-gray-600">
-              Tailored to meet the diverse needs of clients across Engineering, Pharmaceuticals, Chemicals and Packaging.
+              Tailored manpower outsourcing and manpower supply services for Engineering, Pharmaceuticals, Chemicals, Packaging and Logistics companies across Vapi GIDC.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {coreServices.map(({ icon: Icon, title, desc, bullets }) => (
               <div key={title} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="bg-shivraj-50 p-6">
