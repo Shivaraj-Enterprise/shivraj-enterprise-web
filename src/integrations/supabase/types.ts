@@ -149,6 +149,63 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          company_name: string | null
+          contact_person: string | null
+          conversation: Json | null
+          created_at: string
+          duration: string | null
+          email: string | null
+          id: string
+          industry: string | null
+          location: string | null
+          mobile: string | null
+          notes: string | null
+          shift_details: string | null
+          source: string | null
+          start_date: string | null
+          worker_type: string | null
+          workers_required: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          contact_person?: string | null
+          conversation?: Json | null
+          created_at?: string
+          duration?: string | null
+          email?: string | null
+          id?: string
+          industry?: string | null
+          location?: string | null
+          mobile?: string | null
+          notes?: string | null
+          shift_details?: string | null
+          source?: string | null
+          start_date?: string | null
+          worker_type?: string | null
+          workers_required?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          contact_person?: string | null
+          conversation?: Json | null
+          created_at?: string
+          duration?: string | null
+          email?: string | null
+          id?: string
+          industry?: string | null
+          location?: string | null
+          mobile?: string | null
+          notes?: string | null
+          shift_details?: string | null
+          source?: string | null
+          start_date?: string | null
+          worker_type?: string | null
+          workers_required?: string | null
+        }
+        Relationships: []
+      }
       pre_approved_admins: {
         Row: {
           created_at: string

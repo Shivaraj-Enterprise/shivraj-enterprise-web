@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { defineTool } from "@lovable.dev/mcp-js";
 
+declare const process: { env: Record<string, string | undefined> };
+
 export default defineTool({
   name: "get_rate_card",
   title: "Get manpower rate card",
