@@ -124,11 +124,11 @@ const Services = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Services & Rate Card – Shivraj Enterprise Manpower Supply</title>
-        <meta name="description" content="Manpower outsourcing, housekeeping, loading & unloading and quality inspection services with transparent rate card. Serving Vapi GIDC industries." />
+        <title>Manpower Outsourcing & Manpower Supply Services – Shivraj Enterprise</title>
+        <meta name="description" content="Manpower outsourcing services and manpower supply services in Vapi GIDC – skilled, semi-skilled and unskilled labour with full PF, ESIC & GST compliance. Transparent rate card." />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/services" />
-        <meta property="og:title" content="Services & Rate Card – Shivraj Enterprise" />
-        <meta property="og:description" content="Manpower, housekeeping and auxiliary services with transparent rates." />
+        <meta property="og:title" content="Manpower Outsourcing & Supply Services – Shivraj Enterprise" />
+        <meta property="og:description" content="Manpower outsourcing and manpower supply services with transparent rates and full statutory compliance." />
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/services" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
@@ -141,9 +141,9 @@ const Services = () => {
               <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
             </div>
           </div>
-          <BlurText as="h1" text="Manpower & Housekeeping Services in Vapi GIDC" className="text-4xl md:text-5xl font-bold mb-4" />
+          <BlurText as="h1" text="Manpower Outsourcing & Manpower Supply Services in Vapi GIDC" className="text-4xl md:text-5xl font-bold mb-4" />
           <p className="text-lg text-shivraj-100 max-w-3xl mx-auto">
-            Comprehensive manpower, housekeeping and auxiliary solutions for businesses across Vapi GIDC Phases 1–4, Chala, Balitha, Salvav, Chharwada and surrounding villages.
+            Shivraj Enterprise provides end-to-end manpower outsourcing services and manpower supply services for factories, warehouses and commercial sites across Vapi GIDC Phases 1–4, Chala, Balitha, Salvav, Chharwada and surrounding villages.
           </p>
           <div className="mt-6">
             <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50">
