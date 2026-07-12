@@ -35,6 +35,7 @@ const SalesChatWidget = () => {
   });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [handoff, setHandoff] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -64,7 +65,9 @@ const SalesChatWidget = () => {
         body: { messages: nextMsgs.map((m) => ({ role: m.role, content: m.content })) },
       });
       if (error) throw error;
-      const reply = (data as { reply?: string })?.reply ?? "Sorry, something went wrong. Please call +91 99984 98311.";
+      const payload = data as { reply?: string; handoff?: boolean };
+      const reply = payload?.reply ?? "Sorry, something went wrong. Please call +91 99984 98311.";
+      if (payload?.handoff) setHandoff(true);
       setMessages([...nextMsgs, { role: "assistant", content: reply }]);
     } catch (e) {
       console.error(e);
@@ -84,8 +87,15 @@ const SalesChatWidget = () => {
 
   const reset = () => {
     setMessages([WELCOME]);
+    setHandoff(false);
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
   };
+
+  const requestHumanNow = () => {
+    setHandoff(true);
+    send("I'd like to speak with a human sales representative now.");
+  };
+
 
   return (
     <>
