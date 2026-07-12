@@ -277,17 +277,24 @@ Deno.serve(async (req) => {
         if (name === "save_lead") {
           result = await saveLeadAndNotify(args, messages);
         } else if (name === "request_human_handoff") {
-          handoff = true;
-          result = await saveLeadAndNotify(
-            {
-              contact_person: args.contact_person,
-              mobile: args.mobile,
-              email: args.email,
-              company_name: args.company_name,
-              notes: args.question,
-            },
-            messages,
-            { handoff: true, handoffReason: args.reason },
+          if (!args.contact_person || !args.mobile || !args.email) {
+            result = {
+              ok: false,
+              error: "missing_contact_details",
+              message: "Cannot hand off yet. You must first ask the visitor for their full name, mobile number (with country code) AND email address — all three are required. Ask for whichever field is missing, one at a time, then confirm all three before calling this tool again.",
+            };
+          } else {
+            handoff = true;
+            result = await saveLeadAndNotify(
+              {
+                contact_person: args.contact_person,
+                mobile: args.mobile,
+                email: args.email,
+                company_name: args.company_name,
+                notes: args.question,
+              },
+              messages,
+              { handoff: true, handoffReason: args.reason },
           );
         } else {
           result = { ok: false, error: "unknown tool" };
