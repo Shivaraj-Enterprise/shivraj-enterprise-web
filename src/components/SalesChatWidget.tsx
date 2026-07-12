@@ -73,8 +73,16 @@ const SalesChatWidget = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [handoff, setHandoff] = useState(false);
+  const [msgIdx, setMsgIdx] = useState(0);
+  const [notif, setNotif] = useState<string | null>(null);
+  const [typingPreview, setTypingPreview] = useState<string | null>(null);
+  const [thinking, setThinking] = useState(false);
+  const [pulseTick, setPulseTick] = useState(0);
+  const [closing, setClosing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const reducedMotion = useReducedMotion();
+  const hasInteracted = messages.length > 1;
 
   useEffect(() => {
     try {
