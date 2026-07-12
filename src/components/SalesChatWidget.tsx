@@ -272,7 +272,8 @@ const SalesChatWidget = () => {
           className={cn(
             "fixed z-[99] bg-white shadow-2xl border border-gray-200 rounded-2xl flex flex-col overflow-hidden",
             "bottom-20 right-4 left-4 sm:left-auto sm:right-5 sm:bottom-24",
-            "sm:w-[400px] h-[70vh] sm:h-[600px] max-h-[700px]"
+            "sm:w-[400px] h-[70vh] sm:h-[600px] max-h-[700px]",
+            closing ? "animate-[chatWindowOut_.2s_ease-in_forwards]" : "animate-[chatWindowIn_.3s_cubic-bezier(.22,1,.36,1)]"
           )}
         >
           {/* Header */}
