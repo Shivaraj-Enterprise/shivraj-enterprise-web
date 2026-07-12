@@ -97,6 +97,50 @@ const SalesChatWidget = () => {
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
+  // Rotate button label
+  useEffect(() => {
+    if (open || reducedMotion) return;
+    const id = setInterval(() => setMsgIdx((i) => (i + 1) % ROTATING_MESSAGES.length), 7000);
+    return () => clearInterval(id);
+  }, [open, reducedMotion]);
+
+  // Periodic pulse
+  useEffect(() => {
+    if (open || reducedMotion) return;
+    const id = setInterval(() => setPulseTick((t) => t + 1), 10000);
+    return () => clearInterval(id);
+  }, [open, reducedMotion]);
+
+  // Notification bubble (random 25–40s)
+  useEffect(() => {
+    if (open || hasInteracted || reducedMotion) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const schedule = () => {
+      const delay = (25 + Math.random() * 15) * 1000;
+      timer = setTimeout(() => {
+        const msg = NOTIFICATION_MESSAGES[Math.floor(Math.random() * NOTIFICATION_MESSAGES.length)];
+        setNotif(msg);
+        setTimeout(() => setNotif(null), 5000);
+        schedule();
+      }, delay);
+    };
+    schedule();
+    return () => clearTimeout(timer);
+  }, [open, hasInteracted, reducedMotion]);
+
+  // Typing preview after 8s idle, repeat every 25s
+  useEffect(() => {
+    if (open || reducedMotion) return;
+    let idx = 0;
+    const first = setTimeout(function show() {
+      setTypingPreview(TYPING_PREVIEWS[idx % TYPING_PREVIEWS.length]);
+      idx++;
+      setTimeout(() => setTypingPreview(null), 4000);
+      setTimeout(show, 25000);
+    }, 8000);
+    return () => clearTimeout(first);
+  }, [open, reducedMotion]);
+
 
   const send = async (text: string) => {
     const trimmed = text.trim();
