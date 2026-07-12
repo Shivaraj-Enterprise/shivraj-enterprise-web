@@ -149,6 +149,48 @@ export type Database = {
         }
         Relationships: []
       }
+      knowledge_chunks: {
+        Row: {
+          chunk_index: number
+          content: string
+          content_hash: string
+          created_at: string
+          id: string
+          last_ingested_at: string
+          source_type: string
+          title: string | null
+          tokens: number | null
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          chunk_index?: number
+          content: string
+          content_hash: string
+          created_at?: string
+          id?: string
+          last_ingested_at?: string
+          source_type?: string
+          title?: string | null
+          tokens?: number | null
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          chunk_index?: number
+          content?: string
+          content_hash?: string
+          created_at?: string
+          id?: string
+          last_ingested_at?: string
+          source_type?: string
+          title?: string | null
+          tokens?: number | null
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           company_name: string | null
@@ -157,6 +199,8 @@ export type Database = {
           created_at: string
           duration: string | null
           email: string | null
+          handoff: boolean
+          handoff_reason: string | null
           id: string
           industry: string | null
           location: string | null
@@ -175,6 +219,8 @@ export type Database = {
           created_at?: string
           duration?: string | null
           email?: string | null
+          handoff?: boolean
+          handoff_reason?: string | null
           id?: string
           industry?: string | null
           location?: string | null
@@ -193,6 +239,8 @@ export type Database = {
           created_at?: string
           duration?: string | null
           email?: string | null
+          handoff?: boolean
+          handoff_reason?: string | null
           id?: string
           industry?: string | null
           location?: string | null
