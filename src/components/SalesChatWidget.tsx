@@ -184,28 +184,87 @@ const SalesChatWidget = () => {
     send("I'd like to speak with a human sales representative. Please collect my name, mobile number and email so your team can contact me.");
   };
 
+  const handleToggle = () => {
+    if (open) {
+      setClosing(true);
+      setTimeout(() => { setOpen(false); setClosing(false); }, 200);
+      return;
+    }
+    setNotif(null);
+    setTypingPreview(null);
+    if (reducedMotion) { setOpen(true); return; }
+    setThinking(true);
+    setTimeout(() => { setThinking(false); setOpen(true); }, 500);
+  };
+
+  const rotatingLabel = ROTATING_MESSAGES[msgIdx];
 
   return (
     <>
+      {/* Notification bubble */}
+      {!open && notif && (
+        <div
+          className="fixed bottom-24 right-5 z-[99] max-w-[240px] bg-white border border-gray-200 shadow-xl rounded-2xl rounded-br-sm px-3.5 py-2.5 text-sm text-gray-800 animate-[chatFadeIn_.35s_ease-out] pointer-events-none"
+        >
+          <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-r border-b border-gray-200 rotate-45" />
+          {notif}
+        </div>
+      )}
+
+      {/* Typing preview */}
+      {!open && !notif && typingPreview && (
+        <div className="fixed bottom-24 right-5 z-[99] max-w-[240px] bg-white border border-gray-200 shadow-xl rounded-2xl rounded-br-sm px-3.5 py-2.5 text-sm text-gray-700 animate-[chatFadeIn_.35s_ease-out] pointer-events-none flex items-center gap-2">
+          <span className="flex gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-shivraj-500 animate-[chatDot_1.2s_infinite]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-shivraj-500 animate-[chatDot_1.2s_infinite] [animation-delay:.15s]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-shivraj-500 animate-[chatDot_1.2s_infinite] [animation-delay:.3s]" />
+          </span>
+          <span className="italic text-gray-600">{typingPreview}</span>
+        </div>
+      )}
+
       {/* Floating button */}
       <button
-        aria-label={open ? "Close chat" : "Open sales chat"}
-        onClick={() => setOpen((o) => !o)}
+        aria-label={open ? "Close chat" : "Open AI assistant"}
+        onClick={handleToggle}
+        key={pulseTick}
+        style={{ boxShadow: "0 15px 40px rgba(0,0,0,0.18)" }}
         className={cn(
-          "fixed bottom-5 right-5 z-[100] flex items-center gap-2 rounded-full shadow-xl transition-all",
-          "bg-shivraj-600 hover:bg-shivraj-700 text-white",
-          open ? "h-12 w-12 justify-center" : "px-5 py-3.5"
+          "group fixed bottom-5 right-5 z-[100] flex items-center gap-2.5 rounded-full font-semibold text-white",
+          "bg-gradient-to-br from-shivraj-600 to-shivraj-700 hover:from-shivraj-700 hover:to-shivraj-800",
+          "transition-all duration-250 active:scale-95 hover:scale-[1.06]",
+          "focus:outline-none focus:ring-4 focus:ring-shivraj-500/30",
+          !open && !reducedMotion && "animate-[chatFloat_3s_ease-in-out_infinite] motion-safe:before:content-[''] motion-safe:before:absolute motion-safe:before:inset-0 motion-safe:before:rounded-full motion-safe:before:animate-[chatGlow_4s_ease-in-out_infinite] motion-safe:before:-z-10",
+          !open && !reducedMotion && "motion-safe:animate-[chatPulse_.6s_ease-out]",
+          open ? "h-12 w-12 justify-center p-0" : "px-[22px] py-[14px] text-[15px]"
         )}
       >
         {open ? (
           <X size={22} />
+        ) : thinking ? (
+          <span className="flex items-center gap-2 px-1">
+            <span className="flex gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-[chatDot_1s_infinite]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-[chatDot_1s_infinite] [animation-delay:.15s]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-[chatDot_1s_infinite] [animation-delay:.3s]" />
+            </span>
+          </span>
         ) : (
           <>
-            <MessageCircle size={22} />
-            <span className="font-semibold hidden sm:inline">Chat with Sales</span>
+            <span className="relative flex items-center justify-center w-7 h-7 rounded-full bg-white/15 backdrop-blur-sm group-hover:animate-[chatIconBounce_.6s_ease-out]">
+              <Sparkles size={16} className="drop-shadow" />
+            </span>
+            <span
+              key={msgIdx}
+              className="hidden sm:inline-block whitespace-nowrap animate-[chatLabelIn_.5s_ease-out]"
+            >
+              {rotatingLabel}
+            </span>
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-white" />
           </>
         )}
       </button>
+
 
       {/* Chat window */}
       {open && (
