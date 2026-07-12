@@ -2,6 +2,43 @@ import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Loader2, Sparkles, Phone, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+
+const ROTATING_MESSAGES = [
+  "✨ Ask AI",
+  "💬 Ask Anything",
+  "🤖 AI Assistant",
+  "⚡ Get Instant Help",
+  "👋 Need Help?",
+  "🚀 Let's Talk",
+  "💡 Ask About Our Services",
+  "📋 Find the Right Service",
+  "🧠 AI Workforce Expert",
+  "📞 Talk to Our AI",
+  "👷 Find Skilled Labour",
+  "🎯 Get a Quick Quote",
+  "⚙️ Workforce Assistant",
+  "🏭 Industrial Support AI",
+  "💬 Ask Shivraj AI",
+];
+
+const NOTIFICATION_MESSAGES = [
+  "👋 Need manpower?",
+  "⚡ Instant quotation available",
+  "💬 Ask me anything",
+  "🏭 Looking for skilled labour?",
+  "📋 Get pricing in seconds",
+  "🚀 Response within seconds",
+  "👷 Find the right workforce",
+];
+
+const TYPING_PREVIEWS = [
+  "AI Assistant is typing…",
+  "How can I help today?",
+  "Looking for manpower?",
+  "Need an instant quotation?",
+  "Ask me anything.",
+];
 
 type Msg = { role: "user" | "assistant"; content: string };
 
