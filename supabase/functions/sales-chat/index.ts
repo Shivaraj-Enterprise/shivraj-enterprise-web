@@ -295,7 +295,8 @@ Deno.serve(async (req) => {
               },
               messages,
               { handoff: true, handoffReason: args.reason },
-          );
+            );
+          }
         } else {
           result = { ok: false, error: "unknown tool" };
         }
