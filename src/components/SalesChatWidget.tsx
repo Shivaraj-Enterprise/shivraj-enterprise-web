@@ -92,8 +92,7 @@ const SalesChatWidget = () => {
   };
 
   const requestHumanNow = () => {
-    setHandoff(true);
-    send("I'd like to speak with a human sales representative now.");
+    send("I'd like to speak with a human sales representative. Please collect my name, mobile number and email so your team can contact me.");
   };
 
 
