@@ -192,18 +192,18 @@ const HANDOFF_TOOL = {
   type: "function",
   function: {
     name: "request_human_handoff",
-    description: "Escalate this conversation to a human sales rep. Call ONLY after collecting the visitor's name and at least one contact channel (mobile or email). Trigger when: visitor asks for a human/sales agent, you cannot confidently answer from the knowledge base, the question involves custom pricing/large project/legal/contract negotiation, or the visitor seems frustrated.",
+    description: "Escalate this conversation to a human sales rep. Call ONLY after collecting AND confirming the visitor's full name, mobile number (with country code) AND email address — all three are mandatory. Trigger when: visitor asks for a human/sales agent, you cannot confidently answer from the knowledge base, the question involves custom pricing/large project/legal/contract negotiation, or the visitor seems frustrated.",
     parameters: {
       type: "object",
       properties: {
         reason: { type: "string", description: "Why a human is needed (one short sentence)." },
         contact_person: { type: "string", description: "Visitor's full name (required)." },
-        mobile: { type: "string", description: "Visitor's mobile number with country code." },
-        email: { type: "string", description: "Visitor's email address." },
+        mobile: { type: "string", description: "Visitor's mobile number with country code (required)." },
+        email: { type: "string", description: "Visitor's email address (required)." },
         company_name: { type: "string" },
         question: { type: "string", description: "The visitor's current question or need." },
       },
-      required: ["reason", "contact_person"],
+      required: ["reason", "contact_person", "mobile", "email"],
       additionalProperties: false,
     },
   },
