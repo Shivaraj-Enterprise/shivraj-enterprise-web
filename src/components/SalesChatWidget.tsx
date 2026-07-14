@@ -421,7 +421,46 @@ const SalesChatWidget = () => {
                 ))}
               </div>
             )}
+
+            {/* Service & FAQ chips — always available */}
+            {!loading && (
+              <div className="pt-3 space-y-2.5">
+                <div>
+                  <div className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-1.5 px-0.5">
+                    Explore Services
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {SERVICE_CHIPS.map((c) => (
+                      <button
+                        key={c.label}
+                        onClick={() => send(c.q)}
+                        className="text-xs bg-white border border-shivraj-200 text-shivraj-700 hover:bg-shivraj-50 hover:border-shivraj-300 rounded-full px-3 py-1.5 transition"
+                      >
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-1.5 px-0.5">
+                    Common Questions
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {FAQ_CHIPS.map((c) => (
+                      <button
+                        key={c.label}
+                        onClick={() => send(c.q)}
+                        className="text-xs bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200 rounded-full px-3 py-1.5 transition"
+                      >
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+
 
           {/* Composer */}
           <form
