@@ -266,9 +266,8 @@ const GstTdsGuide = () => {
               rates, RCM notifications and TDS thresholds can change; please consult your tax advisor for
               transaction-specific positions.
             </p>
-          </div>
-        </div>
-      </article>
+        </>
+      </StaticArticleShell>
       <RelatedPosts
         currentSlug="gst-tds-manpower-supply-guide"
         currentTagSlugs={["compliance", "gst", "tds"]}
