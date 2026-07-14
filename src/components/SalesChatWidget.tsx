@@ -58,6 +58,42 @@ const QUICK_ACTIONS = [
   "Talk to Sales",
 ];
 
+const SERVICE_CHIPS = [
+  { label: "👷 Manpower Supply", q: "Tell me about your manpower supply services." },
+  { label: "🧹 Industrial Housekeeping", q: "What industrial housekeeping services do you offer?" },
+  { label: "🏭 Facility Management", q: "Do you provide facility management services?" },
+  { label: "📦 Loading & Unloading", q: "Do you provide loading and unloading manpower?" },
+  { label: "🛡️ Security Services", q: "Do you offer security services?" },
+  { label: "💰 Rate Card", q: "Can you share your rate card and pricing?" },
+];
+
+const FAQ_CHIPS = [
+  { label: "❓ How does billing work?", q: "How does your billing and invoicing work?" },
+  { label: "📄 GST / TDS compliance", q: "How do you handle GST and TDS compliance?" },
+  { label: "🧾 ESI & EPF coverage", q: "Do your workers have ESI and EPF coverage?" },
+  { label: "⏱️ How fast can you deploy?", q: "How quickly can you deploy manpower on site?" },
+  { label: "📍 Which locations do you serve?", q: "Which locations and industries do you serve?" },
+  { label: "📝 How to raise a request?", q: "How do I raise a manpower request?" },
+];
+
+const WHATSAPP_NUMBER = "919998498311";
+
+// Extract contact details captured by the assistant during handoff
+const extractContact = (messages: Msg[]) => {
+  const text = messages.map((m) => m.content).join("\n");
+  const nameMatch = text.match(/(?:my name is|i am|i'm|name[:\-\s]+)\s*([A-Z][a-zA-Z .]{1,40})/i);
+  const emailMatch = text.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
+  const phoneMatch = text.match(/(?:\+?\d[\d\s\-]{8,}\d)/);
+  const lastUser = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
+  return {
+    name: nameMatch?.[1]?.trim(),
+    email: emailMatch?.[0],
+    mobile: phoneMatch?.[0]?.trim(),
+    request: lastUser,
+  };
+};
+
+
 const SalesChatWidget = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>(() => {
