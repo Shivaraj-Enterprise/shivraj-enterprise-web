@@ -341,30 +341,43 @@ const SalesChatWidget = () => {
           </div>
 
           {/* Handoff banner */}
-          {handoff && (
-            <div className="bg-amber-50 border-b border-amber-200 px-4 py-2.5 flex items-center justify-between gap-2">
-              <div className="text-xs text-amber-900">
-                <div className="font-semibold">Connecting you to our sales team</div>
-                <div>Reach us instantly:</div>
+          {handoff && (() => {
+            const c = extractContact(messages);
+            const waLines = [
+              "Hi Shivraj Enterprise, I'd like to speak with your sales team.",
+              "",
+              c.request ? `Request: ${c.request}` : "",
+              c.name ? `Name: ${c.name}` : "",
+              c.mobile ? `Mobile: ${c.mobile}` : "",
+              c.email ? `Email: ${c.email}` : "",
+            ].filter(Boolean).join("\n");
+            const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waLines)}`;
+            return (
+              <div className="bg-amber-50 border-b border-amber-200 px-4 py-2.5 flex items-center justify-between gap-2">
+                <div className="text-xs text-amber-900">
+                  <div className="font-semibold">Connecting you to our sales team</div>
+                  <div>Reach us instantly:</div>
+                </div>
+                <div className="flex gap-1.5 shrink-0">
+                  <a
+                    href="tel:+919998498311"
+                    className="flex items-center gap-1 text-xs bg-shivraj-600 hover:bg-shivraj-700 text-white rounded-full px-2.5 py-1.5"
+                  >
+                    <Phone size={12} /> Call
+                  </a>
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-xs bg-green-600 hover:bg-green-700 text-white rounded-full px-2.5 py-1.5"
+                  >
+                    <MessageSquare size={12} /> WhatsApp
+                  </a>
+                </div>
               </div>
-              <div className="flex gap-1.5 shrink-0">
-                <a
-                  href="tel:+919998498311"
-                  className="flex items-center gap-1 text-xs bg-shivraj-600 hover:bg-shivraj-700 text-white rounded-full px-2.5 py-1.5"
-                >
-                  <Phone size={12} /> Call
-                </a>
-                <a
-                  href="https://wa.me/919998498311"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-xs bg-green-600 hover:bg-green-700 text-white rounded-full px-2.5 py-1.5"
-                >
-                  <MessageSquare size={12} /> WhatsApp
-                </a>
-              </div>
-            </div>
-          )}
+            );
+          })()}
+
 
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
