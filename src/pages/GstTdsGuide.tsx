@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, Calendar, ArrowRight, Phone, MessageSquare, CheckCircle } from "lucide-react";
+import { ArrowRight, Phone, MessageSquare, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
-import Breadcrumbs from "@/components/blog/Breadcrumbs";
 import RelatedPosts from "@/components/blog/RelatedPosts";
+import StaticArticleShell from "@/components/blog/StaticArticleShell";
 
 const url = "https://shivraj-enterprise.lovable.app/#/blog/gst-tds-manpower-supply-guide";
 const title = "GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide";
