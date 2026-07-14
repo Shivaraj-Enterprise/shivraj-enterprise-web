@@ -269,9 +269,8 @@ const OutsourcingVsInHouse = () => {
               and statutory notifications. This article is a general guide, not tax or legal advice — consult your
               advisor for contract-specific positions.
             </p>
-          </div>
-        </div>
-      </article>
+        </>
+      </StaticArticleShell>
       <RelatedPosts
         currentSlug="manpower-outsourcing-vs-in-house-hiring"
         currentTagSlugs={["outsourcing", "vapi-gidc", "compliance"]}
