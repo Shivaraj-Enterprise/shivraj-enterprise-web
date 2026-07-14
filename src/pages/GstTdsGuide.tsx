@@ -87,31 +87,18 @@ const GstTdsGuide = () => {
         </script>
       </Helmet>
 
-      <article className="bg-white">
-        <div className="container mx-auto px-4 py-10 max-w-3xl">
-          <Breadcrumbs items={[{ label: "Blog", to: "/blog" }, { label: "GST & TDS on Manpower Supply" }]} />
-          <Link to="/blog" className="inline-flex items-center text-sm text-shivraj-700 hover:underline mb-6">
-            <ArrowLeft size={14} className="mr-1" /> Back to blog
-          </Link>
+      <StaticArticleShell
+        title="GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide"
+        excerpt="Procurement and HR managers in Vapi GIDC's engineering, pharma, chemical and packaging plants routinely outsource shop-floor and housekeeping headcount. This guide explains how GST and TDS work on those manpower supply contracts so your compliance stays clean."
+        category="Compliance"
+        tags={["Compliance", "GST", "TDS"]}
+        publishedLabel="July 3, 2026"
+        readMinutes={9}
+        url={url}
+        breadcrumbLabel="GST & TDS on Manpower Supply"
+      >
+        <>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-shivraj-800 mb-4">
-            GST &amp; TDS on Manpower Supply Services in India: 2026 Compliance Guide
-          </h1>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground mb-8">
-            <span className="flex items-center gap-1"><Calendar size={14} /> July 3, 2026</span>
-            <span className="px-2 py-0.5 rounded-full bg-shivraj-100 text-shivraj-700 text-xs">Compliance</span>
-            <span className="px-2 py-0.5 rounded-full bg-shivraj-100 text-shivraj-700 text-xs">GST</span>
-            <span className="px-2 py-0.5 rounded-full bg-shivraj-100 text-shivraj-700 text-xs">TDS</span>
-          </div>
-
-          <p className="text-lg text-gray-600 mb-8 italic">
-            Procurement and HR managers in Vapi GIDC's engineering, pharma, chemical and packaging plants routinely
-            outsource shop-floor and housekeeping headcount. This guide explains how GST and TDS work on those
-            manpower supply services contracts so your compliance stays clean.
-          </p>
-
-          <div className="prose prose-slate max-w-none">
-            <h2>1. What counts as "manpower supply services"?</h2>
             <p>
               Under GST, manpower supply, labour supply and staff-augmentation contracts fall under SAC
               <strong> 998519 – Other employment &amp; labour supply services n.e.c.</strong> This covers skilled,
