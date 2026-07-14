@@ -101,6 +101,7 @@ const OutsourcingVsInHouse = () => {
         breadcrumbLabel="Manpower Outsourcing vs In-House Hiring"
       >
         <>
+            <h2>1. The two models at a glance</h2>
             <p>
               <strong>In-house hiring</strong> means the worker is on your company's payroll — you are the employer
               of record for PF, ESIC, gratuity, bonus and leave. <strong>Manpower outsourcing</strong> means the
