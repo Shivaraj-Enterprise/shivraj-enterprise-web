@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Calendar } from "lucide-react";
+import { Calendar, ArrowUpRight, Clock } from "lucide-react";
+import CoverPlaceholder from "./CoverPlaceholder";
 
 export type BlogPostCard = {
   id: string;
@@ -11,40 +12,70 @@ export type BlogPostCard = {
   tags?: { slug: string; name: string }[];
 };
 
-const PostCard = ({ post }: { post: BlogPostCard }) => {
+const estimateReadTime = (text: string | null | undefined) => {
+  if (!text) return 3;
+  const words = text.trim().split(/\s+/).length;
+  return Math.max(2, Math.round(words / 40) + 2);
+};
+
+const PostCard = ({ post, featured = false }: { post: BlogPostCard; featured?: boolean }) => {
+  const primaryTag = post.tags?.[0]?.name;
+  const readTime = estimateReadTime(post.excerpt);
+
   return (
     <Link
       to={`/blog/${post.slug}`}
-      className="group block bg-white rounded-lg shadow-sm border border-shivraj-100 overflow-hidden transition hover:shadow-md"
+      className={`group relative flex flex-col bg-white rounded-2xl border border-shivraj-100 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-shivraj-200 ${
+        featured ? "md:flex-row md:col-span-2 lg:col-span-3" : ""
+      }`}
     >
-      {post.cover_image_url ? (
-        <div className="aspect-[16/9] overflow-hidden bg-shivraj-50">
+      <div className={`relative overflow-hidden bg-shivraj-50 ${featured ? "md:w-1/2 aspect-[16/10] md:aspect-auto" : "aspect-[16/10]"}`}>
+        {post.cover_image_url ? (
           <img
             src={post.cover_image_url}
             alt={post.title}
             loading="lazy"
-            className="w-full h-full object-cover transition-transform group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-        </div>
-      ) : (
-        <div className="aspect-[16/9] bg-gradient-to-br from-shivraj-100 to-shivraj-200" />
-      )}
-      <div className="p-5">
-        <div className="flex items-center text-xs text-muted-foreground gap-3 mb-2">
+        ) : (
+          <CoverPlaceholder title={post.title} category={primaryTag} className="w-full h-full" />
+        )}
+        {primaryTag && post.cover_image_url && (
+          <span className="absolute top-3 left-3 inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-white/90 backdrop-blur text-shivraj-800 shadow-sm">
+            {primaryTag}
+          </span>
+        )}
+      </div>
+
+      <div className={`flex-1 p-6 flex flex-col ${featured ? "md:p-8 md:justify-center" : ""}`}>
+        <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground mb-3">
           {post.published_at && (
-            <span className="flex items-center gap-1">
+            <span className="inline-flex items-center gap-1">
               <Calendar size={12} />
               {new Date(post.published_at).toLocaleDateString(undefined, { dateStyle: "medium" })}
             </span>
           )}
-          {post.tags?.slice(0, 2).map((t) => (
-            <span key={t.slug} className="px-2 py-0.5 rounded-full bg-shivraj-100 text-shivraj-700">{t.name}</span>
-          ))}
+          <span className="inline-flex items-center gap-1">
+            <Clock size={12} /> {readTime} min read
+          </span>
         </div>
-        <h3 className="font-semibold text-lg text-shivraj-800 group-hover:text-shivraj-600 mb-2 line-clamp-2">
+
+        <h3 className={`font-semibold text-shivraj-800 group-hover:text-shivraj-600 mb-3 leading-snug transition-colors ${
+          featured ? "text-2xl md:text-3xl" : "text-lg md:text-xl"
+        }`}>
           {post.title}
         </h3>
-        {post.excerpt && <p className="text-sm text-gray-600 line-clamp-3">{post.excerpt}</p>}
+
+        {post.excerpt && (
+          <p className={`text-gray-600 leading-relaxed ${featured ? "text-base line-clamp-4" : "text-sm line-clamp-3"}`}>
+            {post.excerpt}
+          </p>
+        )}
+
+        <div className="mt-5 flex items-center gap-2 text-sm font-medium text-shivraj-700">
+          <span className="border-b border-transparent group-hover:border-shivraj-600 transition-colors">Read article</span>
+          <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </div>
       </div>
     </Link>
   );
