@@ -98,7 +98,7 @@ const GstTdsGuide = () => {
         breadcrumbLabel="GST & TDS on Manpower Supply"
       >
         <>
-
+            <h2>1. What counts as "manpower supply services"?</h2>
             <p>
               Under GST, manpower supply, labour supply and staff-augmentation contracts fall under SAC
               <strong> 998519 – Other employment &amp; labour supply services n.e.c.</strong> This covers skilled,
