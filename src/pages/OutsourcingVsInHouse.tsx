@@ -90,32 +90,17 @@ const OutsourcingVsInHouse = () => {
         </script>
       </Helmet>
 
-      <article className="bg-white">
-        <div className="container mx-auto px-4 py-10 max-w-3xl">
-          <Breadcrumbs items={[{ label: "Blog", to: "/blog" }, { label: "Manpower Outsourcing vs In-House Hiring" }]} />
-          <Link to="/blog" className="inline-flex items-center text-sm text-shivraj-700 hover:underline mb-6">
-            <ArrowLeft size={14} className="mr-1" /> Back to blog
-          </Link>
-
-          <h1 className="text-3xl md:text-4xl font-bold text-shivraj-800 mb-4">
-            Manpower Outsourcing vs In-House Hiring in Vapi GIDC: A 2026 Cost-Benefit Guide
-          </h1>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground mb-8">
-            <span className="flex items-center gap-1"><Calendar size={14} /> July 14, 2026</span>
-            <span className="px-2 py-0.5 rounded-full bg-shivraj-100 text-shivraj-700 text-xs">Outsourcing</span>
-            <span className="px-2 py-0.5 rounded-full bg-shivraj-100 text-shivraj-700 text-xs">Vapi GIDC</span>
-            <span className="px-2 py-0.5 rounded-full bg-shivraj-100 text-shivraj-700 text-xs">Compliance</span>
-          </div>
-
-          <p className="text-lg text-gray-600 mb-8 italic">
-            Engineering, chemical, pharma and packaging plants in Vapi GIDC face the same recurring question: hire
-            shop-floor and housekeeping headcount in-house, or outsource to a manpower contractor? This guide breaks
-            down the true cost of labour supply in Vapi — statutory compliance (PF, ESIC), recruitment overhead and
-            principal-employer risk — so procurement, finance and HR can decide with numbers, not gut feel.
-          </p>
-
-          <div className="prose prose-slate max-w-none">
-            <h2>1. The two models at a glance</h2>
+      <StaticArticleShell
+        title="Manpower Outsourcing vs In-House Hiring in Vapi GIDC: A 2026 Cost-Benefit Guide"
+        excerpt="Engineering, chemical, pharma and packaging plants in Vapi GIDC face the same recurring question: hire shop-floor and housekeeping headcount in-house, or outsource to a manpower contractor? This guide breaks down the true cost of labour supply in Vapi — statutory compliance (PF, ESIC), recruitment overhead and principal-employer risk — so procurement, finance and HR can decide with numbers, not gut feel."
+        category="Outsourcing"
+        tags={["Outsourcing", "Vapi GIDC", "Compliance"]}
+        publishedLabel="July 14, 2026"
+        readMinutes={10}
+        url={url}
+        breadcrumbLabel="Manpower Outsourcing vs In-House Hiring"
+      >
+        <>
             <p>
               <strong>In-house hiring</strong> means the worker is on your company's payroll — you are the employer
               of record for PF, ESIC, gratuity, bonus and leave. <strong>Manpower outsourcing</strong> means the
