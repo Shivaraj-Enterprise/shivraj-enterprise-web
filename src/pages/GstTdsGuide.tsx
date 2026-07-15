@@ -165,6 +165,12 @@ const GstTdsGuide = () => {
               Prefer a <strong>private limited</strong> manpower contractor over a proprietorship. Forward Charge billing is cleaner, the balance sheet is stronger, and your finance team never has to figure out whether RCM applies on a given invoice.
             </Callout>
 
+            <ArticleImage
+              alt="Illustration of Forward Charge GST at 18% flowing from a manpower contractor's invoice to a Vapi manufacturing client's Input Tax Credit"
+              label="Figure 1"
+              caption="Forward Charge default — 18% GST on SAC 998519 flows straight into the client's Input Tax Credit."
+            />
+
             <SectionDivider />
 
             <h2>4. TDS under Section 194C of the Income Tax Act</h2>
@@ -228,7 +234,7 @@ const GstTdsGuide = () => {
 
             <ArticleImage
               alt="Illustration comparing GST Forward Charge invoicing and TDS deduction on a manpower supply invoice"
-              label="Figure 1"
+              label="Figure 2"
               caption="Sample invoice flow — GST at 18% under Forward Charge, TDS u/s 194C on taxable value only."
             />
 
