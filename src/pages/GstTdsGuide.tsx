@@ -226,6 +226,12 @@ const GstTdsGuide = () => {
               <li>Pay contractor within 180 days to retain ITC</li>
             </ul>
 
+            <ArticleImage
+              alt="Illustration comparing GST Forward Charge invoicing and TDS deduction on a manpower supply invoice"
+              label="Figure 1"
+              caption="Sample invoice flow — GST at 18% under Forward Charge, TDS u/s 194C on taxable value only."
+            />
+
             <h2>9. Compliance checklist for the manpower contractor</h2>
             <ul>
               <li>Register under GST, PF, ESIC, Contract Labour (R&amp;A) Act and PSARA (if security)</li>
