@@ -180,6 +180,12 @@ const OutsourcingVsInHouse = () => {
               administrative burden.
             </p>
 
+            <PullQuote cite="Procurement Head, Vapi chemical plant">
+              We used to spend 6 HR-hours per month on PF and ESIC filings for 40 helpers. Outsourcing collapsed that to a single invoice review.
+            </PullQuote>
+
+            <SectionDivider />
+
             <h2>4. Key manpower outsourcing benefits for Vapi units</h2>
             <ul>
               <li><strong>Zero recruitment lead time</strong> — contractor supplies pre-verified skilled, semi-skilled and unskilled workmen within 48–72 hours.</li>
