@@ -249,7 +249,7 @@ const OutsourcingVsInHouse = () => {
 
             <ArticleImage
               alt="Illustration of a decision framework flow chart weighing outsourced manpower against in-house hiring for a Vapi GIDC plant"
-              label="Figure 1"
+              label="Figure 2"
               caption="Decision framework — outsource variable, high-volume roles and keep core, safety-critical roles in-house."
             />
 
