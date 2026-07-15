@@ -97,8 +97,22 @@ const GstTdsGuide = () => {
         readMinutes={9}
         url={url}
         breadcrumbLabel="GST & TDS on Manpower Supply"
+        slug="gst-tds-manpower-supply-guide"
+        prev={{
+          slug: "manpower-outsourcing-vs-in-house-hiring",
+          title: "Manpower Outsourcing vs In-House Hiring in Vapi GIDC: A 2026 Cost-Benefit Guide",
+        }}
       >
         <>
+            <Callout variant="key" title="Key Takeaways">
+              <ul className="list-disc pl-5 space-y-1.5 marker:text-white/60">
+                <li>Manpower supply is billed at <strong>18% GST under Forward Charge</strong> (SAC 998519) — full ITC available.</li>
+                <li><strong>RCM does NOT apply</strong> to regular manpower supply from a private limited contractor; it applies only to security services from non-body-corporates.</li>
+                <li><strong>TDS under Section 194C</strong>: 1% (individual/HUF) or 2% (companies), on the taxable value only — never on the GST amount.</li>
+                <li>Pay within <strong>180 days</strong> to retain Input Tax Credit under Section 16.</li>
+              </ul>
+            </Callout>
+
             <h2>1. What counts as "manpower supply services"?</h2>
             <p>
               Under GST, manpower supply, labour supply and staff-augmentation contracts fall under SAC
