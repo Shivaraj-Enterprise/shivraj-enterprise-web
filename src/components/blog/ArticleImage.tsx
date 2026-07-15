@@ -1,9 +1,17 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 /**
  * Auto-generated in-article illustration.
- * Renders an accessible SVG placeholder with a fixed aspect ratio so
- * lazy loading never causes layout shift. Uses brand tokens only.
+ *
+ * Behaviour:
+ * 1. Renders an accessible SVG placeholder immediately (zero CLS thanks to the
+ *    fixed aspect ratio wrapper).
+ * 2. On mount, asks the `generate-article-image` edge function for a real
+ *    Cloudflare-generated illustration. The function caches results per
+ *    (slug, section_key), so this happens exactly once per article section
+ *    across all visitors.
+ * 3. When the real image URL arrives, it lazy-fades over the placeholder.
  */
 
 const palettes = [
@@ -20,6 +28,17 @@ const hash = (s: string) => {
   return h;
 };
 
+const shapes = ["circles", "grid", "waves", "bars"] as const;
+
+type Aspect = "16/9" | "4/3" | "21/9" | "1/1";
+
+const aspectToCf: Record<Aspect, "16:9" | "4:3" | "21:9" | "1:1"> = {
+  "16/9": "16:9",
+  "4/3": "4:3",
+  "21/9": "21:9",
+  "1/1": "1:1",
+};
+
 type Props = {
   /** Alt text — used for accessibility and the visible caption fallback. */
   alt: string;
@@ -28,13 +47,32 @@ type Props = {
   /** Optional caption shown below the illustration. */
   caption?: string;
   /** Aspect ratio — defaults to 16/9 to prevent CLS. */
-  aspect?: "16/9" | "4/3" | "21/9";
+  aspect?: Aspect;
   className?: string;
+  /** Article slug (required to cache real images per article). */
+  slug?: string;
+  /** Stable key for this image inside the article (e.g. "figure-1"). */
+  sectionKey?: string;
+  /**
+   * Prompt used to generate the real image. Falls back to `alt` if omitted.
+   * Keep it descriptive — this is what Cloudflare's Nano Banana 2 Lite sees.
+   */
+  prompt?: string;
+  /** Set false to skip real-image generation and keep the SVG placeholder. */
+  generate?: boolean;
 };
 
-const shapes = ["circles", "grid", "waves", "bars"] as const;
-
-const ArticleImage = ({ alt, label, caption, aspect = "16/9", className = "" }: Props) => {
+const ArticleImage = ({
+  alt,
+  label,
+  caption,
+  aspect = "16/9",
+  className = "",
+  slug,
+  sectionKey,
+  prompt,
+  generate = true,
+}: Props) => {
   const { p, shape, seed } = useMemo(() => {
     const h = hash(alt);
     return {
@@ -45,20 +83,72 @@ const ArticleImage = ({ alt, label, caption, aspect = "16/9", className = "" }: 
   }, [alt]);
 
   const aspectClass =
-    aspect === "4/3" ? "aspect-[4/3]" : aspect === "21/9" ? "aspect-[21/9]" : "aspect-video";
+    aspect === "4/3"
+      ? "aspect-[4/3]"
+      : aspect === "21/9"
+      ? "aspect-[21/9]"
+      : aspect === "1/1"
+      ? "aspect-square"
+      : "aspect-video";
 
   const gradientId = `ai-grad-${seed}`;
   const patternId = `ai-pat-${seed}`;
 
+  const [realUrl, setRealUrl] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const requested = useRef(false);
+
+  useEffect(() => {
+    if (!generate || !slug || !sectionKey) return;
+    if (requested.current) return;
+    requested.current = true;
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke(
+          "generate-article-image",
+          {
+            body: {
+              slug,
+              section_key: sectionKey,
+              prompt: prompt || alt,
+              aspect_ratio: aspectToCf[aspect] ?? "16:9",
+            },
+          },
+        );
+        if (cancelled) return;
+        if (error) {
+          console.warn("[ArticleImage] generation failed", error.message);
+          return;
+        }
+        const url = (data as { url?: string } | null)?.url;
+        if (url) setRealUrl(url);
+      } catch (e) {
+        if (!cancelled) console.warn("[ArticleImage] generation error", e);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [generate, slug, sectionKey, prompt, alt, aspect]);
+
   return (
     <figure className={`not-prose my-10 ${className}`}>
-      <div className={`relative w-full ${aspectClass} rounded-2xl overflow-hidden shadow-lg ring-1 ring-shivraj-100 bg-shivraj-50`}>
+      <div
+        className={`relative w-full ${aspectClass} rounded-2xl overflow-hidden shadow-lg ring-1 ring-shivraj-100 bg-shivraj-50`}
+      >
+        {/* SVG placeholder — always rendered so there's zero CLS and we have
+            something to show while the real image is generating. */}
         <svg
           role="img"
           aria-label={alt}
           viewBox="0 0 800 450"
           preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0 w-full h-full"
+          className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${
+            loaded ? "opacity-0" : "opacity-100"
+          }`}
         >
           <title>{alt}</title>
           <defs>
@@ -122,8 +212,22 @@ const ArticleImage = ({ alt, label, caption, aspect = "16/9", className = "" }: 
           )}
         </svg>
 
+        {/* Real AI-generated image (fades in when loaded) */}
+        {realUrl && (
+          <img
+            src={realUrl}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setLoaded(true)}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        )}
+
         {label && (
-          <span className="absolute top-4 left-4 inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-white/85 backdrop-blur text-shivraj-800 shadow-sm">
+          <span className="absolute top-4 left-4 inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-white/85 backdrop-blur text-shivraj-800 shadow-sm z-10">
             {label}
           </span>
         )}
