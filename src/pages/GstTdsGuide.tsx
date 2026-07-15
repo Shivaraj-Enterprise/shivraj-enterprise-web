@@ -132,6 +132,14 @@ const GstTdsGuide = () => {
               invoice on GSTR-2B, payment within 180 days, and use in the course of business.
             </p>
 
+            <StatGrid
+              items={[
+                { value: "18%", label: "GST rate", hint: "Forward Charge on SAC 998519 taxable value" },
+                { value: "1–2%", label: "TDS u/s 194C", hint: "On taxable value only — never on GST amount" },
+                { value: "180 days", label: "ITC retention window", hint: "Pay contractor within this to keep Input Tax Credit" },
+              ]}
+            />
+
             <h2>3. When does RCM apply?</h2>
             <p>
               Reverse Charge Mechanism (RCM) under Notification 13/2017-CT (Rate) is <em>limited</em> for manpower:
