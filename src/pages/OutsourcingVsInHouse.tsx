@@ -258,6 +258,30 @@ const OutsourcingVsInHouse = () => {
               and statutory friction that in-house hiring imposes on plant HR teams.
             </p>
 
+            <FaqAccordion
+              id="outsourcing-faq"
+              title="Frequently asked questions"
+              subtitle="Straightforward answers on outsourced manpower, compliance and cost for Vapi GIDC plants."
+              items={[
+                {
+                  q: "What are the main benefits of manpower outsourcing for Vapi GIDC units?",
+                  a: <>Manpower outsourcing shifts recruitment, PF/ESIC compliance, payroll, attrition and statutory liability to the labour supply contractor. Vapi engineering and chemical plants get flexible headcount, faster ramp-up during shutdowns and a single <strong>18% GST invoice with full Input Tax Credit</strong> — usually 15–25% cheaper than an equivalent in-house team once statutory and overhead costs are added.</>,
+                },
+                {
+                  q: "Is labour supply in Vapi cheaper than direct hiring?",
+                  a: <>For shop-floor, housekeeping, loading and packaging roles, outsourced labour supply in Vapi is typically cheaper than direct hiring. Direct employment adds gratuity, bonus, leave encashment, HR overhead and principal-employer risk under the Contract Labour Act. A GST-registered manpower contractor bundles all statutory contributions into a single Forward Charge invoice.</>,
+                },
+                {
+                  q: "Who bears PF, ESIC and labour licence liability in an outsourcing contract?",
+                  a: <>The manpower contractor is the <strong>employer of record</strong> and bears PF, ESIC, wages, bonus and labour licence liability. The client (principal employer) remains vicariously liable under the Contract Labour (R&amp;A) Act, so it must verify the contractor's PF/ESIC challans and labour licence every month.</>,
+                },
+                {
+                  q: "When does in-house hiring make more sense than outsourcing?",
+                  a: <>In-house hiring is better for core R&amp;D, plant supervision, quality control and safety-critical roles where long tenure, IP protection and deep process knowledge matter. Outsourcing is better for variable, high-volume, non-core roles like housekeeping, loading, packaging and shop-floor helpers.</>,
+                },
+              ]}
+            />
+
             <div className="not-prose bg-shivraj-50 border border-shivraj-100 rounded-xl p-6 md:p-8 my-10">
               <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-3">
                 Weighing outsourcing vs in-house hiring for your Vapi plant?
