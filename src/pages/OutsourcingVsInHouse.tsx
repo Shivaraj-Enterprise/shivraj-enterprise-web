@@ -6,6 +6,8 @@ import Layout from "@/components/Layout";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import StaticArticleShell from "@/components/blog/StaticArticleShell";
 import { Callout, PullQuote, StatGrid, SectionDivider } from "@/components/blog/Callouts";
+import FaqAccordion from "@/components/blog/FaqAccordion";
+import ArticleImage from "@/components/blog/ArticleImage";
 
 const url =
   "https://shivraj-enterprise.lovable.app/#/blog/manpower-outsourcing-vs-in-house-hiring";

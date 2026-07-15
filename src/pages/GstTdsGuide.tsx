@@ -6,6 +6,8 @@ import Layout from "@/components/Layout";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import StaticArticleShell from "@/components/blog/StaticArticleShell";
 import { Callout, PullQuote, StatGrid, SectionDivider } from "@/components/blog/Callouts";
+import FaqAccordion from "@/components/blog/FaqAccordion";
+import ArticleImage from "@/components/blog/ArticleImage";
 
 const url = "https://shivraj-enterprise.lovable.app/#/blog/gst-tds-manpower-supply-guide";
 const title = "GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide";
