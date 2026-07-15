@@ -34,34 +34,55 @@ function slugSafe(s: string) {
   return s.replace(/[^a-z0-9-_]/gi, "-").toLowerCase().slice(0, 80);
 }
 
+const MODEL_CANDIDATES = [
+  "google/nano-banana-2-lite",
+  "@cf/black-forest-labs/flux-1-schnell",
+];
+
 async function callCloudflare(prompt: string, aspect_ratio: Aspect) {
   const accountId = Deno.env.get("CLOUDFLARE_ACCOUNT_ID");
   const token = Deno.env.get("CLOUDFLARE_API_TOKEN");
   if (!accountId || !token) throw new Error("Cloudflare credentials missing");
 
-  const url = `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/google/nano-banana-2-lite`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      prompt,
-      aspect_ratio,
-      output_format: "jpg",
-    }),
-  });
+  let lastErr = "";
+  for (const model of MODEL_CANDIDATES) {
+    const url = `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${model}`;
+    const body: Record<string, unknown> = { prompt };
+    if (model.startsWith("google/")) {
+      body.aspect_ratio = aspect_ratio;
+      body.output_format = "jpg";
+    } else {
+      // flux-1-schnell params
+      body.steps = 4;
+    }
+    console.log(`[cf] trying model=${model}`);
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(`Cloudflare ${res.status}: ${t.slice(0, 500)}`);
+    if (!res.ok) {
+      const t = await res.text();
+      lastErr = `${model} -> ${res.status}: ${t.slice(0, 400)}`;
+      console.warn(`[cf] ${lastErr}`);
+      continue;
+    }
+    const json = await res.json();
+    // Workers AI wraps model output in { result, success }
+    const image: string | undefined = json?.result?.image ?? json?.image;
+    if (!image) {
+      lastErr = `${model} -> no image field: ${JSON.stringify(json).slice(0, 300)}`;
+      console.warn(`[cf] ${lastErr}`);
+      continue;
+    }
+    console.log(`[cf] success with model=${model}, image len=${image.length}`);
+    return image;
   }
-  const json = await res.json();
-  // Workers AI wraps model output in { result, success, errors, messages }
-  const image: string | undefined = json?.result?.image ?? json?.image;
-  if (!image) throw new Error(`No image in Cloudflare response: ${JSON.stringify(json).slice(0, 300)}`);
-  return image;
+  throw new Error(`All Cloudflare models failed. Last: ${lastErr}`);
 }
 
 function imageStringToBytes(image: string): { bytes: Uint8Array; contentType: string } {
