@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_images: {
+        Row: {
+          aspect_ratio: string
+          created_at: string
+          id: string
+          image_url: string
+          prompt: string
+          section_key: string
+          slug: string
+          storage_path: string
+          updated_at: string
+          url_expires_at: string | null
+        }
+        Insert: {
+          aspect_ratio?: string
+          created_at?: string
+          id?: string
+          image_url: string
+          prompt: string
+          section_key: string
+          slug: string
+          storage_path: string
+          updated_at?: string
+          url_expires_at?: string | null
+        }
+        Update: {
+          aspect_ratio?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          prompt?: string
+          section_key?: string
+          slug?: string
+          storage_path?: string
+          updated_at?: string
+          url_expires_at?: string | null
+        }
+        Relationships: []
+      }
       blog_post_tags: {
         Row: {
           post_id: string
