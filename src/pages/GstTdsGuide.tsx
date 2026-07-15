@@ -159,6 +159,12 @@ const GstTdsGuide = () => {
               </li>
             </ul>
 
+            <Callout variant="tip" title="Pro Tip">
+              Prefer a <strong>private limited</strong> manpower contractor over a proprietorship. Forward Charge billing is cleaner, the balance sheet is stronger, and your finance team never has to figure out whether RCM applies on a given invoice.
+            </Callout>
+
+            <SectionDivider />
+
             <h2>4. TDS under Section 194C of the Income Tax Act</h2>
             <p>
               A manpower supply contract is a <strong>works contract for supply of labour</strong> and is squarely
