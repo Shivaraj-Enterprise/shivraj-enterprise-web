@@ -100,8 +100,22 @@ const OutsourcingVsInHouse = () => {
         readMinutes={10}
         url={url}
         breadcrumbLabel="Manpower Outsourcing vs In-House Hiring"
+        slug="manpower-outsourcing-vs-in-house-hiring"
+        next={{
+          slug: "gst-tds-manpower-supply-guide",
+          title: "GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide",
+        }}
       >
         <>
+            <Callout variant="key" title="Key Takeaways">
+              <ul className="list-disc pl-5 space-y-1.5 marker:text-white/60">
+                <li>Outsourced labour in Vapi GIDC is typically <strong>15–25% cheaper</strong> once PF, ESIC, bonus, gratuity and HR overhead are loaded on in-house wages.</li>
+                <li>Contractors absorb <strong>recruitment, attrition and statutory filings</strong> — you get one 18% GST invoice with full Input Tax Credit.</li>
+                <li>Keep <strong>core, safety-critical and R&amp;D roles in-house</strong>; outsource variable, high-volume shop-floor and housekeeping headcount.</li>
+                <li>Principal-employer liability under the Contract Labour Act stays with you — <strong>verify PF/ESIC challans monthly</strong>.</li>
+              </ul>
+            </Callout>
+
             <h2>1. The two models at a glance</h2>
             <p>
               <strong>In-house hiring</strong> means the worker is on your company's payroll — you are the employer
@@ -109,6 +123,14 @@ const OutsourcingVsInHouse = () => {
               worker is on the contractor's payroll and deployed at your site under a labour supply contract billed
               at 18% GST under Forward Charge.
             </p>
+
+            <StatGrid
+              items={[
+                { value: "15–25%", label: "Typical cost saving", hint: "vs true loaded in-house cost per worker per month" },
+                { value: "48 hrs", label: "Ramp-up time", hint: "Pre-verified skilled & unskilled workmen deployed on site" },
+                { value: "100%", label: "GST Input Tax Credit", hint: "Forward Charge 18% recoverable against output tax" },
+              ]}
+            />
 
             <h2>2. Head-to-head comparison</h2>
             <table>
