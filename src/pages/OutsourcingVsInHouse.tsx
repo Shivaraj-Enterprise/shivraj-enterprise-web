@@ -241,6 +241,14 @@ const OutsourcingVsInHouse = () => {
               <li><strong>Do you have the HR bandwidth for PF/ESIC filings for this headcount?</strong> If no → outsource.</li>
             </ol>
 
+            <ArticleImage
+              alt="Illustration of a decision framework flow chart weighing outsourced manpower against in-house hiring for a Vapi GIDC plant"
+              label="Figure 1"
+              caption="Decision framework — outsource variable, high-volume roles and keep core, safety-critical roles in-house."
+            />
+
+
+
             <h2>8. Why this matters for Vapi GIDC specifically</h2>
             <p>
               Vapi GIDC concentrates chemical, pharma, engineering and packaging plants that run 3-shift operations
