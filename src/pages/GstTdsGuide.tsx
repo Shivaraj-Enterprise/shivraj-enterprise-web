@@ -6,6 +6,8 @@ import Layout from "@/components/Layout";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import StaticArticleShell from "@/components/blog/StaticArticleShell";
 import { Callout, PullQuote, StatGrid, SectionDivider } from "@/components/blog/Callouts";
+import FaqAccordion from "@/components/blog/FaqAccordion";
+import ArticleImage from "@/components/blog/ArticleImage";
 
 const url = "https://shivraj-enterprise.lovable.app/#/blog/gst-tds-manpower-supply-guide";
 const title = "GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide";
@@ -224,6 +226,12 @@ const GstTdsGuide = () => {
               <li>Pay contractor within 180 days to retain ITC</li>
             </ul>
 
+            <ArticleImage
+              alt="Illustration comparing GST Forward Charge invoicing and TDS deduction on a manpower supply invoice"
+              label="Figure 1"
+              caption="Sample invoice flow — GST at 18% under Forward Charge, TDS u/s 194C on taxable value only."
+            />
+
             <h2>9. Compliance checklist for the manpower contractor</h2>
             <ul>
               <li>Register under GST, PF, ESIC, Contract Labour (R&amp;A) Act and PSARA (if security)</li>
@@ -245,6 +253,34 @@ const GstTdsGuide = () => {
               <Link to="/about" className="text-shivraj-700 underline">about Shivraj Enterprise</Link>, or{" "}
               <Link to="/contact" className="text-shivraj-700 underline">contact our team</Link> for a compliant quote.
             </p>
+
+            <FaqAccordion
+              id="gst-tds-faq"
+              title="Frequently asked questions"
+              subtitle="Quick, practical answers on GST and TDS treatment of manpower supply invoices."
+              items={[
+                {
+                  q: "What is the GST rate on manpower supply services in India?",
+                  a: <>Manpower supply and labour supply services (<strong>SAC 998519</strong>) attract GST at <strong>18% under Forward Charge</strong>. Pure labour services to government bodies for certain public functions may be exempt under Notification 12/2017.</>,
+                },
+                {
+                  q: "When does Reverse Charge Mechanism (RCM) apply to manpower supply?",
+                  a: <>RCM applies when a <em>non-body-corporate</em> supplier (proprietor/partnership) provides <strong>security services</strong> to a registered body corporate. Ordinary manpower supply from a registered private limited company is billed under Forward Charge at 18% GST — RCM does not apply.</>,
+                },
+                {
+                  q: "Which TDS section applies to manpower supply contracts?",
+                  a: <>TDS is deducted under <strong>Section 194C</strong> of the Income Tax Act at <strong>1%</strong> for individual/HUF contractors and <strong>2%</strong> for companies and firms, on the invoice value excluding GST (if GST is shown separately).</>,
+                },
+                {
+                  q: "Is TDS deducted on the GST portion of the invoice?",
+                  a: <>No. As per <strong>CBDT Circular 23/2017</strong>, when GST is indicated separately on the invoice, TDS under Section 194C is deducted only on the <strong>taxable value</strong>, not on the GST component.</>,
+                },
+                {
+                  q: "How long can we hold Input Tax Credit on a manpower supply invoice?",
+                  a: <>Under Section 16 of the CGST Act, ITC must be reversed if the invoice is not paid within <strong>180 days</strong> from the invoice date. Pay the contractor within that window to retain full credit.</>,
+                },
+              ]}
+            />
 
             <div className="not-prose bg-shivraj-50 border border-shivraj-100 rounded-xl p-6 md:p-8 my-10">
               <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-3">
