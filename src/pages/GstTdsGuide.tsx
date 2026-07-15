@@ -188,6 +188,10 @@ const GstTdsGuide = () => {
               2% TDS on ₹1,00,000 = ₹2,000 only.
             </p>
 
+            <Callout variant="warning" title="Common mistake">
+              Deducting TDS on the <em>invoice total including GST</em> is a frequent audit finding. Always split taxable value and GST clearly on the invoice, and apply Section 194C only on the taxable value.
+            </Callout>
+
             <h2>6. GST TDS under Section 51 of CGST Act</h2>
             <p>
               A separate <strong>GST TDS at 2%</strong> (1% CGST + 1% SGST) applies only where the recipient is a
