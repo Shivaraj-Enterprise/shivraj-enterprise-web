@@ -166,7 +166,10 @@ const GstTdsGuide = () => {
             </Callout>
 
             <ArticleImage
+              slug="gst-tds-manpower-supply-guide"
+              sectionKey="figure-1-forward-charge-flow"
               alt="Illustration of Forward Charge GST at 18% flowing from a manpower contractor's invoice to a Vapi manufacturing client's Input Tax Credit"
+              prompt="Clean modern editorial illustration for a finance blog, showing an invoice document with an 18 percent tax badge, a flowing arrow moving into a corporate ledger labelled ITC, factory silhouette in the background, soft blue and white corporate palette, minimal flat vector style, no text"
               label="Figure 1"
               caption="Forward Charge default — 18% GST on SAC 998519 flows straight into the client's Input Tax Credit."
             />
@@ -233,7 +236,10 @@ const GstTdsGuide = () => {
             </ul>
 
             <ArticleImage
+              slug="gst-tds-manpower-supply-guide"
+              sectionKey="figure-2-invoice-flow"
               alt="Illustration comparing GST Forward Charge invoicing and TDS deduction on a manpower supply invoice"
+              prompt="Modern editorial illustration of a business invoice broken into labelled sections for taxable value, CGST, SGST and a TDS deduction stamp, calculator and pen accents, soft blue and white corporate palette, minimal flat vector style, no readable text"
               label="Figure 2"
               caption="Sample invoice flow — GST at 18% under Forward Charge, TDS u/s 194C on taxable value only."
             />
