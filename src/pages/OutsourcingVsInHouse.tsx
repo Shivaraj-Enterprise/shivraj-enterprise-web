@@ -186,6 +186,12 @@ const OutsourcingVsInHouse = () => {
               We used to spend 6 HR-hours per month on PF and ESIC filings for 40 helpers. Outsourcing collapsed that to a single invoice review.
             </PullQuote>
 
+            <ArticleImage
+              alt="Illustration comparing the true loaded cost of an in-house Vapi GIDC worker versus an outsourced manpower supply contract"
+              label="Figure 1"
+              caption="True loaded cost — in-house wages plus PF, ESIC, bonus, gratuity and recruitment overhead vs a single Forward-Charge invoice."
+            />
+
             <SectionDivider />
 
             <h2>4. Key manpower outsourcing benefits for Vapi units</h2>
