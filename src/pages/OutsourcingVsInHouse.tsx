@@ -206,6 +206,10 @@ const OutsourcingVsInHouse = () => {
               <li>R&amp;D, formulation and design engineers — IP and trade-secret exposure is too high to rotate.</li>
             </ul>
 
+            <Callout variant="warning" title="Watch out">
+              Even after outsourcing, you remain the <strong>principal employer</strong> under the Contract Labour (R&amp;A) Act. Missed PF or ESIC deposits by the contractor can trigger recovery notices against your plant — verify challans every month before releasing invoice payment.
+            </Callout>
+
             <h2>6. Principal-employer risk under the Contract Labour Act</h2>
             <p>
               Even with outsourcing, the client remains the <strong>principal employer</strong> under the Contract
