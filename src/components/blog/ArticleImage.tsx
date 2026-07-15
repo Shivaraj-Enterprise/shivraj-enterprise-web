@@ -59,7 +59,6 @@ const ArticleImage = ({ alt, label, caption, aspect = "16/9", className = "" }: 
           viewBox="0 0 800 450"
           preserveAspectRatio="xMidYMid slice"
           className="absolute inset-0 w-full h-full"
-          loading="lazy"
         >
           <title>{alt}</title>
           <defs>
