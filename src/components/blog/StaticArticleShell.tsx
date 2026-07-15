@@ -124,8 +124,30 @@ const StaticArticleShell = ({
         {/* Content + sidebar */}
         <div className="container mx-auto px-4 max-w-6xl pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-12">
-            <div ref={contentRef} className="max-w-[760px] mx-auto w-full">
-              <div className="prose prose-slate prose-lg max-w-none prose-headings:scroll-mt-28 prose-headings:text-shivraj-900 prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-xl prose-p:leading-[1.8] prose-p:text-gray-700 prose-a:text-shivraj-700 prose-a:no-underline hover:prose-a:underline prose-strong:text-shivraj-900 prose-table:text-sm prose-th:bg-shivraj-50 prose-th:text-shivraj-800 prose-th:font-semibold prose-th:p-3 prose-td:p-3 prose-td:border-shivraj-100 prose-li:leading-[1.8]">
+            <div ref={contentRef} className="max-w-[820px] mx-auto w-full">
+              <div
+                className="prose prose-slate max-w-none text-left
+                  prose-headings:scroll-mt-28 prose-headings:text-shivraj-900 prose-headings:font-bold prose-headings:tracking-tight
+                  prose-h2:text-3xl md:prose-h2:text-[2rem] prose-h2:mt-14 prose-h2:mb-6 prose-h2:leading-[1.25]
+                  prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-5 prose-h3:leading-snug
+                  prose-h4:text-xl prose-h4:mt-10 prose-h4:mb-4
+                  prose-p:text-[18px] prose-p:leading-[1.8] prose-p:text-gray-700 prose-p:my-7
+                  prose-a:text-shivraj-700 prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-a:underline-offset-4
+                  prose-strong:text-shivraj-900 prose-strong:font-semibold
+                  prose-em:text-shivraj-800
+                  prose-blockquote:border-l-4 prose-blockquote:border-shivraj-500 prose-blockquote:bg-shivraj-50 prose-blockquote:not-italic prose-blockquote:rounded-r-xl prose-blockquote:py-3 prose-blockquote:px-6 prose-blockquote:text-shivraj-900 prose-blockquote:my-10
+                  prose-ul:my-7 prose-ol:my-7 prose-ul:pl-6 prose-ol:pl-6
+                  prose-li:text-[17.5px] prose-li:leading-[1.8] prose-li:my-2 prose-li:marker:text-shivraj-500
+                  prose-hr:my-14 prose-hr:border-shivraj-100
+                  prose-img:rounded-2xl prose-img:shadow-lg prose-img:my-10
+                  prose-code:bg-shivraj-50 prose-code:text-shivraj-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-medium prose-code:before:content-none prose-code:after:content-none
+                  prose-pre:bg-shivraj-900 prose-pre:text-shivraj-50 prose-pre:rounded-2xl prose-pre:p-6 prose-pre:my-8 prose-pre:shadow-lg
+                  prose-table:my-10 prose-table:text-[15.5px] prose-table:rounded-xl prose-table:overflow-hidden prose-table:ring-1 prose-table:ring-shivraj-100
+                  prose-thead:bg-shivraj-50
+                  prose-th:bg-shivraj-50 prose-th:text-shivraj-800 prose-th:font-semibold prose-th:p-4 prose-th:text-left
+                  prose-td:p-4 prose-td:border-shivraj-100 prose-td:align-top"
+                style={{ fontFeatureSettings: '"ss01","cv11"' }}
+              >
                 {children}
               </div>
 
