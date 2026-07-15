@@ -160,11 +160,15 @@ const StaticArticleShell = ({
                   </p>
                 </div>
               </div>
+
+              {/* Prev / Next navigation */}
+              <PrevNextNav prev={prev} next={next} />
             </div>
 
             {/* Sidebar */}
             <aside className="hidden lg:block">
               <div className="sticky top-24 space-y-8">
+                <SidebarExtras currentSlug={slug} />
                 <TableOfContents containerRef={contentRef} />
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-shivraj-600 mb-3">Share this post</div>
