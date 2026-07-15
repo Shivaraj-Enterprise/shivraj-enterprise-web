@@ -187,7 +187,10 @@ const OutsourcingVsInHouse = () => {
             </PullQuote>
 
             <ArticleImage
+              slug="manpower-outsourcing-vs-in-house-hiring"
+              sectionKey="figure-1-cost-comparison"
               alt="Illustration comparing the true loaded cost of an in-house Vapi GIDC worker versus an outsourced manpower supply contract"
+              prompt="Clean modern editorial illustration for a business blog, split-screen comparison: left side shows a stack of coins and payslips labeled with hidden costs (PF, ESIC, bonus, gratuity, recruitment), right side shows a single tidy invoice document with a checkmark, industrial factory silhouette in the background, soft blue and white corporate palette, flat vector style, no text"
               label="Figure 1"
               caption="True loaded cost — in-house wages plus PF, ESIC, bonus, gratuity and recruitment overhead vs a single Forward-Charge invoice."
             />
@@ -248,7 +251,10 @@ const OutsourcingVsInHouse = () => {
             </ol>
 
             <ArticleImage
+              slug="manpower-outsourcing-vs-in-house-hiring"
+              sectionKey="figure-2-decision-framework"
               alt="Illustration of a decision framework flow chart weighing outsourced manpower against in-house hiring for a Vapi GIDC plant"
+              prompt="Modern editorial illustration of a decision-tree flowchart for a business blog, clean connected boxes and arrows branching into 'outsource' and 'hire in-house' paths, small icons of workers, gears and clipboards, soft blue and white corporate palette, minimal flat vector style, no text"
               label="Figure 2"
               caption="Decision framework — outsource variable, high-volume roles and keep core, safety-critical roles in-house."
             />
