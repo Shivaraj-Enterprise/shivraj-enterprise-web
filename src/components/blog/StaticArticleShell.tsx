@@ -9,6 +9,8 @@ import NewsletterCard from "@/components/blog/NewsletterCard";
 import ScrollTopButton from "@/components/blog/ScrollTopButton";
 import CoverPlaceholder from "@/components/blog/CoverPlaceholder";
 import FadeContent from "@/components/reactbits/FadeContent";
+import PrevNextNav, { type NavRef } from "@/components/blog/PrevNextNav";
+import SidebarExtras from "@/components/blog/SidebarExtras";
 
 interface Props {
   title: string;
@@ -20,6 +22,9 @@ interface Props {
   url: string;
   breadcrumbLabel: string;
   coverImageUrl?: string;
+  slug?: string;
+  prev?: NavRef;
+  next?: NavRef;
   children: ReactNode;
 }
 
@@ -33,6 +38,9 @@ const StaticArticleShell = ({
   url,
   breadcrumbLabel,
   coverImageUrl,
+  slug,
+  prev,
+  next,
   children,
 }: Props) => {
   const articleRef = useRef<HTMLElement>(null);
@@ -152,11 +160,15 @@ const StaticArticleShell = ({
                   </p>
                 </div>
               </div>
+
+              {/* Prev / Next navigation */}
+              <PrevNextNav prev={prev} next={next} />
             </div>
 
             {/* Sidebar */}
             <aside className="hidden lg:block">
               <div className="sticky top-24 space-y-8">
+                <SidebarExtras currentSlug={slug} />
                 <TableOfContents containerRef={contentRef} />
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-shivraj-600 mb-3">Share this post</div>

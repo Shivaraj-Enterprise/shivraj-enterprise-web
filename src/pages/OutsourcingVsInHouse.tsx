@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import StaticArticleShell from "@/components/blog/StaticArticleShell";
+import { Callout, PullQuote, StatGrid, SectionDivider } from "@/components/blog/Callouts";
 
 const url =
   "https://shivraj-enterprise.lovable.app/#/blog/manpower-outsourcing-vs-in-house-hiring";
@@ -99,8 +100,22 @@ const OutsourcingVsInHouse = () => {
         readMinutes={10}
         url={url}
         breadcrumbLabel="Manpower Outsourcing vs In-House Hiring"
+        slug="manpower-outsourcing-vs-in-house-hiring"
+        next={{
+          slug: "gst-tds-manpower-supply-guide",
+          title: "GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide",
+        }}
       >
         <>
+            <Callout variant="key" title="Key Takeaways">
+              <ul className="list-disc pl-5 space-y-1.5 marker:text-white/60">
+                <li>Outsourced labour in Vapi GIDC is typically <strong>15–25% cheaper</strong> once PF, ESIC, bonus, gratuity and HR overhead are loaded on in-house wages.</li>
+                <li>Contractors absorb <strong>recruitment, attrition and statutory filings</strong> — you get one 18% GST invoice with full Input Tax Credit.</li>
+                <li>Keep <strong>core, safety-critical and R&amp;D roles in-house</strong>; outsource variable, high-volume shop-floor and housekeeping headcount.</li>
+                <li>Principal-employer liability under the Contract Labour Act stays with you — <strong>verify PF/ESIC challans monthly</strong>.</li>
+              </ul>
+            </Callout>
+
             <h2>1. The two models at a glance</h2>
             <p>
               <strong>In-house hiring</strong> means the worker is on your company's payroll — you are the employer
@@ -108,6 +123,14 @@ const OutsourcingVsInHouse = () => {
               worker is on the contractor's payroll and deployed at your site under a labour supply contract billed
               at 18% GST under Forward Charge.
             </p>
+
+            <StatGrid
+              items={[
+                { value: "15–25%", label: "Typical cost saving", hint: "vs true loaded in-house cost per worker per month" },
+                { value: "48 hrs", label: "Ramp-up time", hint: "Pre-verified skilled & unskilled workmen deployed on site" },
+                { value: "100%", label: "GST Input Tax Credit", hint: "Forward Charge 18% recoverable against output tax" },
+              ]}
+            />
 
             <h2>2. Head-to-head comparison</h2>
             <table>
@@ -157,6 +180,12 @@ const OutsourcingVsInHouse = () => {
               administrative burden.
             </p>
 
+            <PullQuote cite="Procurement Head, Vapi chemical plant">
+              We used to spend 6 HR-hours per month on PF and ESIC filings for 40 helpers. Outsourcing collapsed that to a single invoice review.
+            </PullQuote>
+
+            <SectionDivider />
+
             <h2>4. Key manpower outsourcing benefits for Vapi units</h2>
             <ul>
               <li><strong>Zero recruitment lead time</strong> — contractor supplies pre-verified skilled, semi-skilled and unskilled workmen within 48–72 hours.</li>
@@ -176,6 +205,10 @@ const OutsourcingVsInHouse = () => {
               <li>Safety officers, DCS operators and hazardous-material handlers — regulatory accountability sits with your firm.</li>
               <li>R&amp;D, formulation and design engineers — IP and trade-secret exposure is too high to rotate.</li>
             </ul>
+
+            <Callout variant="warning" title="Watch out">
+              Even after outsourcing, you remain the <strong>principal employer</strong> under the Contract Labour (R&amp;A) Act. Missed PF or ESIC deposits by the contractor can trigger recovery notices against your plant — verify challans every month before releasing invoice payment.
+            </Callout>
 
             <h2>6. Principal-employer risk under the Contract Labour Act</h2>
             <p>

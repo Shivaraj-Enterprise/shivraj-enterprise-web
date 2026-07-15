@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import StaticArticleShell from "@/components/blog/StaticArticleShell";
+import { Callout, PullQuote, StatGrid, SectionDivider } from "@/components/blog/Callouts";
 
 const url = "https://shivraj-enterprise.lovable.app/#/blog/gst-tds-manpower-supply-guide";
 const title = "GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide";
@@ -96,8 +97,22 @@ const GstTdsGuide = () => {
         readMinutes={9}
         url={url}
         breadcrumbLabel="GST & TDS on Manpower Supply"
+        slug="gst-tds-manpower-supply-guide"
+        prev={{
+          slug: "manpower-outsourcing-vs-in-house-hiring",
+          title: "Manpower Outsourcing vs In-House Hiring in Vapi GIDC: A 2026 Cost-Benefit Guide",
+        }}
       >
         <>
+            <Callout variant="key" title="Key Takeaways">
+              <ul className="list-disc pl-5 space-y-1.5 marker:text-white/60">
+                <li>Manpower supply is billed at <strong>18% GST under Forward Charge</strong> (SAC 998519) — full ITC available.</li>
+                <li><strong>RCM does NOT apply</strong> to regular manpower supply from a private limited contractor; it applies only to security services from non-body-corporates.</li>
+                <li><strong>TDS under Section 194C</strong>: 1% (individual/HUF) or 2% (companies), on the taxable value only — never on the GST amount.</li>
+                <li>Pay within <strong>180 days</strong> to retain Input Tax Credit under Section 16.</li>
+              </ul>
+            </Callout>
+
             <h2>1. What counts as "manpower supply services"?</h2>
             <p>
               Under GST, manpower supply, labour supply and staff-augmentation contracts fall under SAC
@@ -117,6 +132,14 @@ const GstTdsGuide = () => {
               invoice on GSTR-2B, payment within 180 days, and use in the course of business.
             </p>
 
+            <StatGrid
+              items={[
+                { value: "18%", label: "GST rate", hint: "Forward Charge on SAC 998519 taxable value" },
+                { value: "1–2%", label: "TDS u/s 194C", hint: "On taxable value only — never on GST amount" },
+                { value: "180 days", label: "ITC retention window", hint: "Pay contractor within this to keep Input Tax Credit" },
+              ]}
+            />
+
             <h2>3. When does RCM apply?</h2>
             <p>
               Reverse Charge Mechanism (RCM) under Notification 13/2017-CT (Rate) is <em>limited</em> for manpower:
@@ -135,6 +158,12 @@ const GstTdsGuide = () => {
                 government/local authorities, may be exempt under Notification 12/2017.
               </li>
             </ul>
+
+            <Callout variant="tip" title="Pro Tip">
+              Prefer a <strong>private limited</strong> manpower contractor over a proprietorship. Forward Charge billing is cleaner, the balance sheet is stronger, and your finance team never has to figure out whether RCM applies on a given invoice.
+            </Callout>
+
+            <SectionDivider />
 
             <h2>4. TDS under Section 194C of the Income Tax Act</h2>
             <p>
@@ -158,6 +187,10 @@ const GstTdsGuide = () => {
               <em> excluding the GST component</em>. So a ₹1,00,000 service value + ₹18,000 GST invoice attracts
               2% TDS on ₹1,00,000 = ₹2,000 only.
             </p>
+
+            <Callout variant="warning" title="Common mistake">
+              Deducting TDS on the <em>invoice total including GST</em> is a frequent audit finding. Always split taxable value and GST clearly on the invoice, and apply Section 194C only on the taxable value.
+            </Callout>
 
             <h2>6. GST TDS under Section 51 of CGST Act</h2>
             <p>
