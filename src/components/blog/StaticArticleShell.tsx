@@ -38,6 +38,9 @@ const StaticArticleShell = ({
   url,
   breadcrumbLabel,
   coverImageUrl,
+  slug,
+  prev,
+  next,
   children,
 }: Props) => {
   const articleRef = useRef<HTMLElement>(null);
