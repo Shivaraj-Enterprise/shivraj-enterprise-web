@@ -9,6 +9,8 @@ import NewsletterCard from "@/components/blog/NewsletterCard";
 import ScrollTopButton from "@/components/blog/ScrollTopButton";
 import CoverPlaceholder from "@/components/blog/CoverPlaceholder";
 import FadeContent from "@/components/reactbits/FadeContent";
+import PrevNextNav, { type NavRef } from "@/components/blog/PrevNextNav";
+import SidebarExtras from "@/components/blog/SidebarExtras";
 
 interface Props {
   title: string;
@@ -20,6 +22,9 @@ interface Props {
   url: string;
   breadcrumbLabel: string;
   coverImageUrl?: string;
+  slug?: string;
+  prev?: NavRef;
+  next?: NavRef;
   children: ReactNode;
 }
 
