@@ -11,6 +11,7 @@ import { Sparkles, Search, ChevronLeft, ChevronRight, TrendingUp } from "lucide-
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
 import FadeContent from "@/components/reactbits/FadeContent";
+import blogHeroVideo from "@/assets/blog-hero.mp4.asset.json";
 
 import { STATIC_POSTS } from "@/data/staticPosts";
 
