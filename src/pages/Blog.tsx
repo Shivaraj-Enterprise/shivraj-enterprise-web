@@ -11,6 +11,7 @@ import { Sparkles, Search, ChevronLeft, ChevronRight, TrendingUp } from "lucide-
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
 import FadeContent from "@/components/reactbits/FadeContent";
+import blogHeroVideo from "@/assets/blog-hero.mp4.asset.json";
 
 import { STATIC_POSTS } from "@/data/staticPosts";
 
@@ -89,6 +90,18 @@ const Blog = () => {
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white pt-20 pb-28">
+        {/* Background video */}
+        <video
+          src={blogHeroVideo.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-shivraj-900/80 via-shivraj-800/70 to-shivraj-900/85 pointer-events-none" aria-hidden />
         <AuroraBackground intensity="bold" />
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
