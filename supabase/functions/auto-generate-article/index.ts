@@ -123,6 +123,58 @@ async function ensureUniqueSlug(base: string): Promise<string> {
   }
 }
 
+// ---------- SEO quality check ----------
+// Grades every generated post on meta length, heading structure and the
+// BlogPosting schema.org fields we can auto-fill. Returns 0–100 + a report.
+type SeoCheck = { id: string; label: string; pass: boolean; detail: string; weight: number };
+function scoreSeo(article: { title: string; excerpt: string; content_html: string }, slug: string): { score: number; report: { checks: SeoCheck[]; schema: Record<string, unknown> } } {
+  const checks: SeoCheck[] = [];
+  const t = article.title ?? "";
+  checks.push({ id: "title_length", label: "Meta title 50–65 chars", pass: t.length >= 50 && t.length <= 65, detail: `${t.length} chars`, weight: 15 });
+  const d = article.excerpt ?? "";
+  checks.push({ id: "meta_desc_length", label: "Meta description 120–160 chars", pass: d.length >= 120 && d.length <= 160, detail: `${d.length} chars`, weight: 15 });
+
+  const html = article.content_html ?? "";
+  const h1 = (html.match(/<h1[\s>]/gi) ?? []).length;
+  checks.push({ id: "no_h1", label: "No <h1> in body (page owns H1)", pass: h1 === 0, detail: `${h1} found`, weight: 10 });
+
+  const h2 = (html.match(/<h2[\s>]/gi) ?? []).length;
+  checks.push({ id: "h2_count", label: "At least 4 H2 sections", pass: h2 >= 4, detail: `${h2} found`, weight: 10 });
+
+  // Heading order: every H3 must follow an H2, no jumping from H2 to H4.
+  const headings = [...html.matchAll(/<h([2-4])[\s>]/gi)].map((m) => Number(m[1]));
+  let orderOk = true;
+  for (let i = 1; i < headings.length; i++) if (headings[i] - headings[i - 1] > 1) { orderOk = false; break; }
+  checks.push({ id: "heading_order", label: "Heading levels do not skip", pass: orderOk, detail: orderOk ? "ok" : headings.join(">"), weight: 10 });
+
+  const words = html.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
+  checks.push({ id: "word_count", label: "1200+ words", pass: words >= 1200, detail: `${words} words`, weight: 10 });
+
+  checks.push({ id: "has_list", label: "Has a bullet or numbered list", pass: /<(ul|ol)[\s>]/i.test(html), detail: "", weight: 5 });
+  checks.push({ id: "has_table", label: "Has a data table", pass: /<table[\s>]/i.test(html), detail: "", weight: 5 });
+  checks.push({ id: "has_faq", label: "Has an FAQ section", pass: /frequently asked/i.test(html), detail: "", weight: 5 });
+  checks.push({ id: "internal_link", label: "Has at least 1 internal link", pass: /<a\s+[^>]*href="\/[^"]/i.test(html), detail: "", weight: 5 });
+
+  // Build & validate BlogPosting JSON-LD.
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: t,
+    description: d,
+    author: { "@type": "Organization", name: "Shivraj Enterprise" },
+    publisher: { "@type": "Organization", name: "Shivraj Enterprise" },
+    datePublished: new Date().toISOString(),
+    mainEntityOfPage: `https://shivraj-enterprise.lovable.app/blog/${slug}`,
+  };
+  const schemaOk = Boolean(schema.headline && schema.description && schema.datePublished && schema.mainEntityOfPage);
+  checks.push({ id: "schema_valid", label: "BlogPosting schema is complete", pass: schemaOk, detail: "", weight: 10 });
+
+  const total = checks.reduce((s, c) => s + c.weight, 0);
+  const gained = checks.filter((c) => c.pass).reduce((s, c) => s + c.weight, 0);
+  const score = Math.round((gained / total) * 100);
+  return { score, report: { checks, schema } };
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -131,6 +183,8 @@ Deno.serve(async (req) => {
     const article = await generateArticle(topic);
     const baseSlug = slugify(article.title) || slugify(topic.keyword);
     const slug = await ensureUniqueSlug(baseSlug);
+
+    const { score, report } = scoreSeo(article, slug);
 
     const { data: inserted, error } = await supabase
       .from("blog_posts")
@@ -141,6 +195,8 @@ Deno.serve(async (req) => {
         content: article.content_html,
         published: true,
         published_at: new Date().toISOString(),
+        seo_score: score,
+        seo_report: report,
       })
       .select("id, slug, title")
       .single();
@@ -149,16 +205,15 @@ Deno.serve(async (req) => {
 
     await upsertTags(inserted!.id, topic.tags);
 
-    // Fire-and-forget: refresh the AI knowledge base so the new post is
-    // available to the sales chat immediately.
-    fetch(`${SUPABASE_URL}/functions/v1/ingest-knowledge`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${SERVICE_ROLE}` },
-      body: "{}",
-    }).catch(() => {});
+    // Fire-and-forget: refresh the AI knowledge base + warm the dynamic
+    // sitemap/RSS cache so search engines and readers see the new post.
+    const authHeaders = { "Content-Type": "application/json", Authorization: `Bearer ${SERVICE_ROLE}` };
+    fetch(`${SUPABASE_URL}/functions/v1/ingest-knowledge`, { method: "POST", headers: authHeaders, body: "{}" }).catch(() => {});
+    fetch(`${SUPABASE_URL}/functions/v1/sitemap`, { headers: authHeaders }).catch(() => {});
+    fetch(`${SUPABASE_URL}/functions/v1/sitemap/rss`, { headers: authHeaders }).catch(() => {});
 
     return new Response(
-      JSON.stringify({ ok: true, keyword: topic.keyword, post: inserted }),
+      JSON.stringify({ ok: true, keyword: topic.keyword, seo_score: score, post: inserted }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {

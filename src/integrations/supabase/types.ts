@@ -93,6 +93,8 @@ export type Database = {
           id: string
           published: boolean
           published_at: string | null
+          seo_report: Json | null
+          seo_score: number | null
           slug: string
           title: string
           updated_at: string
@@ -106,6 +108,8 @@ export type Database = {
           id?: string
           published?: boolean
           published_at?: string | null
+          seo_report?: Json | null
+          seo_score?: number | null
           slug: string
           title: string
           updated_at?: string
@@ -119,6 +123,8 @@ export type Database = {
           id?: string
           published?: boolean
           published_at?: string | null
+          seo_report?: Json | null
+          seo_score?: number | null
           slug?: string
           title?: string
           updated_at?: string
