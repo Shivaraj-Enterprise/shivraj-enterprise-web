@@ -175,11 +175,6 @@ function scoreSeo(article: { title: string; excerpt: string; content_html: strin
   return { score, report: { checks, schema } };
 }
 
-function _unused() {
-    if (i > 20) return `${base}-${Date.now()}`;
-  }
-}
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -188,6 +183,8 @@ Deno.serve(async (req) => {
     const article = await generateArticle(topic);
     const baseSlug = slugify(article.title) || slugify(topic.keyword);
     const slug = await ensureUniqueSlug(baseSlug);
+
+    const { score, report } = scoreSeo(article, slug);
 
     const { data: inserted, error } = await supabase
       .from("blog_posts")
@@ -198,6 +195,8 @@ Deno.serve(async (req) => {
         content: article.content_html,
         published: true,
         published_at: new Date().toISOString(),
+        seo_score: score,
+        seo_report: report,
       })
       .select("id, slug, title")
       .single();
@@ -206,16 +205,15 @@ Deno.serve(async (req) => {
 
     await upsertTags(inserted!.id, topic.tags);
 
-    // Fire-and-forget: refresh the AI knowledge base so the new post is
-    // available to the sales chat immediately.
-    fetch(`${SUPABASE_URL}/functions/v1/ingest-knowledge`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${SERVICE_ROLE}` },
-      body: "{}",
-    }).catch(() => {});
+    // Fire-and-forget: refresh the AI knowledge base + warm the dynamic
+    // sitemap/RSS cache so search engines and readers see the new post.
+    const authHeaders = { "Content-Type": "application/json", Authorization: `Bearer ${SERVICE_ROLE}` };
+    fetch(`${SUPABASE_URL}/functions/v1/ingest-knowledge`, { method: "POST", headers: authHeaders, body: "{}" }).catch(() => {});
+    fetch(`${SUPABASE_URL}/functions/v1/sitemap`, { headers: authHeaders }).catch(() => {});
+    fetch(`${SUPABASE_URL}/functions/v1/sitemap/rss`, { headers: authHeaders }).catch(() => {});
 
     return new Response(
-      JSON.stringify({ ok: true, keyword: topic.keyword, post: inserted }),
+      JSON.stringify({ ok: true, keyword: topic.keyword, seo_score: score, post: inserted }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {
