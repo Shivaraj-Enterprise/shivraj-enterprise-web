@@ -1,0 +1,1 @@
+ALTER TABLE public.blog_posts ADD COLUMN IF NOT EXISTS seo_score integer, ADD COLUMN IF NOT EXISTS seo_report jsonb;
