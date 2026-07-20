@@ -24,6 +24,7 @@ import AdminAuditLog from "./pages/AdminAuditLog";
 import AdminRoles from "./pages/AdminRoles";
 import AdminCompanyProfile from "./pages/AdminCompanyProfile";
 import AdminBlogList from "./pages/AdminBlogList";
+import AdminBlogSeo from "./pages/AdminBlogSeo";
 import AdminBlogEditor from "./pages/AdminBlogEditor";
 import AdminRateCard from "./pages/AdminRateCard";
 import NotFound from "./pages/NotFound";
