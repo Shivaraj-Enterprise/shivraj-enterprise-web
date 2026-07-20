@@ -64,11 +64,11 @@ Formatting rules:
 
 Return a strict JSON object with keys: title, excerpt, content_html. No prose outside JSON.`;
 
-async function generateArticle(topic: typeof TOPIC_POOL[number]) {
+async function generateArticle(topic: typeof TOPIC_POOL[number], feedback?: string) {
   const userPrompt = `Target SEO keyword: "${topic.keyword}"
 Category: ${topic.category}
 Editorial angle: ${topic.angle}
-
+${feedback ? `\n${feedback}\n` : ""}
 Write the article now. Return JSON: { "title": string (55–65 chars, includes the keyword naturally), "excerpt": string (140–160 chars, meta-description style), "content_html": string }.`;
 
   const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
