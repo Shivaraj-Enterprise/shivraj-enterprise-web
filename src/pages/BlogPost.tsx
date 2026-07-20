@@ -138,6 +138,30 @@ const BlogPost = () => {
             keywords: tags.map((t) => t.name).join(", ") || undefined,
           })}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://shivraj-enterprise.lovable.app/" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/#/blog" },
+              { "@type": "ListItem", position: 3, name: post.title, item: url },
+            ],
+          })}
+        </script>
+        {faqs.length > 0 && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: faqs.map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
+            })}
+          </script>
+        )}
       </Helmet>
 
       <ReadingProgress targetRef={articleRef} />
