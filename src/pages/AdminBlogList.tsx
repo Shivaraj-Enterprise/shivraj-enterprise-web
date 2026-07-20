@@ -62,6 +62,7 @@ const AdminBlogList = () => {
               <h1 className="text-2xl font-bold text-shivraj-800">Blog Posts</h1>
             </div>
             <div className="flex gap-2">
+              <Link to="/admin/blog/seo"><Button variant="outline">SEO Dashboard</Button></Link>
               <Link to="/admin/blog/new"><Button className="bg-shivraj-600 hover:bg-shivraj-700"><Plus size={16} className="mr-2" />New Post</Button></Link>
               <Button variant="outline" onClick={signOut}><LogOut size={16} className="mr-2" />Sign out</Button>
             </div>

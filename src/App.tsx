@@ -24,6 +24,7 @@ import AdminAuditLog from "./pages/AdminAuditLog";
 import AdminRoles from "./pages/AdminRoles";
 import AdminCompanyProfile from "./pages/AdminCompanyProfile";
 import AdminBlogList from "./pages/AdminBlogList";
+import AdminBlogSeo from "./pages/AdminBlogSeo";
 import AdminBlogEditor from "./pages/AdminBlogEditor";
 import AdminRateCard from "./pages/AdminRateCard";
 import NotFound from "./pages/NotFound";
@@ -58,6 +59,7 @@ const App = () => (
             <Route path="/admin/roles" element={<AdminRoles />} />
             <Route path="/admin/company-profile" element={<AdminCompanyProfile />} />
             <Route path="/admin/blog" element={<AdminBlogList />} />
+            <Route path="/admin/blog/seo" element={<AdminBlogSeo />} />
             <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
             <Route path="/admin/blog/:id/edit" element={<AdminBlogEditor />} />
             <Route path="/admin/rate-card" element={<AdminRateCard />} />
