@@ -248,10 +248,6 @@ async function generateAndScore(topic: typeof TOPIC_POOL[number], slug: string) 
   return { article, score, report };
 }
 
-// Overload generateArticle to accept optional rewrite feedback.
-const _origGen = generateArticle;
-// deno-lint-ignore no-explicit-any
-(globalThis as any).__origGen = _origGen;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
