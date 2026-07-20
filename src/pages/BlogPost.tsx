@@ -88,6 +88,22 @@ const BlogPost = () => {
   const primaryTag = tags[0]?.name;
   const url = `https://shivraj-enterprise.lovable.app/#/blog/${post.slug}`;
 
+  // Extract FAQ Q/A pairs from the article body for FAQPage schema.
+  const faqs: Array<{ q: string; a: string }> = (() => {
+    const html = post.content ?? "";
+    const section = html.match(/<h2[^>]*>\s*[^<]*frequently asked[^<]*<\/h2>([\s\S]*?)(?=<h2[\s>]|$)/i);
+    if (!section) return [];
+    const out: Array<{ q: string; a: string }> = [];
+    const re = /<h3[^>]*>([\s\S]*?)<\/h3>\s*([\s\S]*?)(?=<h3[\s>]|$)/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(section[1])) !== null) {
+      const q = m[1].replace(/<[^>]+>/g, "").trim();
+      const a = m[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      if (q && a) out.push({ q, a });
+    }
+    return out;
+  })();
+
   return (
     <Layout>
       <Helmet>
