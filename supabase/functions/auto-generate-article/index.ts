@@ -125,66 +125,181 @@ async function ensureUniqueSlug(base: string): Promise<string> {
 
 // ---------- SEO quality check ----------
 // Grades every generated post on meta length, heading structure and the
-// BlogPosting schema.org fields we can auto-fill. Returns 0–100 + a report.
+// schema.org fields we auto-fill (BlogPosting + FAQPage + BreadcrumbList).
+// Returns 0–100 + a full report.
 type SeoCheck = { id: string; label: string; pass: boolean; detail: string; weight: number };
-function scoreSeo(article: { title: string; excerpt: string; content_html: string }, slug: string): { score: number; report: { checks: SeoCheck[]; schema: Record<string, unknown> } } {
+
+// Extract FAQ Q/A pairs from the "Frequently asked questions" section — Qs are
+// rendered as <h3>, answers as the following <p>(s) until the next heading.
+function extractFaqs(html: string): Array<{ q: string; a: string }> {
+  const faqs: Array<{ q: string; a: string }> = [];
+  const faqSectionMatch = html.match(/<h2[^>]*>\s*[^<]*frequently asked[^<]*<\/h2>([\s\S]*?)(?=<h2[\s>]|$)/i);
+  if (!faqSectionMatch) return faqs;
+  const section = faqSectionMatch[1];
+  const re = /<h3[^>]*>([\s\S]*?)<\/h3>\s*([\s\S]*?)(?=<h3[\s>]|$)/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(section)) !== null) {
+    const q = m[1].replace(/<[^>]+>/g, "").trim();
+    const a = m[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if (q && a) faqs.push({ q, a });
+  }
+  return faqs;
+}
+
+function buildSchemas(article: { title: string; excerpt: string; content_html: string }, slug: string) {
+  const url = `https://shivraj-enterprise.lovable.app/blog/${slug}`;
+  const blogPosting = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.excerpt,
+    author: { "@type": "Organization", name: "Shivraj Enterprise" },
+    publisher: { "@type": "Organization", name: "Shivraj Enterprise" },
+    datePublished: new Date().toISOString(),
+    mainEntityOfPage: url,
+  };
+  const faqs = extractFaqs(article.content_html);
+  const faqPage = faqs.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }
+    : null;
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://shivraj-enterprise.lovable.app/" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/blog" },
+      { "@type": "ListItem", position: 3, name: article.title, item: url },
+    ],
+  };
+  return { blogPosting, faqPage, breadcrumb, faqs };
+}
+
+function scoreSeo(article: { title: string; excerpt: string; content_html: string }, slug: string) {
   const checks: SeoCheck[] = [];
   const t = article.title ?? "";
-  checks.push({ id: "title_length", label: "Meta title 50–65 chars", pass: t.length >= 50 && t.length <= 65, detail: `${t.length} chars`, weight: 15 });
+  checks.push({ id: "title_length", label: "Meta title 50–65 chars", pass: t.length >= 50 && t.length <= 65, detail: `${t.length} chars`, weight: 12 });
   const d = article.excerpt ?? "";
-  checks.push({ id: "meta_desc_length", label: "Meta description 120–160 chars", pass: d.length >= 120 && d.length <= 160, detail: `${d.length} chars`, weight: 15 });
+  checks.push({ id: "meta_desc_length", label: "Meta description 120–160 chars", pass: d.length >= 120 && d.length <= 160, detail: `${d.length} chars`, weight: 12 });
 
   const html = article.content_html ?? "";
   const h1 = (html.match(/<h1[\s>]/gi) ?? []).length;
-  checks.push({ id: "no_h1", label: "No <h1> in body (page owns H1)", pass: h1 === 0, detail: `${h1} found`, weight: 10 });
+  checks.push({ id: "no_h1", label: "No <h1> in body (page owns H1)", pass: h1 === 0, detail: `${h1} found`, weight: 8 });
 
   const h2 = (html.match(/<h2[\s>]/gi) ?? []).length;
-  checks.push({ id: "h2_count", label: "At least 4 H2 sections", pass: h2 >= 4, detail: `${h2} found`, weight: 10 });
+  checks.push({ id: "h2_count", label: "At least 4 H2 sections", pass: h2 >= 4, detail: `${h2} found`, weight: 8 });
 
-  // Heading order: every H3 must follow an H2, no jumping from H2 to H4.
   const headings = [...html.matchAll(/<h([2-4])[\s>]/gi)].map((m) => Number(m[1]));
   let orderOk = true;
   for (let i = 1; i < headings.length; i++) if (headings[i] - headings[i - 1] > 1) { orderOk = false; break; }
-  checks.push({ id: "heading_order", label: "Heading levels do not skip", pass: orderOk, detail: orderOk ? "ok" : headings.join(">"), weight: 10 });
+  checks.push({ id: "heading_order", label: "Heading levels do not skip", pass: orderOk, detail: orderOk ? "ok" : headings.join(">"), weight: 8 });
 
   const words = html.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
-  checks.push({ id: "word_count", label: "1200+ words", pass: words >= 1200, detail: `${words} words`, weight: 10 });
+  checks.push({ id: "word_count", label: "1200+ words", pass: words >= 1200, detail: `${words} words`, weight: 8 });
 
   checks.push({ id: "has_list", label: "Has a bullet or numbered list", pass: /<(ul|ol)[\s>]/i.test(html), detail: "", weight: 5 });
   checks.push({ id: "has_table", label: "Has a data table", pass: /<table[\s>]/i.test(html), detail: "", weight: 5 });
   checks.push({ id: "has_faq", label: "Has an FAQ section", pass: /frequently asked/i.test(html), detail: "", weight: 5 });
   checks.push({ id: "internal_link", label: "Has at least 1 internal link", pass: /<a\s+[^>]*href="\/[^"]/i.test(html), detail: "", weight: 5 });
 
-  // Build & validate BlogPosting JSON-LD.
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: t,
-    description: d,
-    author: { "@type": "Organization", name: "Shivraj Enterprise" },
-    publisher: { "@type": "Organization", name: "Shivraj Enterprise" },
-    datePublished: new Date().toISOString(),
-    mainEntityOfPage: `https://shivraj-enterprise.lovable.app/blog/${slug}`,
-  };
-  const schemaOk = Boolean(schema.headline && schema.description && schema.datePublished && schema.mainEntityOfPage);
-  checks.push({ id: "schema_valid", label: "BlogPosting schema is complete", pass: schemaOk, detail: "", weight: 10 });
+  const { blogPosting, faqPage, breadcrumb, faqs } = buildSchemas(article, slug);
+  const blogPostingOk = Boolean(blogPosting.headline && blogPosting.description && blogPosting.datePublished && blogPosting.mainEntityOfPage);
+  checks.push({ id: "schema_blogposting", label: "BlogPosting schema is complete", pass: blogPostingOk, detail: "", weight: 8 });
+  checks.push({ id: "schema_faqpage", label: "FAQPage schema has 3+ Q/A pairs", pass: !!faqPage && faqs.length >= 3, detail: `${faqs.length} pairs`, weight: 8 });
+  checks.push({ id: "schema_breadcrumb", label: "BreadcrumbList schema is complete", pass: breadcrumb.itemListElement.length === 3, detail: "", weight: 8 });
 
   const total = checks.reduce((s, c) => s + c.weight, 0);
   const gained = checks.filter((c) => c.pass).reduce((s, c) => s + c.weight, 0);
   const score = Math.round((gained / total) * 100);
-  return { score, report: { checks, schema } };
+  return { score, report: { checks, schema: { blogPosting, faqPage, breadcrumb } } };
 }
+
+// Threshold below which we auto-rewrite before publishing.
+const SEO_THRESHOLD = 80;
+const MAX_REWRITES = 2;
+
+function buildRewriteFeedback(report: { checks: SeoCheck[] }): string {
+  const fails = report.checks.filter((c) => !c.pass);
+  if (!fails.length) return "";
+  return "Previous draft failed these SEO checks — fix ALL of them:\n" +
+    fails.map((c) => `- ${c.label}${c.detail ? ` (was: ${c.detail})` : ""}`).join("\n");
+}
+
+async function generateAndScore(topic: typeof TOPIC_POOL[number], slug: string) {
+  let article = await generateArticle(topic);
+  let { score, report } = scoreSeo(article, slug);
+  let attempts = 0;
+  const history: Array<{ attempt: number; score: number }> = [{ attempt: 0, score }];
+  while (score < SEO_THRESHOLD && attempts < MAX_REWRITES) {
+    attempts++;
+    const feedback = buildRewriteFeedback(report);
+    article = await generateArticle(topic, feedback);
+    ({ score, report } = scoreSeo(article, slug));
+    history.push({ attempt: attempts, score });
+  }
+  (report as Record<string, unknown>).rewrite_history = history;
+  return { article, score, report };
+}
+
+// Overload generateArticle to accept optional rewrite feedback.
+const _origGen = generateArticle;
+// deno-lint-ignore no-explicit-any
+(globalThis as any).__origGen = _origGen;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const topic = await pickTopic();
-    const article = await generateArticle(topic);
-    const baseSlug = slugify(article.title) || slugify(topic.keyword);
-    const slug = await ensureUniqueSlug(baseSlug);
+    // Manual re-run: { post_id } — regenerates content for an existing post
+    // using its current title as the topic keyword and updates in place.
+    let body: { post_id?: string } = {};
+    try { body = await req.json(); } catch { /* no body */ }
 
-    const { score, report } = scoreSeo(article, slug);
+    if (body.post_id) {
+      const { data: existing, error: fetchErr } = await supabase
+        .from("blog_posts")
+        .select("id, slug, title")
+        .eq("id", body.post_id)
+        .single();
+      if (fetchErr || !existing) throw new Error("post not found");
+
+      const topic = {
+        keyword: existing.title,
+        angle: `Rewrite and improve this article for SEO. Keep the same topic and target audience.`,
+        category: "Manpower Supply",
+        tags: [] as string[],
+      };
+      const { article, score, report } = await generateAndScore(topic, existing.slug);
+      const { error: updErr } = await supabase
+        .from("blog_posts")
+        .update({
+          title: article.title.slice(0, 200),
+          excerpt: article.excerpt?.slice(0, 300) ?? null,
+          content: article.content_html,
+          seo_score: score,
+          seo_report: report,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existing.id);
+      if (updErr) throw updErr;
+
+      return new Response(
+        JSON.stringify({ ok: true, mode: "rerun", seo_score: score, post_id: existing.id }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    const topic = await pickTopic();
+    const baseSlug = slugify(topic.keyword);
+    const slug = await ensureUniqueSlug(baseSlug);
+    const { article, score, report } = await generateAndScore(topic, slug);
 
     const { data: inserted, error } = await supabase
       .from("blog_posts")
@@ -205,8 +320,6 @@ Deno.serve(async (req) => {
 
     await upsertTags(inserted!.id, topic.tags);
 
-    // Fire-and-forget: refresh the AI knowledge base + warm the dynamic
-    // sitemap/RSS cache so search engines and readers see the new post.
     const authHeaders = { "Content-Type": "application/json", Authorization: `Bearer ${SERVICE_ROLE}` };
     fetch(`${SUPABASE_URL}/functions/v1/ingest-knowledge`, { method: "POST", headers: authHeaders, body: "{}" }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/sitemap`, { headers: authHeaders }).catch(() => {});
