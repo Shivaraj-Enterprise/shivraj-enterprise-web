@@ -124,7 +124,7 @@ const Services = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Manpower Outsourcing & Manpower Supply Services – Shivraj Enterprise</title>
+        <title>Manpower Supply & Outsourcing – Shivraj Enterprise</title>
         <meta name="description" content="Manpower outsourcing services and manpower supply services in Vapi GIDC – skilled, semi-skilled and unskilled labour with full PF, ESIC & GST compliance. Transparent rate card." />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/services" />
         <meta property="og:title" content="Manpower Outsourcing & Supply Services – Shivraj Enterprise" />
