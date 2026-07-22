@@ -20,7 +20,7 @@ const PageHeader = () => {
           transition={{ duration: 0.6, ease: "backOut" }}
         >
           <div className="bg-white rounded-full p-3 shadow-2xl shadow-shivraj-500/40 ring-2 ring-white/20">
-            <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
+            <img src={logo} alt="Shivraj Enterprise manpower and housekeeping services logo" className="h-12 w-12 object-contain" />
           </div>
         </motion.div>
         <BlurText as="h1" text="Contact Shivraj Enterprise – Vapi GIDC, Gujarat" className="text-4xl md:text-5xl font-bold mb-4" />
