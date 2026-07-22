@@ -45,15 +45,7 @@ const Index = () => {
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              <TextType
-                as="span"
-                text="Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat"
-                typingSpeed={50}
-                pauseDuration={3000}
-                showCursor={true}
-                cursorCharacter={"|"}
-                loop={false}
-              />
+              Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat
             </h1>
             <p className="text-xl mb-8 text-shivraj-100">
               <TextType
@@ -125,7 +117,7 @@ const Index = () => {
               </p>
               <Button asChild className="bg-shivraj-600 hover:bg-shivraj-700">
                 <Link to="/about" className="flex items-center">
-                  Learn more about Shivraj Enterprise <ArrowRight size={16} className="ml-2" />
+                  Read our company story <ArrowRight size={16} className="ml-2" />
                 </Link>
               </Button>
             </div>
@@ -219,11 +211,17 @@ const Index = () => {
 
           {/* Client logo marquee */}
           <Marquee speed={28} className="mb-10 py-4 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
-            {[auroriumLogo, vertellusLogo, microOrgoLogo, hexacellLogo, vpiLogo].map((l, i) => (
+            {[
+              { logo: auroriumLogo, name: "Aurorium India Pvt. Ltd." },
+              { logo: vertellusLogo, name: "Vertellus Specialty Pvt. Ltd." },
+              { logo: microOrgoLogo, name: "Micro Orgo Chem Pvt. Ltd." },
+              { logo: hexacellLogo, name: "Hexacell Packaging Pvt. Ltd." },
+              { logo: vpiLogo, name: "Vapi Products Industries Pvt. Ltd." },
+            ].map(({ logo: l, name }, i) => (
               <img
                 key={i}
                 src={l.url}
-                alt="Client logo"
+                alt={`${name} logo`}
                 loading="lazy"
                 width={120}
                 height={64}

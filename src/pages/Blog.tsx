@@ -112,13 +112,14 @@ const Blog = () => {
           </p>
 
           <div className="mt-10 max-w-xl mx-auto relative">
+            <label htmlFor="blog-search" className="sr-only">Search articles, topics and tags</label>
             <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-shivraj-500" />
             <Input
+              id="blog-search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search articles, topics, tags…"
               className="pl-11 h-12 rounded-full bg-white text-shivraj-900 border-0 shadow-xl placeholder:text-shivraj-400"
-              aria-label="Search posts"
             />
           </div>
         </div>
