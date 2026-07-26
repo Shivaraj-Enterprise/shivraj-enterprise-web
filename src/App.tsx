@@ -15,6 +15,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import GstTdsGuide from "./pages/GstTdsGuide";
 import OutsourcingVsInHouse from "./pages/OutsourcingVsInHouse";
+import HrComplianceChecklist from "./pages/HrComplianceChecklist";
 import ScrollToTop from "./components/ScrollToTop";
 
 import AdminLogin from "./pages/AdminLogin";
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/gst-tds-manpower-supply-guide" element={<GstTdsGuide />} />
             <Route path="/blog/manpower-outsourcing-vs-in-house-hiring" element={<OutsourcingVsInHouse />} />
+            <Route path="/blog/hr-compliance-checklist-vapi-gidc" element={<HrComplianceChecklist />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
 
 
