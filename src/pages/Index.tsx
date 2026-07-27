@@ -29,6 +29,7 @@ const Index = () => {
       <Helmet>
         <title>Shivraj Enterprise – Manpower & Housekeeping in Vapi GIDC</title>
         <meta name="description" content="Skilled, semi-skilled & unskilled manpower and housekeeping services across Vapi GIDC, Gujarat. Serving engineering, pharma, chemical & packaging industries." />
+        <link rel="preload" as="image" href={logo} fetchPriority="high" />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/" />
         <meta property="og:title" content="Shivraj Enterprise – Manpower & Housekeeping in Vapi GIDC" />
         <meta property="og:description" content="Skilled, semi-skilled & unskilled manpower and housekeeping services across Vapi GIDC, Gujarat." />
@@ -41,7 +42,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
               <div className="bg-white rounded-full p-4 shadow-lg">
-                <img src={logo} alt="Shivraj Enterprise logo" width={80} height={80} fetchPriority="high" decoding="async" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
+                <img src={logo} alt="Shivraj Enterprise logo" width={80} height={80} loading="eager" fetchPriority="high" decoding="async" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
