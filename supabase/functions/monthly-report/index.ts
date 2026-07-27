@@ -20,6 +20,16 @@ function toCsv(rows: Record<string, unknown>[]): string {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  // Shared-secret auth: required for all non-OPTIONS requests
+  const expected = Deno.env.get("REPORT_SECRET");
+  const provided = req.headers.get("x-report-secret");
+  if (!expected || !provided || provided !== expected) {
+    return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   try {
     const url = new URL(req.url);
     // Optional overrides for manual runs: ?from=YYYY-MM-DD&to=YYYY-MM-DD
