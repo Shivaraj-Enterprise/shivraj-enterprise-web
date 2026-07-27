@@ -20,10 +20,16 @@ function toCsv(rows: Record<string, unknown>[]): string {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
-  // Shared-secret auth: required for all non-OPTIONS requests
-  const expected = Deno.env.get("REPORT_SECRET");
+  // Shared-secret auth: required for all non-OPTIONS requests.
+  // The expected value is stored in Vault and read via a service-role RPC.
+  const authClient = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  );
+  const { data: expected, error: secretErr } = await authClient.rpc("get_monthly_report_secret");
   const provided = req.headers.get("x-report-secret");
-  if (!expected || !provided || provided !== expected) {
+  if (secretErr || !expected || !provided || provided !== expected) {
+    if (secretErr) console.error("monthly-report secret lookup failed", secretErr);
     return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
       status: 401,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
