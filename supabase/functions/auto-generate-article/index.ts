@@ -348,10 +348,16 @@ Deno.serve(async (req) => {
 
     await upsertTags(inserted!.id, topic.tags);
 
-    const authHeaders = { "Content-Type": "application/json", Authorization: `Bearer ${SERVICE_ROLE}` };
+    const { data: internalSecret } = await supabase.rpc("get_monthly_report_secret");
+    const authHeaders: Record<string, string> = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${SERVICE_ROLE}`,
+      ...(internalSecret ? { "x-internal-secret": internalSecret as string } : {}),
+    };
     fetch(`${SUPABASE_URL}/functions/v1/ingest-knowledge`, { method: "POST", headers: authHeaders, body: "{}" }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/sitemap`, { headers: authHeaders }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/sitemap/rss`, { headers: authHeaders }).catch(() => {});
+
 
     return new Response(
       JSON.stringify({ ok: true, keyword: topic.keyword, seo_score: score, post: inserted }),
