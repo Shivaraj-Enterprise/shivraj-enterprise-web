@@ -11,8 +11,7 @@ import ArticleImage from "@/components/blog/ArticleImage";
 
 const url =
   "https://shivraj-enterprise.lovable.app/#/blog/manpower-outsourcing-vs-in-house-hiring";
-const title =
-  "Manpower Outsourcing vs In-House Hiring in Vapi GIDC: A 2026 Cost-Benefit Guide";
+const title = "Manpower Outsourcing vs In-House Vapi";
 const description =
   "Compare manpower outsourcing benefits with in-house hiring for Vapi GIDC engineering, chemical and pharma plants — PF/ESIC compliance, recruitment overhead and true cost of labour supply in Vapi.";
 const publishedAt = "2026-07-14";
