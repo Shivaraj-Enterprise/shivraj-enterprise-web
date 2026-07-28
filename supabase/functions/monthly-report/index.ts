@@ -96,16 +96,19 @@ Deno.serve(async (req) => {
     });
 
     const emailJson = await emailRes.json();
-    if (!emailRes.ok) throw new Error(`Resend error: ${JSON.stringify(emailJson)}`);
+    if (!emailRes.ok) {
+      console.error("monthly-report resend error", emailRes.status, emailJson);
+      throw new Error("Email delivery failed");
+    }
 
     return new Response(
-      JSON.stringify({ success: true, count: data?.length ?? 0, from, to, email: emailJson }),
+      JSON.stringify({ success: true }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {
     console.error("monthly-report error", err);
     return new Response(
-      JSON.stringify({ success: false, error: err instanceof Error ? err.message : String(err) }),
+      JSON.stringify({ success: false, error: "Internal error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
