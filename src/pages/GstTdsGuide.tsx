@@ -10,7 +10,7 @@ import FaqAccordion from "@/components/blog/FaqAccordion";
 import ArticleImage from "@/components/blog/ArticleImage";
 
 const url = "https://shivraj-enterprise.lovable.app/#/blog/gst-tds-manpower-supply-guide";
-const title = "GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide";
+const title = "GST & TDS on Manpower Supply | Vapi";
 const description =
   "A practical guide to GST (RCM vs Forward Charge) and TDS Section 194C on manpower supply services in India for procurement and HR managers in engineering, pharma and chemical sectors.";
 

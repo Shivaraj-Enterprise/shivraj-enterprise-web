@@ -11,8 +11,7 @@ import ArticleImage from "@/components/blog/ArticleImage";
 
 const url =
   "https://shivraj-enterprise.lovable.app/#/blog/hr-compliance-checklist-vapi-gidc";
-const title =
-  "2026 HR Compliance Checklist for Industrial Plants in Vapi GIDC";
+const title = "HR Compliance Checklist Vapi GIDC";
 const description =
   "A practical 2026 HR compliance checklist for industrial plants in Vapi GIDC & Gujarat — PF, ESIC, Factories Act, Contract Labour Act, wages & manpower supply audit essentials.";
 const publishedAt = "2026-07-26";
