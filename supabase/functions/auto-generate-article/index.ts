@@ -249,14 +249,46 @@ async function generateAndScore(topic: typeof TOPIC_POOL[number], slug: string) 
 }
 
 
+async function isAuthorized(req: Request): Promise<boolean> {
+  // Path 1: shared internal secret (used by pg_cron / server-to-server)
+  const provided = req.headers.get("x-internal-secret");
+  if (provided) {
+    const { data: expected } = await supabase.rpc("get_monthly_report_secret");
+    if (expected && provided === expected) return true;
+  }
+  // Path 2: authenticated admin JWT (used by admin UI re-run)
+  const authz = req.headers.get("Authorization") ?? "";
+  const token = authz.toLowerCase().startsWith("bearer ") ? authz.slice(7) : "";
+  if (token) {
+    const userClient = createClient(SUPABASE_URL, Deno.env.get("SUPABASE_ANON_KEY") ?? "", {
+      global: { headers: { Authorization: `Bearer ${token}` } },
+    });
+    const { data: userRes } = await userClient.auth.getUser();
+    const uid = userRes?.user?.id;
+    if (uid) {
+      const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: uid, _role: "admin" });
+      if (isAdmin === true) return true;
+    }
+  }
+  return false;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  if (!(await isAuthorized(req))) {
+    return new Response(JSON.stringify({ ok: false, error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
 
   try {
     // Manual re-run: { post_id } — regenerates content for an existing post
     // using its current title as the topic keyword and updates in place.
     let body: { post_id?: string } = {};
     try { body = await req.json(); } catch { /* no body */ }
+
 
     if (body.post_id) {
       const { data: existing, error: fetchErr } = await supabase
