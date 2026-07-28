@@ -121,10 +121,40 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Guardrails: bound prompt size to prevent cost abuse
+    if (prompt.length > 600) {
+      return new Response(
+        JSON.stringify({ error: "prompt too long" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
+
+    // Validate slug: must match a real static article or a published blog post
+    const STATIC_SLUGS = new Set([
+      "gst-tds-manpower-supply-guide",
+      "hr-compliance-checklist-vapi-gidc",
+      "manpower-outsourcing-vs-in-house-hiring",
+    ]);
+    if (!STATIC_SLUGS.has(slug)) {
+      const { data: post } = await supabase
+        .from("blog_posts")
+        .select("slug")
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
+      if (!post) {
+        return new Response(
+          JSON.stringify({ error: "unknown slug" }),
+          { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+    }
+
 
     // 1) Cache lookup
     const { data: existing } = await supabase
