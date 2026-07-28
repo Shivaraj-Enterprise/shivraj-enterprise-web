@@ -96,13 +96,47 @@ async function ingestUrl(url: string, sourceType: string): Promise<{ url: string
   }
 }
 
+const ALLOWED_HOSTS = new Set([
+  "shivraj-enterprise.lovable.app",
+  "id-preview--db2d17b4-0983-4eea-ba06-5a9e8f594602.lovable.app",
+]);
+
+function isAllowedUrl(u: string): boolean {
+  try {
+    const parsed = new URL(u);
+    if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return false;
+    return ALLOWED_HOSTS.has(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  // Require shared internal secret — this endpoint is server-to-server only
+  const provided = req.headers.get("x-internal-secret");
+  const { data: expected } = await supabase.rpc("get_monthly_report_secret");
+  if (!provided || !expected || provided !== expected) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   try {
     const body = req.method === "POST" ? await req.json().catch(() => ({})) : {};
     const site: string = body.site ?? DEFAULT_SITE;
-    const pdfUrls: string[] = Array.isArray(body.pdf_urls) ? body.pdf_urls : [];
-    const extraUrls: string[] = Array.isArray(body.urls) ? body.urls : [];
+    if (!isAllowedUrl(site)) {
+      return new Response(JSON.stringify({ error: "site not in allow-list" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const rawPdfUrls: string[] = Array.isArray(body.pdf_urls) ? body.pdf_urls : [];
+    const rawExtraUrls: string[] = Array.isArray(body.urls) ? body.urls : [];
+    const pdfUrls = rawPdfUrls.filter(isAllowedUrl);
+    const extraUrls = rawExtraUrls.filter(isAllowedUrl);
+
 
     // 1. Discover pages via sitemap
     const sitemapUrls = await fetchSitemapUrls(site);
