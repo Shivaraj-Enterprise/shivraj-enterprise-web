@@ -83,7 +83,10 @@ const AdminRateCard = () => {
 
   return (
     <AdminGate auth={auth}>
-      <Helmet><title>Admin – Rate Card</title></Helmet>
+      <Helmet>
+        <title>Admin – Rate Card</title>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <div className="flex items-center gap-3">
