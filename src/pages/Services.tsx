@@ -1,7 +1,7 @@
 import { CheckCircle, Users, Sparkles, PackageCheck, Truck, ClipboardCheck, Download } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";

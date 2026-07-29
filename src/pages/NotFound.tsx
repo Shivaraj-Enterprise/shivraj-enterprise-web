@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 
 const NotFound = () => {
   const location = useLocation();

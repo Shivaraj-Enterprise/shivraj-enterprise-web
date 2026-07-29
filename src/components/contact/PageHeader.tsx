@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
 

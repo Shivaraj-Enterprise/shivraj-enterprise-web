@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
 import SocialLinks from "@/components/SocialLinks";
 

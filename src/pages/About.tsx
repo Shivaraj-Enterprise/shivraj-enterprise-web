@@ -1,7 +1,7 @@
 import { Users, Shield, Award, BarChart, FileCheck } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
 
