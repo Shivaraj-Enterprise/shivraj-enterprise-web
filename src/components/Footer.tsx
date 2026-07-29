@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
 import SocialLinks from "@/components/SocialLinks";
 
@@ -17,7 +17,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="bg-white rounded-full p-2 flex-shrink-0">
-                <img src={logo} alt="Shivraj Enterprise logo" className="h-10 w-10 object-contain" />
+                <img src={logo} alt="Shivraj Enterprise logo" width={40} height={40} loading="lazy" decoding="async" className="h-10 w-10 object-contain" />
               </div>
               <h2 className="text-xl md:text-2xl font-bold">Shivraj Enterprise</h2>
             </div>

@@ -6,7 +6,7 @@ import Layout from "@/components/Layout";
 import TextType from "@/components/TextType";
 import PostCard from "@/components/blog/PostCard";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
 import auroriumLogo from "@/assets/clients/aurorium.png.asset.json";
 import vertellusLogo from "@/assets/clients/vertellus.jpg.asset.json";
@@ -55,7 +55,6 @@ const Index = () => {
                 typingSpeed={30}
                 pauseDuration={2500}
                 showCursor={false}
-                initialDelay={2000}
                 loop={false}
               />
             </p>
