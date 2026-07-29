@@ -55,7 +55,6 @@ const Index = () => {
                 typingSpeed={30}
                 pauseDuration={2500}
                 showCursor={false}
-                initialDelay={2000}
                 loop={false}
               />
             </p>
