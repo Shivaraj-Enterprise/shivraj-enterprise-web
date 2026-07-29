@@ -22,7 +22,7 @@ const NotFound = () => {
       </Helmet>
       <div className="text-center">
         <div className="flex justify-center mb-6">
-          <img src={logo} alt="Shivraj Enterprise logo" className="h-20 w-20 object-contain" />
+          <img src={logo} alt="Shivraj Enterprise logo" width={80} height={80} loading="eager" decoding="async" className="h-20 w-20 object-contain" />
         </div>
         <h1 className="text-4xl font-bold mb-4">404</h1>
         <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>

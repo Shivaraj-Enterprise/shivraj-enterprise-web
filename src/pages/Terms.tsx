@@ -47,7 +47,7 @@ const Terms = () => {
         <div className="container relative z-10 mx-auto px-4 text-center">
           <div className="flex justify-center mb-4">
             <div className="bg-white rounded-full p-3 shadow-2xl shadow-shivraj-500/40 ring-2 ring-white/20">
-              <img src={logo} alt="Shivraj Enterprise logo" className="h-12 w-12 object-contain" />
+              <img src={logo} alt="Shivraj Enterprise logo" width={48} height={48} loading="eager" decoding="async" className="h-12 w-12 object-contain" />
             </div>
           </div>
           <BlurText as="h1" text="Terms & Conditions" className="text-4xl md:text-5xl font-bold mb-4" />
