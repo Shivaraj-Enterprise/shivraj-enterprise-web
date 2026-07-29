@@ -10,6 +10,9 @@
  *   - contain a dynamic segment (":param")
  *   - start with an EXCLUDED_PREFIX (admin, internal, etc.)
  *
+ * Admin routes are intentionally omitted from the sitemap because
+ * robots.txt disallows /admin and every admin page uses noindex.
+ *
  * Exit code 1 on missing routes so this can gate CI.
  *
  * Run:  bunx tsx scripts/check-sitemap.ts
