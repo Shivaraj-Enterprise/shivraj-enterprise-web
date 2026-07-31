@@ -10,7 +10,7 @@ import FaqAccordion from "@/components/blog/FaqAccordion";
 import ArticleImage from "@/components/blog/ArticleImage";
 
 const url =
-  "https://shivraj-enterprise.lovable.app/#/blog/hr-compliance-checklist-vapi-gidc";
+  "https://shivraj-enterprise.lovable.app/blog/hr-compliance-checklist-vapi-gidc";
 const title = "HR Compliance Checklist Vapi GIDC";
 const description =
   "A practical 2026 HR compliance checklist for industrial plants in Vapi GIDC & Gujarat — PF, ESIC, Factories Act, Contract Labour Act, wages & manpower supply audit essentials.";
@@ -93,7 +93,7 @@ const HrComplianceChecklist = () => {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Home", item: "https://shivraj-enterprise.lovable.app/" },
-              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/#/blog" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/blog" },
               { "@type": "ListItem", position: 3, name: "HR Compliance Checklist – Vapi GIDC", item: url },
             ],
           })}

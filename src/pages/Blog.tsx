@@ -83,7 +83,7 @@ const Blog = () => {
       <Helmet>
         <title>Insights & Updates – Shivraj Enterprise Blog</title>
         <meta name="description" content="Manpower, compliance and industry insights for Vapi GIDC and beyond — practical guides from Shivraj Enterprise." />
-        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/blog" />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/blog" />
         <meta property="og:title" content="Insights & Updates – Shivraj Enterprise Blog" />
         <meta property="og:description" content="Manpower, compliance and industry insights for Vapi GIDC and beyond." />
         <meta property="og:type" content="website" />
@@ -217,10 +217,10 @@ const Blog = () => {
                     Our team helps plants across Vapi GIDC scale manpower, stay compliant and reduce hiring overhead. Talk to us for a tailored proposal.
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    <a href="/#/contact" className="inline-flex items-center px-5 py-2.5 rounded-full bg-shivraj-700 text-white font-medium hover:bg-shivraj-800 transition shadow hover:shadow-lg hover:-translate-y-0.5">
+                    <a href="/contact" className="inline-flex items-center px-5 py-2.5 rounded-full bg-shivraj-700 text-white font-medium hover:bg-shivraj-800 transition shadow hover:shadow-lg hover:-translate-y-0.5">
                       Talk to sales
                     </a>
-                    <a href="/#/services" className="inline-flex items-center px-5 py-2.5 rounded-full bg-white text-shivraj-700 font-medium border border-shivraj-200 hover:border-shivraj-400 transition">
+                    <a href="/services" className="inline-flex items-center px-5 py-2.5 rounded-full bg-white text-shivraj-700 font-medium border border-shivraj-200 hover:border-shivraj-400 transition">
                       Explore services
                     </a>
                   </div>

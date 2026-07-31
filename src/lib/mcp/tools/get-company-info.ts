@@ -22,7 +22,7 @@ const COMPANY_INFO = {
     phone: "+91 99984 98311",
     website: "https://shivraj-enterprise.lovable.app",
   },
-  contactPage: "https://shivraj-enterprise.lovable.app/#/contact",
+  contactPage: "https://shivraj-enterprise.lovable.app/contact",
 };
 
 export default defineTool({

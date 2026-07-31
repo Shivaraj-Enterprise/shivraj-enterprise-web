@@ -16,7 +16,7 @@ const Locations = () => {
           name="description"
           content="Manpower & housekeeping coverage across Vapi GIDC Phases 1–4, surrounding villages and pin codes in Valsad, Gujarat."
         />
-        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/locations" />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/locations" />
         <meta property="og:title" content="Service Areas in Vapi GIDC – Shivraj Enterprise" />
         <meta property="og:description" content="Manpower & housekeeping coverage across Vapi GIDC and nearby villages." />
         <script type="application/ld+json">

@@ -116,7 +116,7 @@ var COMPANY_INFO = {
     phone: "+91 99984 98311",
     website: "https://shivraj-enterprise.lovable.app"
   },
-  contactPage: "https://shivraj-enterprise.lovable.app/#/contact"
+  contactPage: "https://shivraj-enterprise.lovable.app/contact"
 };
 var get_company_info_default = defineTool4({
   name: "get_company_info",

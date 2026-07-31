@@ -222,13 +222,13 @@ const StaticArticleShell = ({
                 </div>
                 <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
                   <a
-                    href="/#/contact"
+                    href="/contact"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white text-shivraj-800 font-semibold hover:bg-shivraj-50 hover:-translate-y-0.5 transition-all shadow-lg"
                   >
                     Request a quote <ArrowRight size={16} />
                   </a>
                   <a
-                    href="/#/services"
+                    href="/services"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/25 text-white font-semibold hover:bg-white/20 transition-all"
                   >
                     Explore services

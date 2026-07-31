@@ -9,7 +9,7 @@ import { Callout, PullQuote, StatGrid, SectionDivider } from "@/components/blog/
 import FaqAccordion from "@/components/blog/FaqAccordion";
 import ArticleImage from "@/components/blog/ArticleImage";
 
-const url = "https://shivraj-enterprise.lovable.app/#/blog/gst-tds-manpower-supply-guide";
+const url = "https://shivraj-enterprise.lovable.app/blog/gst-tds-manpower-supply-guide";
 const title = "GST & TDS on Manpower Supply | Vapi";
 const description =
   "A practical guide to GST (RCM vs Forward Charge) and TDS Section 194C on manpower supply services in India for procurement and HR managers in engineering, pharma and chemical sectors.";
@@ -83,7 +83,7 @@ const GstTdsGuide = () => {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Home", item: "https://shivraj-enterprise.lovable.app/" },
-              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/#/blog" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/blog" },
               { "@type": "ListItem", position: 3, name: "GST & TDS on Manpower Supply", item: url },
             ],
           })}
