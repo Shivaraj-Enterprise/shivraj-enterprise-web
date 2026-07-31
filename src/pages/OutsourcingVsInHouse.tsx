@@ -10,7 +10,7 @@ import FaqAccordion from "@/components/blog/FaqAccordion";
 import ArticleImage from "@/components/blog/ArticleImage";
 
 const url =
-  "https://shivraj-enterprise.lovable.app/#/blog/manpower-outsourcing-vs-in-house-hiring";
+  "https://shivraj-enterprise.lovable.app/blog/manpower-outsourcing-vs-in-house-hiring";
 const title = "Manpower Outsourcing vs In-House Vapi";
 const description =
   "Compare manpower outsourcing benefits with in-house hiring for Vapi GIDC engineering, chemical and pharma plants — PF/ESIC compliance, recruitment overhead and true cost of labour supply in Vapi.";
@@ -85,7 +85,7 @@ const OutsourcingVsInHouse = () => {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Home", item: "https://shivraj-enterprise.lovable.app/" },
-              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/#/blog" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/blog" },
               { "@type": "ListItem", position: 3, name: "Manpower Outsourcing vs In-House Hiring", item: url },
             ],
           })}

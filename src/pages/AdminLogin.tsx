@@ -25,8 +25,8 @@ const AdminLogin = () => {
     });
   }, [navigate]);
 
-  const redirectUrl = `${window.location.origin}/#/admin/submissions`;
-  const resetRedirectUrl = `${window.location.origin}/#/admin/reset-password`;
+  const redirectUrl = `${window.location.origin}/admin/submissions`;
+  const resetRedirectUrl = `${window.location.origin}/admin/reset-password`;
 
   const handleGoogleSignIn = async () => {
     setLoading(true);

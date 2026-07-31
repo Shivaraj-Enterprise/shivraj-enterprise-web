@@ -126,10 +126,10 @@ const Services = () => {
       <Helmet>
         <title>Manpower Supply & Outsourcing – Shivraj Enterprise</title>
         <meta name="description" content="Manpower outsourcing & supply services in Vapi GIDC. Skilled, semi-skilled & unskilled labour with PF, ESIC & GST compliance. View our rate card." />
-        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/services" />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/services" />
         <meta property="og:title" content="Manpower Outsourcing & Supply Services – Shivraj Enterprise" />
         <meta property="og:description" content="Manpower outsourcing and manpower supply services with transparent rates and full statutory compliance." />
-        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/services" />
+        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/services" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
       {/* Page Header */}

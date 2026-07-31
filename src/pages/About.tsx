@@ -11,10 +11,10 @@ const About = () => {
       <Helmet>
         <title>About Shivraj Enterprise – 10+ Years in Manpower Supply</title>
         <meta name="description" content="Learn about Shivraj Enterprise: a decade of experience supplying skilled labour and housekeeping staff to industries across Vapi GIDC, Gujarat." />
-        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/about" />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/about" />
         <meta property="og:title" content="About Shivraj Enterprise" />
         <meta property="og:description" content="A decade of experience supplying skilled labour and housekeeping staff to industries in Vapi GIDC." />
-        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/about" />
+        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/about" />
       </Helmet>
       {/* Page Header */}
       <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white py-20">

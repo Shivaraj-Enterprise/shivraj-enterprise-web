@@ -87,7 +87,7 @@ const BlogPost = () => {
 
   const tags = (post.blog_post_tags ?? []).map((pt) => pt.blog_tags).filter(Boolean) as { slug: string; name: string }[];
   const primaryTag = tags[0]?.name;
-  const url = `https://shivraj-enterprise.lovable.app/#/blog/${post.slug}`;
+  const url = `https://shivraj-enterprise.lovable.app/blog/${post.slug}`;
 
   const faqs: Array<{ q: string; a: string }> = (() => {
     const html = post.content ?? "";
@@ -144,7 +144,7 @@ const BlogPost = () => {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Home", item: "https://shivraj-enterprise.lovable.app/" },
-              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/#/blog" },
+              { "@type": "ListItem", position: 2, name: "Blog", item: "https://shivraj-enterprise.lovable.app/blog" },
               { "@type": "ListItem", position: 3, name: post.title, item: url },
             ],
           })}

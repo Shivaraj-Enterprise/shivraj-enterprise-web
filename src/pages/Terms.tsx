@@ -37,10 +37,10 @@ const Terms = () => {
       <Helmet>
         <title>Terms & Conditions – Shivraj Enterprise</title>
         <meta name="description" content="Terms and conditions for engaging Shivraj Enterprise for manpower supply, housekeeping and auxiliary services." />
-        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/#/terms" />
+        <link rel="canonical" href="https://shivraj-enterprise.lovable.app/terms" />
         <meta property="og:title" content="Terms & Conditions – Shivraj Enterprise" />
         <meta property="og:description" content="Engagement terms for manpower and housekeeping services." />
-        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/#/terms" />
+        <meta property="og:url" content="https://shivraj-enterprise.lovable.app/terms" />
       </Helmet>
       <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white py-20">
         <AuroraBackground intensity="bold" />
