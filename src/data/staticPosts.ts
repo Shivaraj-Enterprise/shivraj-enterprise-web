@@ -3,6 +3,20 @@ import type { BlogPostCard } from "@/components/blog/PostCard";
 // Static/featured guides that live as their own routes (not in the DB).
 export const STATIC_POSTS: BlogPostCard[] = [
   {
+    id: "static-statutory-compliance-manpower-supply-guide",
+    slug: "statutory-compliance-manpower-supply-guide",
+    title: "Statutory Compliance for Manpower Supply in India: The 2026 Buyer's Guide",
+    excerpt:
+      "EPF, ESI, GST and labour law obligations that separate a compliant manpower agency from a risky one — with a monthly verification routine for industrial plants in Vapi GIDC.",
+    cover_image_url: null,
+    published_at: "2026-08-01",
+    tags: [
+      { slug: "compliance", name: "Compliance" },
+      { slug: "manpower-agency", name: "Manpower Agency" },
+      { slug: "epf-esi", name: "EPF & ESI" },
+    ],
+  },
+  {
     id: "static-hr-compliance-checklist-vapi-gidc",
     slug: "hr-compliance-checklist-vapi-gidc",
     title: "2026 HR Compliance Checklist for Industrial Plants in Vapi GIDC",
