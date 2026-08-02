@@ -1,4 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { SITE_KNOWLEDGE } from "../_shared/site-knowledge.ts";
+
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
