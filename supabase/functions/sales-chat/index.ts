@@ -75,16 +75,17 @@ async function buildKnowledgeBase(userQuery: string): Promise<string> {
     retrieveKnowledge(userQuery, 5),
   ]);
 
-  let kb = COMPANY_INFO;
+  let kb = COMPANY_INFO + "\n\n=== FULL WEBSITE CONTENT (every page) ===\n" + SITE_KNOWLEDGE;
   if (rateCard && rateCard.length) {
-    kb += "\n\nRATE CARD (public reference, final quote on request):\n" +
+    kb += "\n\nLIVE RATE CARD (overrides any rate above; final quote on request):\n" +
       rateCard.map((r) => `- ${r.service}: ${r.rate8 ?? "—"} ${r.unit8 ?? ""} (8-hr) | ${r.rate12 ?? "—"} ${r.unit12 ?? ""} (12-hr)`).join("\n");
   }
   if (retrieved) {
-    kb += "\n\nWEBSITE CONTENT (retrieved by relevance — cite the source URL when using):\n" + retrieved;
+    kb += "\n\nADDITIONAL RETRIEVED CONTENT (cite the source URL when using):\n" + retrieved;
   }
   return kb;
 }
+
 
 const SYSTEM_PROMPT_BASE = `You are the AI Sales Agent for SHIVRAJ ENTERPRISE PVT. LTD., a manpower supply and industrial housekeeping company in Vapi GIDC, Gujarat.
 
