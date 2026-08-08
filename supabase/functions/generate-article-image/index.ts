@@ -201,6 +201,18 @@ Deno.serve(async (req) => {
       }
     }
 
+    // Hard cap on distinct generated images per article (cost guardrail)
+    const { count } = await supabase
+      .from("article_images")
+      .select("id", { count: "exact", head: true })
+      .eq("slug", slug);
+    if ((count ?? 0) >= 6) {
+      return new Response(
+        JSON.stringify({ error: "image limit reached for this article" }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     // 2) Generate via Cloudflare
     const image = await callCloudflare(prompt, aspect_ratio);
     const { bytes, contentType } = imageStringToBytes(image);
