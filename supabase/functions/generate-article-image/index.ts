@@ -114,6 +114,16 @@ Deno.serve(async (req) => {
     const prompt = (body.prompt || "").trim();
     const aspect_ratio: Aspect = body.aspect_ratio ?? "16:9";
 
+    // Only allow the fixed set of section identifiers the site actually renders.
+    // This bounds the number of paid generations per article.
+    const SECTION_KEY_RE = /^figure-([1-9]|10)(-[a-z0-9-]{1,40})?$/;
+    if (!SECTION_KEY_RE.test(section_key)) {
+      return new Response(
+        JSON.stringify({ error: "invalid section_key" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     if (!slug || !section_key || !prompt) {
       return new Response(
         JSON.stringify({ error: "slug, section_key and prompt are required" }),
