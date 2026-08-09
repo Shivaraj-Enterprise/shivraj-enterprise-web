@@ -116,6 +116,7 @@ const SalesChatWidget = () => {
   const [pulseTick, setPulseTick] = useState(0);
   const [closing, setClosing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const lastAssistantRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const reducedMotion = useReducedMotion();
   const hasInteracted = messages.length > 1;
@@ -126,9 +127,22 @@ const SalesChatWidget = () => {
     } catch {}
   }, [messages]);
 
+  // Scroll so the latest assistant answer starts at the top of the chat
+  // viewport instead of jumping all the way down past it to the chips.
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.role === "assistant" && lastAssistantRef.current) {
+      const el = lastAssistantRef.current;
+      const targetTop = el.offsetTop - container.offsetTop - 16;
+      container.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+    } else {
+      container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+    }
   }, [messages, loading]);
+
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
