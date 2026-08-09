@@ -116,7 +116,7 @@ const SalesChatWidget = () => {
   const [pulseTick, setPulseTick] = useState(0);
   const [closing, setClosing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const lastAssistantRef = useRef<HTMLDivElement | null>(null);
+  const lastUserRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const reducedMotion = useReducedMotion();
   const hasInteracted = messages.length > 1;
@@ -127,15 +127,14 @@ const SalesChatWidget = () => {
     } catch {}
   }, [messages]);
 
-  // Scroll so the latest assistant answer starts at the top of the chat
-  // viewport instead of jumping all the way down past it to the chips.
+  // Scroll so the latest question sits at the top of the chat viewport,
+  // with its answer right below it.
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
 
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage?.role === "assistant" && lastAssistantRef.current) {
-      const el = lastAssistantRef.current;
+    if (lastUserRef.current) {
+      const el = lastUserRef.current;
       const targetTop = el.offsetTop - container.offsetTop - 16;
       container.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
     } else {
@@ -396,14 +395,14 @@ const SalesChatWidget = () => {
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
             {(() => {
-              const lastAssistantIndex = messages.reduce(
-                (idx, m, i) => (m.role === "assistant" ? i : idx),
+              const lastUserIndex = messages.reduce(
+                (idx, m, i) => (m.role === "user" ? i : idx),
                 -1
               );
               return messages.map((m, i) => (
                 <div
                   key={i}
-                  ref={i === lastAssistantIndex ? lastAssistantRef : undefined}
+                  ref={i === lastUserIndex ? lastUserRef : undefined}
                   className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
                 >
                   <div
