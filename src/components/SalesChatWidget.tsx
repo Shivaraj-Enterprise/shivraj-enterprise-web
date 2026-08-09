@@ -395,23 +395,31 @@ const SalesChatWidget = () => {
 
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
-              >
+            {(() => {
+              const lastAssistantIndex = messages.reduce(
+                (idx, m, i) => (m.role === "assistant" ? i : idx),
+                -1
+              );
+              return messages.map((m, i) => (
                 <div
-                  className={cn(
-                    "max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm whitespace-pre-wrap leading-relaxed",
-                    m.role === "user"
-                      ? "bg-shivraj-600 text-white rounded-br-sm"
-                      : "bg-white text-gray-800 border border-gray-200 rounded-bl-sm"
-                  )}
+                  key={i}
+                  ref={i === lastAssistantIndex ? lastAssistantRef : undefined}
+                  className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}
                 >
-                  {m.content}
+                  <div
+                    className={cn(
+                      "max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm whitespace-pre-wrap leading-relaxed",
+                      m.role === "user"
+                        ? "bg-shivraj-600 text-white rounded-br-sm"
+                        : "bg-white text-gray-800 border border-gray-200 rounded-bl-sm"
+                    )}
+                  >
+                    {m.content}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ));
+            })()}
+
             {loading && (
               <div className="flex justify-start">
                 <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-2 text-gray-500 text-sm">
