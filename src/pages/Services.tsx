@@ -1,4 +1,5 @@
-import { CheckCircle, Users, Sparkles, PackageCheck, Truck, ClipboardCheck, Download } from "lucide-react";
+import { CheckCircle, Users, Sparkles, PackageCheck, Truck, ClipboardCheck, Download, ArrowRight } from "lucide-react";
+import { servicePages } from "@/data/servicePages";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import logo from "@/assets/logo.webp";
