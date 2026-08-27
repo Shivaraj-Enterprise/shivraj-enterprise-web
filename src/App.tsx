@@ -17,6 +17,8 @@ import GstTdsGuide from "./pages/GstTdsGuide";
 import OutsourcingVsInHouse from "./pages/OutsourcingVsInHouse";
 import HrComplianceChecklist from "./pages/HrComplianceChecklist";
 import StatutoryComplianceGuide from "./pages/StatutoryComplianceGuide";
+import ServiceDetail from "./pages/ServiceDetail";
+import { servicePages } from "./data/servicePages";
 import ScrollToTop from "./components/ScrollToTop";
 
 import AdminLogin from "./pages/AdminLogin";
