@@ -268,10 +268,10 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
             <Link to="/contact" className="inline-block bg-white text-shivraj-800 px-7 py-3 rounded-lg font-medium hover:bg-shivraj-100 transition-colors">
               Get a Quote
             </Link>
-            <a href="tel:+919879578096" className="inline-flex items-center gap-2 border border-white/40 bg-white/10 px-7 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors">
+            <a href="tel:+919998498311" className="inline-flex items-center gap-2 border border-white/40 bg-white/10 px-7 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors">
               <Phone size={18} /> Call Us
             </a>
-            <a href="https://wa.me/919879578096" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 border border-white/40 bg-white/10 px-7 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors">
+            <a href="https://wa.me/919998498311" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 border border-white/40 bg-white/10 px-7 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors">
               <MessageCircle size={18} /> WhatsApp
             </a>
           </div>
