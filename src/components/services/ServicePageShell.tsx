@@ -5,7 +5,6 @@ import Layout from "@/components/Layout";
 import Breadcrumbs from "@/components/blog/Breadcrumbs";
 import FaqSection from "@/components/FaqSection";
 import AuroraBackground from "@/components/three/AuroraBackground";
-import BlurText from "@/components/reactbits/BlurText";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useRateCard } from "@/hooks/useRateCard";
@@ -93,7 +92,7 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
       <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white py-16 md:py-20">
         <AuroraBackground intensity="bold" />
         <div className="container relative z-10 mx-auto px-4 max-w-4xl text-center">
-          <BlurText as="h1" text={page.h1} className="text-3xl md:text-4xl lg:text-5xl font-bold mb-5" />
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-5">{page.h1}</h1>
           <p className="text-lg text-shivraj-100">{page.heroSubtitle}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50">
