@@ -1,67 +1,62 @@
-# Plan: React Bits + 3D revamp (full site, professional tone)
+# SEO Service Sub-Pages
 
-Transform every public page with React Bits animated components, a shader background, and an interactive 3D hero object — while keeping the existing shivraj-blue palette, typography, and copy so the site still reads as a serious B2B manpower brand.
+Build dedicated, deeply-optimised pages under `/services/<slug>` so each service can rank on its own, instead of everything competing on one `/services` page. Pages will be created one at a time, in the order below, so you can review each before the next.
 
-## What the user will see
+## Realistic ranking expectation
 
-**Home (`/`)**
-- New hero: Three.js `<Canvas>` with (a) a shader background (Aurora/Threads-style flowing gradient in shivraj blues) and (b) a slowly rotating, mouse-reactive 3D object (low-poly abstract industrial shape — interlocking torus/ico cluster) floating behind the headline. Existing TextType headline stays on top.
-- Stats strip with `CountUp` (10+ years, 1500+ workers, 50+ clients, etc.).
-- Service cards animate in with `TiltedCard` hover (subtle 3D tilt).
-- Testimonials become a `InfiniteScroll`/marquee row of client logos + cards.
-- Section reveals via `FadeContent` / `BlurText` on scroll.
-- "Latest News" and "Service Areas" sections keep current content but gain scroll-reveal + hover lift.
+Keyword data (India) for these terms shows low competition and low difficulty:
 
-**About / Services / Contact / Locations / Blog**
-- Shared `AnimatedBackground` (very subtle Threads/Particles shader, low opacity) behind page headers so the brand feels cohesive.
-- Page titles use `SplitText` or `BlurText` reveal.
-- Section content uses `AnimatedContent`/`FadeContent` on scroll.
-- Services rate-card rows animate in with stagger.
-- Contact form gets a `GlareHover` accent on the submit button.
-- Locations page: small rotating 3D globe/marker accent next to the map.
+- manpower outsourcing services — 390/mo, difficulty 15/100
+- loading and unloading services — 480/mo, difficulty 28/100
+- industrial housekeeping services — 20/mo, difficulty 0/100
+- skilled manpower supply — 30/mo, difficulty 0/100
 
-**Global polish**
-- Sticky header gets a `GradientText` brand wordmark and subtle blur-on-scroll.
-- Buttons gain a tasteful `ShinyText`/`GlareHover` variant for primary CTAs only.
-- Page transitions: fade + slight slide between routes.
-- Reduced-motion respected everywhere (`prefers-reduced-motion` disables 3D + shaders, falls back to static gradient).
+Local variants ("manpower supply services in Vapi", "contract labour supply Gujarat") have low national volume but very little competition — these are the ones where top-3 ranking is realistic within a few months. Broad national terms will take longer and depend on backlinks and Google Business activity, which are outside the site itself. So: strong chance of ranking top for Vapi/Silvassa/Daman/Sarigam/Umbergaon intent; no guarantee on national head terms.
 
-## How it's built (technical)
+## Pages to build (in this order)
 
-**Dependencies**
-- `three@^0.160`, `@react-three/fiber@^8.18`, `@react-three/drei@^9.122` (pinned — required for React 18).
-- `gsap` (already used by some react-bits components) and `motion` (Framer Motion v11) for scroll/reveal animations.
-- React Bits components copied directly into `src/components/reactbits/` from the official registry (`https://reactbits.dev/r/{name}.json`) — no MCP needed, the registry JSON contains the source. Components planned:
-  - Backgrounds: `Aurora`, `Threads` (pick one for hero, one ultra-subtle for inner pages)
-  - Text: `TextType` (already present), `SplitText`, `BlurText`, `GradientText`, `ShinyText`, `CountUp`
-  - Components: `TiltedCard`, `GlareHover`, `InfiniteScroll`, `AnimatedContent`, `FadeContent`, `MagnetLines`
-- `components.json` updated with the `@react-bits` registry entry for future installs.
+1. `/services/manpower-supply-services` — core money page
+2. `/services/manpower-outsourcing-services`
+3. `/services/industrial-housekeeping-services`
+4. `/services/loading-unloading-material-handling`
+5. `/services/skilled-operator-labour`
+6. `/services/semi-skilled-labour`
+7. `/services/unskilled-labour`
+8. `/services/supervisor-manpower`
+9. `/services/fitter-labour`
 
-**New files**
-- `src/components/three/HeroScene.tsx` — R3F canvas: shader plane + rotating 3D shape, mouse parallax, suspense fallback.
-- `src/components/three/SubtleBackground.tsx` — low-cost shader background for inner pages.
-- `src/components/reactbits/*` — copied React Bits source files (one per component used).
-- `src/hooks/useReducedMotion.ts` — gate 3D/shader mounting.
+Pages 5–9 mirror the rate-card service types and target role-specific searches.
 
-**Files edited**
-- `src/pages/Index.tsx` — swap hero, wrap sections in reveal components, add stats strip.
-- `src/pages/About.tsx`, `Services.tsx`, `Contact.tsx`, `Locations.tsx`, `Blog.tsx`, `BlogPost.tsx` — add `SubtleBackground` to page header, wrap content in reveal components, animate titles.
-- `src/components/Header.tsx` — gradient wordmark, scroll blur.
-- `src/components/Footer.tsx` — subtle gradient divider.
-- `src/index.css` / `tailwind.config.ts` — add gradient tokens and shimmer keyframes; no palette change.
-- `components.json` — add `registries["@react-bits"]`.
+## What each page contains (1200–1800 words)
 
-**Performance & safety**
-- 3D canvas lazy-loaded with `React.lazy` + `Suspense`; never blocks first paint.
-- Shader uses `dpr={[1, 1.5]}` cap and `frameloop="demand"` on inner pages.
-- Mobile (<768px): hero 3D object hidden; shader background swapped for static CSS gradient.
-- All animations honor `prefers-reduced-motion`.
+- H1 with primary keyword + region ("… in Vapi GIDC, Silvassa, Daman, Sarigam & Umbergaon")
+- Intro answering the search intent in the first 100 words
+- What the service covers / who it is for (industries: engineering, pharma, chemical, packaging, logistics)
+- Roles and shift options (8-hr / 12-hr), headcount scalability
+- Rate table pulled live from the existing rate card (filtered to the relevant role where applicable)
+- Statutory compliance block (PF, ESIC, CLRA, GST 18%, TDS 194C) with links to the existing compliance guides
+- Deployment process (requirement → screening → mobilisation in 24–48 hrs → supervision → monthly compliance proof)
+- Service-area list of Vapi GIDC Phases 1–4, Chala, Balitha, Salvav, Chharwada + Silvassa, Daman, Sarigam, Umbergaon
+- 6–8 FAQs unique per page (no duplication across pages)
+- Contact CTA: Get Quote / Call / WhatsApp
+- Internal links to related service pages, `/locations`, `/terms`, and relevant blog guides
 
-**Out of scope**
-- No backend/data changes. No copy rewrites. No palette change. Admin pages untouched.
+## Technical SEO
 
-## Acceptance
-- Every public page has at least one React Bits reveal animation and the shared subtle background.
-- Home hero renders a working 3D object + shader background on desktop, gracefully degrades on mobile / reduced-motion.
-- Existing content, routing, SEO tags, and shivraj blue theme remain intact.
-- No console errors; Lighthouse perf stays ≥ 70 on home.
+- One route per page in `src/App.tsx`, all above the catch-all
+- Per-page `<Helmet>`: title under 60 chars, description under 160 chars, self-referencing canonical, og:title/description/url
+- JSON-LD per page: `Service` + `BreadcrumbList` + `FAQPage`
+- Breadcrumbs UI (Home → Services → page) using the existing `Breadcrumbs` component
+- `/services` gets a "Our Services" card grid linking to all sub-pages (hub-and-spoke internal linking)
+- Every new URL added to `public/sitemap.xml`; `robots.txt` unchanged (already allows `/`)
+
+## Reusable structure
+
+A shared `ServicePageShell` component holds the layout (hero, sections, rate table, FAQ, CTA, breadcrumbs, schema), and each page supplies its own content object. Keeps the 9 pages consistent and fast to add, while all copy stays unique per page.
+
+## Notes
+
+- Copy will only use facts already on the site (rates, service areas, compliance details, 24–48 hr mobilisation). No invented certifications, client counts, or testimonials — tell me if you want specific credentials added.
+- Styling reuses the existing `shivraj-*` blue/white tokens and current section patterns.
+
+Confirm and I will build page 1 (`/services/manpower-supply-services`) first.
