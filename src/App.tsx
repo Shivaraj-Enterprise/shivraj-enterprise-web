@@ -47,6 +47,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
+            {servicePages.map((p) => (
+              <Route key={p.slug} path={`/services/${p.slug}`} element={<ServiceDetail slug={p.slug} />} />
+            ))}
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/locations" element={<Locations />} />
