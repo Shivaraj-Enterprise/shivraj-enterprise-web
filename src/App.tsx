@@ -17,6 +17,8 @@ import GstTdsGuide from "./pages/GstTdsGuide";
 import OutsourcingVsInHouse from "./pages/OutsourcingVsInHouse";
 import HrComplianceChecklist from "./pages/HrComplianceChecklist";
 import StatutoryComplianceGuide from "./pages/StatutoryComplianceGuide";
+import ServiceDetail from "./pages/ServiceDetail";
+import { servicePages } from "./data/servicePages";
 import ScrollToTop from "./components/ScrollToTop";
 
 import AdminLogin from "./pages/AdminLogin";
@@ -45,6 +47,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
+            {servicePages.map((p) => (
+              <Route key={p.slug} path={`/services/${p.slug}`} element={<ServiceDetail slug={p.slug} />} />
+            ))}
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/locations" element={<Locations />} />

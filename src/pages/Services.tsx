@@ -1,4 +1,5 @@
-import { CheckCircle, Users, Sparkles, PackageCheck, Truck, ClipboardCheck, Download } from "lucide-react";
+import { CheckCircle, Users, Sparkles, PackageCheck, Truck, ClipboardCheck, Download, ArrowRight } from "lucide-react";
+import { servicePages } from "@/data/servicePages";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import logo from "@/assets/logo.webp";
@@ -155,6 +156,33 @@ const Services = () => {
         </div>
       </section>
 
+      {/* Service sub-pages hub */}
+      <section className="section bg-shivraj-50">
+        <div className="container mx-auto">
+          <div className="max-w-4xl mx-auto text-center mb-10">
+            <h2 className="text-3xl font-bold text-shivraj-800 mb-4">Explore Each Service in Detail</h2>
+            <p className="text-lg text-gray-600">
+              Dedicated pages for every service and worker category we supply across Vapi GIDC, Sarigam, Umbergaon, Silvassa and Daman.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {servicePages.map((p) => (
+              <Link
+                key={p.slug}
+                to={`/services/${p.slug}`}
+                className="group block rounded-lg border border-shivraj-100 bg-white p-6 shadow-sm hover:shadow-md hover:border-shivraj-300 transition-all"
+              >
+                <h3 className="text-lg font-semibold text-shivraj-800 mb-2 group-hover:text-shivraj-600">{p.navLabel}</h3>
+                <p className="text-sm text-gray-600">{p.cardBlurb}</p>
+                <span className="mt-3 inline-flex items-center gap-1 text-sm text-shivraj-600">
+                  Learn more <ArrowRight size={14} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Core Services */}
       <section className="section bg-white">
         <div className="container mx-auto">
@@ -164,6 +192,7 @@ const Services = () => {
               Tailored manpower outsourcing and manpower supply services for Engineering, Pharmaceuticals, Chemicals, Packaging and Logistics companies across Vapi GIDC.
             </p>
           </div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {coreServices.map(({ icon: Icon, title, desc, bullets }) => (
