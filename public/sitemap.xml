@@ -16,6 +16,52 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/manpower-supply-services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/manpower-outsourcing-services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/industrial-housekeeping-services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/loading-unloading-material-handling</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/skilled-operator-labour</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/semi-skilled-labour</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/unskilled-labour</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/supervisor-manpower</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://shivraj-enterprise.lovable.app/services/fitter-labour</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://shivraj-enterprise.lovable.app/locations</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
