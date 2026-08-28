@@ -1,12 +1,31 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Phone, Mail } from "lucide-react";
+import { Menu, X, Phone, Mail, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import logo from "@/assets/logo.webp";
+import { servicePages } from "@/data/servicePages";
+
+const topServiceSlugs = [
+  "manpower-supply-services",
+  "manpower-outsourcing-services",
+  "industrial-housekeeping-solutions",
+];
+
+const topServices = servicePages.filter((p) => topServiceSlugs.includes(p.slug));
+const moreServices = servicePages.filter((p) => !topServiceSlugs.includes(p.slug));
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -42,10 +61,37 @@ const Header = () => {
           </Link>
 
           {/* Desktop menu */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="hidden md:flex space-x-6 items-center">
             <Link to="/" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Home</Link>
             <Link to="/about" className="text-shivraj-700 hover:text-shivraj-500 font-medium">About</Link>
-            <Link to="/services" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Services</Link>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-1 text-shivraj-700 hover:text-shivraj-500 font-medium outline-none focus-visible:ring-2 focus-visible:ring-shivraj-400 rounded">
+                  Services <ChevronDown size={16} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64 bg-white border-shivraj-100">
+                <DropdownMenuLabel className="text-shivraj-800">Top Services</DropdownMenuLabel>
+                {topServices.map((p) => (
+                  <DropdownMenuItem key={p.slug} asChild className="cursor-pointer text-shivraj-700 hover:text-shivraj-600 focus:bg-shivraj-50">
+                    <Link to={`/services/${p.slug}`}>{p.navLabel}</Link>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="text-shivraj-800">All Services</DropdownMenuLabel>
+                {moreServices.map((p) => (
+                  <DropdownMenuItem key={p.slug} asChild className="cursor-pointer text-shivraj-700 hover:text-shivraj-600 focus:bg-shivraj-50">
+                    <Link to={`/services/${p.slug}`}>{p.navLabel}</Link>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild className="cursor-pointer text-shivraj-600 font-medium focus:bg-shivraj-50">
+                  <Link to="/services">View All Services</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Link to="/locations" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Locations</Link>
             <Link to="/blog" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Blog</Link>
             <Link to="/contact" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Contact</Link>
@@ -94,7 +140,54 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Services</Link>
+                <button
+                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                  className="flex items-center justify-between w-full text-shivraj-700 hover:text-shivraj-500 font-medium"
+                >
+                  Services
+                  <ChevronDown size={16} className={`transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`} />
+                </button>
+                {mobileServicesOpen && (
+                  <ul className="mt-2 ml-3 pl-3 border-l-2 border-shivraj-200 space-y-2">
+                    <li>
+                      <span className="text-xs font-semibold text-shivraj-500 uppercase tracking-wide">Top Services</span>
+                    </li>
+                    {topServices.map((p) => (
+                      <li key={p.slug}>
+                        <Link
+                          to={`/services/${p.slug}`}
+                          className="block text-shivraj-700 hover:text-shivraj-500 text-sm"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {p.navLabel}
+                        </Link>
+                      </li>
+                    ))}
+                    <li className="pt-1">
+                      <span className="text-xs font-semibold text-shivraj-500 uppercase tracking-wide">All Services</span>
+                    </li>
+                    {moreServices.map((p) => (
+                      <li key={p.slug}>
+                        <Link
+                          to={`/services/${p.slug}`}
+                          className="block text-shivraj-700 hover:text-shivraj-500 text-sm"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {p.navLabel}
+                        </Link>
+                      </li>
+                    ))}
+                    <li>
+                      <Link
+                        to="/services"
+                        className="block text-shivraj-600 font-medium text-sm"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        View All Services
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </li>
               <li>
                 <Link to="/locations" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Locations</Link>
@@ -121,3 +214,4 @@ const Header = () => {
 };
 
 export default Header;
+
