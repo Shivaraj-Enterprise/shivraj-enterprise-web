@@ -88,9 +88,14 @@ const BlogPost = () => {
 
   const faqResult = useMemo(() => (post ? extractFaqSection(post.content ?? "") : { bodyHtml: "", faqs: [] }), [post]);
 
+  const takeawaysResult = useMemo(
+    () => extractTakeawaysSection(faqResult.bodyHtml),
+    [faqResult]
+  );
+
   const sanitizedContent = useMemo(
-    () => (post ? DOMPurify.sanitize(faqResult.bodyHtml, PURIFY_CONFIG) : ""),
-    [post, faqResult]
+    () => (post ? DOMPurify.sanitize(takeawaysResult.bodyHtml, PURIFY_CONFIG) : ""),
+    [post, takeawaysResult]
   );
 
   if (loading) {
