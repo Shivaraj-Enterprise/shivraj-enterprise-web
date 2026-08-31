@@ -164,7 +164,7 @@ const BlogPost = () => {
               mainEntity: faqs.map((f) => ({
                 "@type": "Question",
                 name: f.q,
-                acceptedAnswer: { "@type": "Answer", text: f.a },
+                acceptedAnswer: { "@type": "Answer", text: f.aText },
               })),
             })}
           </script>
