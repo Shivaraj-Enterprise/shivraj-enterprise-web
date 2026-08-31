@@ -32,6 +32,22 @@ const extractFaqSection = (html: string): { bodyHtml: string; faqs: Array<{ q: s
   return { bodyHtml: html.replace(section[0], ""), faqs };
 };
 
+// Extracts a "Key Takeaways" section (an <h2> "Key Takeaways" heading followed by a
+// list) so it can be rendered as the shared premium KeyTakeawaysCard design.
+const extractTakeawaysSection = (html: string): { bodyHtml: string; takeaways: string[] } => {
+  const section = /<h2[^>]*>\s*[^<]*key takeaway[^<]*<\/h2>([\s\S]*?)(?=<h2[\s>]|$)/i.exec(html);
+  if (!section) return { bodyHtml: html, takeaways: [] };
+  const takeaways: string[] = [];
+  const re = /<li[^>]*>([\s\S]*?)<\/li>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(section[1])) !== null) {
+    const item = DOMPurify.sanitize(m[1].replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+    if (item) takeaways.push(item);
+  }
+  if (takeaways.length === 0) return { bodyHtml: html, takeaways: [] };
+  return { bodyHtml: html.replace(section[0], ""), takeaways };
+};
+
 type Post = {
   id: string;
   slug: string;
