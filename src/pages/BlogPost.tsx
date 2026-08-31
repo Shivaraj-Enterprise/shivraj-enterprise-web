@@ -188,6 +188,17 @@ const BlogPost = () => {
         slug={post.slug}
       >
         <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+        {faqs.length > 0 && (
+          <FaqAccordion
+            id="post-faq"
+            title="Frequently asked questions"
+            subtitle="Quick answers on this topic from the Shivraj Enterprise editorial team."
+            items={faqs.map((f) => ({
+              q: f.q,
+              a: <div dangerouslySetInnerHTML={{ __html: f.aHtml }} />,
+            }))}
+          />
+        )}
       </StaticArticleShell>
 
       <RelatedPosts currentSlug={post.slug} currentTagSlugs={tags.map((t) => t.slug)} />
