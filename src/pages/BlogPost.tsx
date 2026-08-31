@@ -69,15 +69,11 @@ const BlogPost = () => {
 
   const readTime = useMemo(() => (post ? estimateReadTime(post.content) : 0), [post]);
 
+  const faqResult = useMemo(() => (post ? extractFaqSection(post.content ?? "") : { bodyHtml: "", faqs: [] }), [post]);
+
   const sanitizedContent = useMemo(
-    () =>
-      post
-        ? DOMPurify.sanitize(post.content, {
-            ALLOWED_TAGS: ["p","br","strong","em","u","s","h1","h2","h3","h4","ul","ol","li","blockquote","a","img","code","pre","hr","table","thead","tbody","tr","th","td"],
-            ALLOWED_ATTR: ["href","src","alt","title","target","rel","loading","class","id"],
-          })
-        : "",
-    [post]
+    () => (post ? DOMPurify.sanitize(faqResult.bodyHtml, PURIFY_CONFIG) : ""),
+    [post, faqResult]
   );
 
   if (loading) {
