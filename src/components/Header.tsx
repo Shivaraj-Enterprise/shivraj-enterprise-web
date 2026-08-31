@@ -17,7 +17,7 @@ import { servicePages } from "@/data/servicePages";
 const topServiceSlugs = [
   "manpower-supply-services",
   "manpower-outsourcing-services",
-  "industrial-housekeeping-solutions",
+  "industrial-housekeeping-services",
 ];
 
 const topServices = servicePages.filter((p) => topServiceSlugs.includes(p.slug));
