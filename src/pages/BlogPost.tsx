@@ -6,6 +6,7 @@ import Layout from "@/components/Layout";
 import StaticArticleShell from "@/components/blog/StaticArticleShell";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import FaqAccordion from "@/components/blog/FaqAccordion";
+import KeyTakeawaysCard from "@/components/blog/KeyTakeawaysCard";
 import { supabase } from "@/integrations/supabase/client";
 
 const PURIFY_CONFIG = {
@@ -29,6 +30,22 @@ const extractFaqSection = (html: string): { bodyHtml: string; faqs: Array<{ q: s
   }
   if (faqs.length === 0) return { bodyHtml: html, faqs: [] };
   return { bodyHtml: html.replace(section[0], ""), faqs };
+};
+
+// Extracts a "Key Takeaways" section (an <h2> "Key Takeaways" heading followed by a
+// list) so it can be rendered as the shared premium KeyTakeawaysCard design.
+const extractTakeawaysSection = (html: string): { bodyHtml: string; takeaways: string[] } => {
+  const section = /<h2[^>]*>\s*[^<]*key takeaway[^<]*<\/h2>([\s\S]*?)(?=<h2[\s>]|$)/i.exec(html);
+  if (!section) return { bodyHtml: html, takeaways: [] };
+  const takeaways: string[] = [];
+  const re = /<li[^>]*>([\s\S]*?)<\/li>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(section[1])) !== null) {
+    const item = DOMPurify.sanitize(m[1].replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+    if (item) takeaways.push(item);
+  }
+  if (takeaways.length === 0) return { bodyHtml: html, takeaways: [] };
+  return { bodyHtml: html.replace(section[0], ""), takeaways };
 };
 
 type Post = {
@@ -71,9 +88,14 @@ const BlogPost = () => {
 
   const faqResult = useMemo(() => (post ? extractFaqSection(post.content ?? "") : { bodyHtml: "", faqs: [] }), [post]);
 
+  const takeawaysResult = useMemo(
+    () => extractTakeawaysSection(faqResult.bodyHtml),
+    [faqResult]
+  );
+
   const sanitizedContent = useMemo(
-    () => (post ? DOMPurify.sanitize(faqResult.bodyHtml, PURIFY_CONFIG) : ""),
-    [post, faqResult]
+    () => (post ? DOMPurify.sanitize(takeawaysResult.bodyHtml, PURIFY_CONFIG) : ""),
+    [post, takeawaysResult]
   );
 
   if (loading) {
@@ -188,6 +210,9 @@ const BlogPost = () => {
         slug={post.slug}
       >
         <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+        {takeawaysResult.takeaways.length > 0 && (
+          <KeyTakeawaysCard takeaways={takeawaysResult.takeaways} />
+        )}
         {faqs.length > 0 && (
           <FaqAccordion
             id="post-faq"
