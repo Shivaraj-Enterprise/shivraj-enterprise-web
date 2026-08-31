@@ -5,7 +5,31 @@ import DOMPurify from "dompurify";
 import Layout from "@/components/Layout";
 import StaticArticleShell from "@/components/blog/StaticArticleShell";
 import RelatedPosts from "@/components/blog/RelatedPosts";
+import FaqAccordion from "@/components/blog/FaqAccordion";
 import { supabase } from "@/integrations/supabase/client";
+
+const PURIFY_CONFIG = {
+  ALLOWED_TAGS: ["p","br","strong","em","u","s","h1","h2","h3","h4","ul","ol","li","blockquote","a","img","code","pre","hr","table","thead","tbody","tr","th","td"],
+  ALLOWED_ATTR: ["href","src","alt","title","target","rel","loading","class","id"],
+};
+
+// Extracts the FAQ block (an <h2> "Frequently Asked..." section with <h3> Q&A pairs)
+// from a post's HTML so it can be rendered as the shared premium FaqAccordion card design.
+const extractFaqSection = (html: string): { bodyHtml: string; faqs: Array<{ q: string; aHtml: string; aText: string }> } => {
+  const section = /<h2[^>]*>\s*[^<]*frequently asked[^<]*<\/h2>([\s\S]*?)(?=<h2[\s>]|$)/i.exec(html);
+  if (!section) return { bodyHtml: html, faqs: [] };
+  const faqs: Array<{ q: string; aHtml: string; aText: string }> = [];
+  const re = /<h3[^>]*>([\s\S]*?)<\/h3>\s*([\s\S]*?)(?=<h3[\s>]|$)/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(section[1])) !== null) {
+    const q = m[1].replace(/<[^>]+>/g, "").trim();
+    const aHtml = DOMPurify.sanitize(m[2], PURIFY_CONFIG).trim();
+    const aText = m[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if (q && aText) faqs.push({ q, aHtml, aText });
+  }
+  if (faqs.length === 0) return { bodyHtml: html, faqs: [] };
+  return { bodyHtml: html.replace(section[0], ""), faqs };
+};
 
 type Post = {
   id: string;
