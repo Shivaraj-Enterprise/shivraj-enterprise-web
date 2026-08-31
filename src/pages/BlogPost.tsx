@@ -210,6 +210,9 @@ const BlogPost = () => {
         slug={post.slug}
       >
         <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+        {takeawaysResult.takeaways.length > 0 && (
+          <KeyTakeawaysCard takeaways={takeawaysResult.takeaways} />
+        )}
         {faqs.length > 0 && (
           <FaqAccordion
             id="post-faq"
