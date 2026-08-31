@@ -6,6 +6,7 @@ import Layout from "@/components/Layout";
 import StaticArticleShell from "@/components/blog/StaticArticleShell";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import FaqAccordion from "@/components/blog/FaqAccordion";
+import KeyTakeawaysCard from "@/components/blog/KeyTakeawaysCard";
 import { supabase } from "@/integrations/supabase/client";
 
 const PURIFY_CONFIG = {
