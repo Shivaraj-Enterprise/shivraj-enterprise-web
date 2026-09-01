@@ -13,7 +13,12 @@ const TableOfContents = ({ containerRef }: { containerRef: React.RefObject<HTMLE
   useEffect(() => {
     const root = containerRef.current;
     if (!root) return;
-    const nodes = (Array.from(root.querySelectorAll("h2, h3")) as HTMLElement[]).filter(
+    let observer: IntersectionObserver | null = null;
+
+    const scan = () => {
+      observer?.disconnect();
+      observer = null;
+      const nodes = (Array.from(root.querySelectorAll("h2, h3")) as HTMLElement[]).filter(
       (el) => !el.querySelector("[data-faq-trigger]")
     );
     const used = new Set<string>();
