@@ -190,8 +190,8 @@ const StaticArticleShell = ({
             {/* Sidebar */}
             <aside className="hidden lg:block">
               <div className="sticky top-24 space-y-8">
-                <SidebarExtras currentSlug={slug} />
                 <TableOfContents containerRef={contentRef} />
+                <SidebarExtras currentSlug={slug} />
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-shivraj-600 mb-3">Share this post</div>
                   <ShareButtons url={url} title={title} />
