@@ -34,18 +34,27 @@ const TableOfContents = ({ containerRef }: { containerRef: React.RefObject<HTMLE
     });
     setHeadings(list);
 
-    if (list.length === 0) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActiveId(visible[0].target.id);
-      },
-      { rootMargin: "-96px 0px -60% 0px", threshold: [0, 1] }
-    );
-    nodes.forEach((n) => observer.observe(n));
-    return () => observer.disconnect();
+      if (list.length === 0) return;
+      observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          if (visible[0]) setActiveId(visible[0].target.id);
+        },
+        { rootMargin: "-96px 0px -60% 0px", threshold: [0, 1] }
+      );
+      nodes.forEach((n) => observer!.observe(n));
+    };
+
+    scan();
+    // Re-scan when article content (e.g. async-fetched HTML) changes.
+    const mo = new MutationObserver(() => scan());
+    mo.observe(root, { childList: true, subtree: true });
+    return () => {
+      mo.disconnect();
+      observer?.disconnect();
+    };
   }, [containerRef]);
 
   if (headings.length < 2) return null;
