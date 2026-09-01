@@ -9,10 +9,49 @@ import { defineMcp } from "npm:@lovable.dev/mcp-js@0.20.1";
 import { createClient } from "npm:@supabase/supabase-js@^2.105.4";
 import { defineTool } from "npm:@lovable.dev/mcp-js@0.20.1";
 import { z } from "npm:zod@^3.23.8";
+
+// src/lib/mcp/static-posts.ts
+var BASE = "https://shivraj-enterprise.lovable.app/blog";
+var STATIC_GUIDES = [
+  {
+    slug: "statutory-compliance-manpower-supply-guide",
+    title: "Statutory Compliance for Manpower Supply in India: The 2026 Buyer's Guide",
+    excerpt: "EPF, ESI, GST and labour law obligations that separate a compliant manpower agency from a risky one \u2014 with a monthly verification routine for industrial plants in Vapi GIDC.",
+    published_at: "2026-08-01",
+    url: `${BASE}/statutory-compliance-manpower-supply-guide`,
+    tags: ["Compliance", "Manpower Agency", "EPF & ESI"]
+  },
+  {
+    slug: "hr-compliance-checklist-vapi-gidc",
+    title: "2026 HR Compliance Checklist for Industrial Plants in Vapi GIDC",
+    excerpt: "A practical, audit-ready 2026 HR compliance checklist for Vapi GIDC plants \u2014 PF, ESIC, Factories Act, Contract Labour Act, wages, POSH and manpower supply due diligence.",
+    published_at: "2026-07-26",
+    url: `${BASE}/hr-compliance-checklist-vapi-gidc`,
+    tags: ["Compliance", "Vapi GIDC", "HR"]
+  },
+  {
+    slug: "manpower-outsourcing-vs-in-house-hiring",
+    title: "Manpower Outsourcing vs In-House Hiring in Vapi GIDC: A 2026 Cost-Benefit Guide",
+    excerpt: "Compare manpower outsourcing benefits with in-house hiring for Vapi GIDC plants \u2014 PF/ESIC compliance, recruitment overhead and the true cost of labour supply in Vapi.",
+    published_at: "2026-07-14",
+    url: `${BASE}/manpower-outsourcing-vs-in-house-hiring`,
+    tags: ["Outsourcing", "Vapi GIDC", "Compliance"]
+  },
+  {
+    slug: "gst-tds-manpower-supply-guide",
+    title: "GST & TDS on Manpower Supply Services in India \u2013 A Compliance Guide",
+    excerpt: "A practical guide to GST (18% Forward Charge, RCM) and TDS Section 194C for manpower outsourcing in India \u2014 for procurement, finance and HR managers.",
+    published_at: "2026-07-03",
+    url: `${BASE}/gst-tds-manpower-supply-guide`,
+    tags: ["Compliance", "GST", "TDS"]
+  }
+];
+
+// src/lib/mcp/tools/list-blog-posts.ts
 var list_blog_posts_default = defineTool({
   name: "list_blog_posts",
   title: "List blog posts",
-  description: "List published blog posts from Shivraj Enterprise (title, slug, excerpt, published date, cover image).",
+  description: "List ALL published blog posts and compliance guides from Shivraj Enterprise (title, slug, excerpt, published date, cover image, canonical URL) \u2014 includes both the latest dynamic articles and the long-form static guides.",
   inputSchema: {
     limit: z.number().int().min(1).max(50).optional().describe("Maximum posts to return (1-50, default 20).")
   },
@@ -20,16 +59,32 @@ var list_blog_posts_default = defineTool({
   handler: async ({ limit }) => {
     const supabase = createClient(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_PUBLISHABLE_KEY,
+      process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY,
       { auth: { persistSession: false, autoRefreshToken: false } }
     );
     const { data, error } = await supabase.from("blog_posts").select("id, title, slug, excerpt, published_at, cover_image_url").eq("published", true).order("published_at", { ascending: false }).limit(limit ?? 20);
     if (error) {
       return { content: [{ type: "text", text: error.message }], isError: true };
     }
+    const dbPosts = (data ?? []).map((p) => ({
+      ...p,
+      url: `https://shivraj-enterprise.lovable.app/blog/${p.slug}`,
+      source: "article"
+    }));
+    const guides = STATIC_GUIDES.map((g) => ({
+      id: `static-${g.slug}`,
+      title: g.title,
+      slug: g.slug,
+      excerpt: g.excerpt,
+      published_at: g.published_at,
+      cover_image_url: null,
+      url: g.url,
+      source: "guide"
+    }));
+    const all = [...dbPosts, ...guides].sort((a, b) => String(b.published_at).localeCompare(String(a.published_at))).slice(0, limit ?? 20);
     return {
-      content: [{ type: "text", text: JSON.stringify(data ?? []) }],
-      structuredContent: { posts: data ?? [] }
+      content: [{ type: "text", text: JSON.stringify(all) }],
+      structuredContent: { posts: all }
     };
   }
 });
@@ -41,7 +96,7 @@ import { z as z2 } from "npm:zod@^3.23.8";
 var get_blog_post_default = defineTool2({
   name: "get_blog_post",
   title: "Get blog post",
-  description: "Get a single published blog post from Shivraj Enterprise by its slug, including full content.",
+  description: "Get a single published blog post from Shivraj Enterprise by its slug, including full content. Works for both dynamic articles (full content returned) and long-form static guides (metadata and canonical URL returned).",
   inputSchema: {
     slug: z2.string().trim().min(1).describe("Blog post slug, e.g. 'gst-tds-manpower-supply-guide'.")
   },
@@ -49,20 +104,38 @@ var get_blog_post_default = defineTool2({
   handler: async ({ slug }) => {
     const supabase = createClient2(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_PUBLISHABLE_KEY,
+      process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY,
       { auth: { persistSession: false, autoRefreshToken: false } }
     );
     const { data, error } = await supabase.from("blog_posts").select("id, title, slug, excerpt, content, published_at, cover_image_url").eq("published", true).eq("slug", slug).maybeSingle();
     if (error) {
       return { content: [{ type: "text", text: error.message }], isError: true };
     }
-    if (!data) {
-      return { content: [{ type: "text", text: `No published post found for slug '${slug}'.` }], isError: true };
+    if (data) {
+      return {
+        content: [{ type: "text", text: JSON.stringify(data) }],
+        structuredContent: { post: data }
+      };
     }
-    return {
-      content: [{ type: "text", text: JSON.stringify(data) }],
-      structuredContent: { post: data }
-    };
+    const guide = STATIC_GUIDES.find((g) => g.slug === slug);
+    if (guide) {
+      const post = {
+        id: `static-${guide.slug}`,
+        title: guide.title,
+        slug: guide.slug,
+        excerpt: guide.excerpt,
+        published_at: guide.published_at,
+        cover_image_url: null,
+        url: guide.url,
+        tags: guide.tags,
+        note: "This is a long-form static guide. Read the full article at the url."
+      };
+      return {
+        content: [{ type: "text", text: JSON.stringify(post) }],
+        structuredContent: { post }
+      };
+    }
+    return { content: [{ type: "text", text: `No published post found for slug '${slug}'.` }], isError: true };
   }
 });
 
@@ -78,7 +151,7 @@ var get_rate_card_default = defineTool3({
   handler: async () => {
     const supabase = createClient3(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_PUBLISHABLE_KEY,
+      process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY,
       { auth: { persistSession: false, autoRefreshToken: false } }
     );
     const { data, error } = await supabase.from("rate_card_items").select("service, rate8, unit8, rate12, unit12, sort_order").order("sort_order", { ascending: true });

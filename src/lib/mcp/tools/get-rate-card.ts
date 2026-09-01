@@ -13,7 +13,7 @@ export default defineTool({
   handler: async () => {
     const supabase = createClient(
       process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PUBLISHABLE_KEY!,
+      process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY!,
       { auth: { persistSession: false, autoRefreshToken: false } },
     );
     const { data, error } = await supabase
