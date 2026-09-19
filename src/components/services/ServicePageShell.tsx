@@ -1,3 +1,4 @@
+import CompanyProfileDownload from "@/components/CompanyProfileDownload";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { CheckCircle, Download, MapPin, Phone, MessageCircle, ShieldCheck, ArrowRight } from "lucide-react";
@@ -98,11 +99,7 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
             <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50">
               <Link to="/contact">Get a Quote</Link>
             </Button>
-            <Button asChild variant="outline" className="border-white/40 bg-white/10 text-white hover:bg-white/20">
-              <a href={`${import.meta.env.BASE_URL}SHIVRAJ_Enterprise_Company_Profile.pdf`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <Download size={18} /> Company Profile
-              </a>
-            </Button>
+            <CompanyProfileDownload className="border-white/40 bg-white/10 text-white hover:bg-white/20" />
           </div>
         </div>
       </section>
