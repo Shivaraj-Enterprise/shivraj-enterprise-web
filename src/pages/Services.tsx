@@ -1,3 +1,4 @@
+import CompanyProfileDownload from "@/components/CompanyProfileDownload";
 import { CheckCircle, Users, Sparkles, PackageCheck, Truck, ClipboardCheck, Download, ArrowRight } from "lucide-react";
 import { servicePages } from "@/data/servicePages";
 import { Helmet } from "react-helmet-async";

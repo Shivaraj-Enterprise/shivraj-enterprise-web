@@ -1,3 +1,4 @@
+import CompanyProfileDownload from "@/components/CompanyProfileDownload";
 import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, GraduationCap, Download, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
