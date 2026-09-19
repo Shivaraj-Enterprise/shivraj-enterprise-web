@@ -110,7 +110,8 @@ const Header = () => {
               variant="ghost" 
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X /> : <Menu />}
             </Button>
@@ -142,10 +143,12 @@ const Header = () => {
               <li>
                 <button
                   onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                  aria-expanded={mobileServicesOpen}
+                  aria-label={mobileServicesOpen ? "Hide services list" : "Show services list"}
                   className="flex items-center justify-between w-full text-shivraj-700 hover:text-shivraj-500 font-medium"
                 >
                   Services
-                  <ChevronDown size={16} className={`transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown size={16} aria-hidden="true" className={`transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`} />
                 </button>
                 {mobileServicesOpen && (
                   <ul className="mt-2 ml-3 pl-3 border-l-2 border-shivraj-200 space-y-2">

@@ -239,7 +239,7 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
                     <h3 className="font-semibold text-shivraj-800 mb-2 group-hover:text-shivraj-600">{r.navLabel}</h3>
                     <p className="text-sm text-gray-600">{r.cardBlurb}</p>
                     <span className="mt-3 inline-flex items-center gap-1 text-sm text-shivraj-600">
-                      Learn more <ArrowRight size={14} />
+                      Learn more <span className="sr-only">about {r.navLabel}</span><ArrowRight size={14} aria-hidden="true" />
                     </span>
                   </Link>
                 ))}

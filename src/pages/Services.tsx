@@ -175,7 +175,7 @@ const Services = () => {
                 <h3 className="text-lg font-semibold text-shivraj-800 mb-2 group-hover:text-shivraj-600">{p.navLabel}</h3>
                 <p className="text-sm text-gray-600">{p.cardBlurb}</p>
                 <span className="mt-3 inline-flex items-center gap-1 text-sm text-shivraj-600">
-                  Learn more <ArrowRight size={14} />
+                  Learn more <span className="sr-only">about {p.navLabel}</span><ArrowRight size={14} aria-hidden="true" />
                 </span>
               </Link>
             ))}
