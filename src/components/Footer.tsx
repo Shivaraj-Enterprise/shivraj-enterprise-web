@@ -2,12 +2,11 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import logo from "@/assets/logo.webp";
-import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
+import CompanyProfileDownload from "@/components/CompanyProfileDownload";
 import SocialLinks from "@/components/SocialLinks";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const profileUrl = useCompanyProfileUrl();
   
   return (
     <footer className="bg-shivraj-900 text-white">
@@ -55,7 +54,7 @@ const Footer = () => {
                 <Link to="/terms" className="text-shivraj-100 hover:text-white">Terms & Conditions</Link>
               </li>
               <li>
-                <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="text-shivraj-100 hover:text-white">Company Profile (PDF)</a>
+                <CompanyProfileDownload label="Company Profile (PDF)" variant="ghost" className="h-auto p-0 text-shivraj-100 hover:bg-transparent hover:text-white" />
               </li>
             </ul>
           </div>

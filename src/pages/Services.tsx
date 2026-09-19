@@ -147,11 +147,7 @@ const Services = () => {
             Shivraj Enterprise provides end-to-end manpower outsourcing services and manpower supply services for factories, warehouses and commercial sites across Vapi GIDC Phases 1–4, Chala, Balitha, Salvav, Chharwada and surrounding villages.
           </p>
           <div className="mt-6">
-            <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50">
-              <a href={`${import.meta.env.BASE_URL}SHIVRAJ_Enterprise_Company_Profile.pdf`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <Download size={18} /> Download Company Profile
-              </a>
-            </Button>
+            <CompanyProfileDownload label="Download Company Profile" variant="default" className="bg-white text-shivraj-800 hover:bg-shivraj-50" />
           </div>
         </div>
       </section>

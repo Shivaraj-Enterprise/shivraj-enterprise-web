@@ -65,11 +65,7 @@ const Index = () => {
               <Button asChild size="lg" variant="outline" className="border-white text-shivraj-900 font-medium hover:bg-white/10 hover:text-white">
                 <Link to="/contact">Contact Us</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white text-shivraj-900 font-medium hover:bg-white/10 hover:text-white">
-                <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  <Download size={18} /> Company Profile
-                </a>
-              </Button>
+              <CompanyProfileDownload size="lg" className="border-white text-shivraj-900 font-medium hover:bg-white/10 hover:text-white" />
             </div>
           </div>
         </div>
