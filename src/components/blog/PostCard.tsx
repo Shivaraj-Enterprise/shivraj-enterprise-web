@@ -25,6 +25,7 @@ const PostCard = ({ post, featured = false }: { post: BlogPostCard; featured?: b
   return (
     <Link
       to={`/blog/${post.slug}`}
+      aria-label={`Read article: ${post.title}`}
       className={`group relative flex flex-col bg-white rounded-2xl border border-shivraj-100 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-shivraj-200 ${
         featured ? "md:flex-row md:col-span-2 lg:col-span-3" : ""
       }`}
