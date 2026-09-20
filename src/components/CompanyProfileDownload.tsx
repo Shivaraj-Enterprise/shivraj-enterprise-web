@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useCompanyProfileUrl } from "@/hooks/useCompanyProfileUrl";
@@ -33,6 +34,7 @@ const CompanyProfileDownload = ({
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [sameAsPhone, setSameAsPhone] = useState(true);
   const [form, setForm] = useState({
     company: "",
     email: "",
@@ -47,15 +49,16 @@ const CompanyProfileDownload = ({
     e.preventDefault();
     setSaving(true);
     try {
-      await supabase.from("leads").insert({
-        company_name: form.company,
-        email: form.email,
-        mobile: form.phone,
-        source: "company-profile-download",
-        notes: `Company profile download request. WhatsApp: ${form.whatsapp}`,
+      await supabase.functions.invoke("profile-download-notify", {
+        body: {
+          company: form.company,
+          email: form.email,
+          phone: form.phone,
+          whatsapp: sameAsPhone ? form.phone : form.whatsapp,
+        },
       });
     } catch {
-      // still allow the download even if saving fails
+      // still allow the download even if saving/notifying fails
     }
     setSaving(false);
     setOpen(false);
@@ -92,12 +95,26 @@ const CompanyProfileDownload = ({
             <Input id="cp-email" type="email" required value={form.email} onChange={update("email")} placeholder="name@company.com" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="cp-whatsapp">WhatsApp number</Label>
-            <Input id="cp-whatsapp" type="tel" required pattern="[0-9+\s-]{8,15}" value={form.whatsapp} onChange={update("whatsapp")} placeholder="+91 98765 43210" />
-          </div>
-          <div className="space-y-2">
             <Label htmlFor="cp-phone">Phone number</Label>
             <Input id="cp-phone" type="tel" required pattern="[0-9+\s-]{8,15}" value={form.phone} onChange={update("phone")} placeholder="+91 98765 43210" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="cp-whatsapp">
+              WhatsApp number <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+            </Label>
+            <div className="flex items-center space-x-2 mb-2">
+              <Checkbox
+                id="cp-same-as-phone"
+                checked={sameAsPhone}
+                onCheckedChange={(checked) => setSameAsPhone(checked === true)}
+              />
+              <label htmlFor="cp-same-as-phone" className="text-sm text-muted-foreground cursor-pointer">
+                Same as phone number
+              </label>
+            </div>
+            {!sameAsPhone && (
+              <Input id="cp-whatsapp" type="tel" pattern="[0-9+\s-]{8,15}" value={form.whatsapp} onChange={update("whatsapp")} placeholder="+91 98765 43210" />
+            )}
           </div>
           <DialogFooter>
             <Button type="submit" disabled={saving} className="w-full">
