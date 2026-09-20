@@ -48,6 +48,11 @@ const CompanyProfileDownload = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+
+    // Open the PDF synchronously within the user gesture so pop-up blockers
+    // don't suppress it after the async save completes.
+    const pdfWindow = window.open(profileUrl, "_blank", "noopener,noreferrer");
+
     try {
       await supabase.functions.invoke("profile-download-notify", {
         body: {
@@ -58,15 +63,29 @@ const CompanyProfileDownload = ({
         },
       });
     } catch {
-      // still allow the download even if saving/notifying fails
+      // download already opened; saving/notifying failures are non-blocking
     }
     setSaving(false);
     setOpen(false);
-    toast({
-      title: "Thank you!",
-      description: "Your company profile download is starting.",
-    });
-    window.open(profileUrl, "_blank", "noopener,noreferrer");
+    if (pdfWindow) {
+      toast({
+        title: "Thank you!",
+        description: "Your company profile download is starting.",
+      });
+    } else {
+      toast({
+        title: "Pop-up blocked",
+        description: (
+          <span>
+            Your browser blocked the download.{" "}
+            <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="underline font-medium">
+              Tap here to open the company profile
+            </a>
+            .
+          </span>
+        ),
+      });
+    }
   };
 
   return (
