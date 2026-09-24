@@ -11,11 +11,8 @@ export const useCompanyProfileUrl = () => {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const { data } = await supabase
-        .storage
-        .from(BUCKET)
-        .createSignedUrl(PATH, 60 * 60);
-      if (!cancelled && data?.signedUrl) setUrl(data.signedUrl);
+      const { data } = await supabase.functions.invoke("company-profile-url");
+      if (!cancelled && data?.url) setUrl(data.url);
     })();
     return () => {
       cancelled = true;
