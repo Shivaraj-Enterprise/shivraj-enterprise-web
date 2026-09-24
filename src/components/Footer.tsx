@@ -42,6 +42,9 @@ const Footer = () => {
                 <Link to="/services" className="text-shivraj-100 hover:text-white">Our Services</Link>
               </li>
               <li>
+                <Link to="/labour-cost-calculator" className="text-shivraj-100 hover:text-white">Labour Cost Calculator</Link>
+              </li>
+              <li>
                 <Link to="/locations" className="text-shivraj-100 hover:text-white">Service Areas</Link>
               </li>
               <li>

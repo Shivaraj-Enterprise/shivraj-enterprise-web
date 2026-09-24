@@ -149,6 +149,7 @@ const Services = () => {
           </p>
           <div className="mt-6">
             <CompanyProfileDownload label="Download Company Profile" variant="default" className="bg-white text-shivraj-800 hover:bg-shivraj-50" />
+            <Link to="/labour-cost-calculator" className="ml-3 inline-block underline text-white">Calculate labour cost</Link>
           </div>
         </div>
       </section>
