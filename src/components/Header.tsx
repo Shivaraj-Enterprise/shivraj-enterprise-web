@@ -86,6 +86,9 @@ const Header = () => {
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />
+                <DropdownMenuItem asChild className="cursor-pointer text-shivraj-700 focus:bg-shivraj-50">
+                  <Link to="/labour-cost-calculator">Labour Cost Calculator</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer text-shivraj-600 font-medium focus:bg-shivraj-50">
                   <Link to="/services">View All Services</Link>
                 </DropdownMenuItem>
@@ -180,6 +183,11 @@ const Header = () => {
                         </Link>
                       </li>
                     ))}
+                    <li>
+                      <Link to="/labour-cost-calculator" className="block text-shivraj-700 hover:text-shivraj-500 text-sm" onClick={() => setMobileMenuOpen(false)}>
+                        Labour Cost Calculator
+                      </Link>
+                    </li>
                     <li>
                       <Link
                         to="/services"

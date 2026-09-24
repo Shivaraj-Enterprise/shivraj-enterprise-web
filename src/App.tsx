@@ -31,6 +31,7 @@ import AdminBlogList from "./pages/AdminBlogList";
 import AdminBlogSeo from "./pages/AdminBlogSeo";
 import AdminBlogEditor from "./pages/AdminBlogEditor";
 import AdminRateCard from "./pages/AdminRateCard";
+import LabourCostCalculator from "./pages/LabourCostCalculator";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
             ))}
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/labour-cost-calculator" element={<LabourCostCalculator />} />
             <Route path="/locations" element={<Locations />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/gst-tds-manpower-supply-guide" element={<GstTdsGuide />} />
