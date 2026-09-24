@@ -3,7 +3,7 @@
 // Keep in sync when page copy changes.
 
 export const SITE_KNOWLEDGE = `
-LABOUR COST CALCULATOR (/labour-cost-calculator): Free interactive tool. Formula per worker per day: Gross = Basic + DA; Overtime (4h) = Gross/2; A = Gross + OT; Leave 5%, PF 13%, Bonus 8.33% on Gross; ESIC 3.25% on A; B = sum; Service charge 12% on (A+B) = C; CGST 9% + SGST 9% on C. Example: Basic 520 + DA 200 with OT gives about ₹1,537 per day, ~₹39,970 per month (26 days). Monthly = daily x days x workers.
+LABOUR COST CALCULATOR (/labour-cost-calculator): Free interactive tool. Formula per worker per day: Gross = Basic + DA; Overtime (4h) = Gross/2; A = Gross + OT; Leave 5%, PF 13%, Bonus 8.33% on Gross; ESIC 3.25% on A; B = sum; Service charge 12% on (A+B) = C; CGST 9% + SGST 9% on C. Example: Basic 520 + DA 200 with OT gives about ₹1,724 per day, ~₹44,831 per month (26 days). Monthly = daily x days x workers.
 
 === SITE MAP (all public pages) ===
 /           Home
