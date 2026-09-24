@@ -149,6 +149,7 @@ Deno.serve(async (req) => {
       "gst-tds-manpower-supply-guide",
       "hr-compliance-checklist-vapi-gidc",
       "manpower-outsourcing-vs-in-house-hiring",
+      "statutory-compliance-manpower-supply-guide",
     ]);
     if (!STATIC_SLUGS.has(slug)) {
       const { data: post } = await supabase
