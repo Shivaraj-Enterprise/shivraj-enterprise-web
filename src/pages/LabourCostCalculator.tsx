@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Calculator, RotateCcw, Printer, Info, ChevronDown, MessageCircle, Phone } from "lucide-react";
-import { calculateCost, CostInputs, DEFAULT_INPUTS, inr } from "@/lib/costing";
+import { Calculator, RotateCcw, Printer, Info, ChevronDown, MessageCircle, Phone, Plus, X } from "lucide-react";
+import { calculateCost, CostInputs, CustomCharge, DEFAULT_INPUTS, inr } from "@/lib/costing";
 
 const URL = "https://shivraj-enterprise.lovable.app/labour-cost-calculator";
 
@@ -67,7 +67,13 @@ const LabourCostCalculator = () => {
   const [inp, setInp] = useState<CostInputs>(DEFAULT_INPUTS);
   const [adv, setAdv] = useState(false);
   const r = useMemo(() => calculateCost(inp), [inp]);
+  const customCharges = inp.customCharges ?? [];
   const set = (k: keyof CostInputs) => (v: number) => setInp((s) => ({ ...s, [k]: v }));
+  const setCharge = (idx: number, patch: Partial<CustomCharge>) =>
+    setInp((s) => ({ ...s, customCharges: s.customCharges.map((c, i) => (i === idx ? { ...c, ...patch } : c)) }));
+  const addCharge = () => setInp((s) => ({ ...s, customCharges: [...s.customCharges, { name: "", amount: 0 }] }));
+  const removeCharge = (idx: number) =>
+    setInp((s) => ({ ...s, customCharges: s.customCharges.filter((_, i) => i !== idx) }));
 
   const parts = [
     { label: "Wages (A)", v: r.a, cls: "bg-shivraj-700" },
@@ -113,6 +119,32 @@ const LabourCostCalculator = () => {
             <div className="grid grid-cols-2 gap-3">
               <NumField id="workers" label="Workers" value={inp.workers} onChange={set("workers")} />
               <NumField id="days" label="Days / month" value={inp.days} onChange={set("days")} />
+            </div>
+            <div>
+              <div className="flex items-center justify-between">
+                <Label className="text-shivraj-800">Custom charges (per day)</Label>
+                <Button type="button" variant="outline" size="sm" onClick={addCharge}>
+                  <Plus size={14} className="mr-1" /> Add
+                </Button>
+              </div>
+              {customCharges.length === 0 && (
+                <p className="text-xs text-muted-foreground mt-1">e.g. Transport ₹50 per worker per day</p>
+              )}
+              <div className="space-y-2 mt-2">
+                {customCharges.map((c, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Input placeholder="Charge name" value={c.name}
+                      onChange={(e) => setCharge(idx, { name: e.target.value })} className="flex-1" />
+                    <div className="relative w-24">
+                      <Input type="number" inputMode="decimal" min={0} step="any" value={Number.isFinite(c.amount) ? c.amount : ""}
+                        onChange={(e) => setCharge(idx, { amount: parseFloat(e.target.value) })} className="pr-7" />
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">₹</span>
+                    </div>
+                    <button type="button" onClick={() => removeCharge(idx)} aria-label={`Remove ${c.name || "charge"}`}
+                      className="text-muted-foreground hover:text-destructive"><X size={16} /></button>
+                  </div>
+                ))}
+              </div>
             </div>
             <button type="button" onClick={() => setAdv(!adv)} aria-expanded={adv}
               className="flex w-full items-center justify-between text-sm font-medium text-shivraj-700">
@@ -178,6 +210,9 @@ const LabourCostCalculator = () => {
                 <Row label={`PF Employer @ ${inp.pf}%`} calc="On Basic + D.A." value={r.pf} />
                 <Row label={`ESIC Employer @ ${inp.esic}%`} calc="On Subtotal (A)" value={r.esic} />
                 <Row label={`Bonus @ ${inp.bonus}%`} calc="On Basic + D.A." value={r.bonus} />
+                {customCharges.map((c, idx) => (
+                  <Row key={idx} label={c.name.trim() || `Custom charge ${idx + 1}`} calc="Per day" value={c.amount || 0} />
+                ))}
                 <Row label="Additional Charges Total (B)" value={r.b} bold tone="bg-shivraj-50/50" />
                 <Section title="Service Charges & GST" />
                 <Row label="Gross Total (A + B)" value={r.grossTotal} bold />
