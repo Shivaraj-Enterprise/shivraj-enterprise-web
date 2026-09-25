@@ -67,6 +67,7 @@ const LabourCostCalculator = () => {
   const [inp, setInp] = useState<CostInputs>(DEFAULT_INPUTS);
   const [adv, setAdv] = useState(false);
   const r = useMemo(() => calculateCost(inp), [inp]);
+  const customCharges = inp.customCharges ?? [];
   const set = (k: keyof CostInputs) => (v: number) => setInp((s) => ({ ...s, [k]: v }));
   const setCharge = (idx: number, patch: Partial<CustomCharge>) =>
     setInp((s) => ({ ...s, customCharges: s.customCharges.map((c, i) => (i === idx ? { ...c, ...patch } : c)) }));
