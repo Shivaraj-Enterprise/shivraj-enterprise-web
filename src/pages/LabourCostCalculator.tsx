@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Calculator, RotateCcw, Printer, Info, ChevronDown, MessageCircle, Phone } from "lucide-react";
-import { calculateCost, CostInputs, DEFAULT_INPUTS, inr } from "@/lib/costing";
+import { Calculator, RotateCcw, Printer, Info, ChevronDown, MessageCircle, Phone, Plus, X } from "lucide-react";
+import { calculateCost, CostInputs, CustomCharge, DEFAULT_INPUTS, inr } from "@/lib/costing";
 
 const URL = "https://shivraj-enterprise.lovable.app/labour-cost-calculator";
 
@@ -68,6 +68,11 @@ const LabourCostCalculator = () => {
   const [adv, setAdv] = useState(false);
   const r = useMemo(() => calculateCost(inp), [inp]);
   const set = (k: keyof CostInputs) => (v: number) => setInp((s) => ({ ...s, [k]: v }));
+  const setCharge = (idx: number, patch: Partial<CustomCharge>) =>
+    setInp((s) => ({ ...s, customCharges: s.customCharges.map((c, i) => (i === idx ? { ...c, ...patch } : c)) }));
+  const addCharge = () => setInp((s) => ({ ...s, customCharges: [...s.customCharges, { name: "", amount: 0 }] }));
+  const removeCharge = (idx: number) =>
+    setInp((s) => ({ ...s, customCharges: s.customCharges.filter((_, i) => i !== idx) }));
 
   const parts = [
     { label: "Wages (A)", v: r.a, cls: "bg-shivraj-700" },
