@@ -67,7 +67,7 @@ const LabourCostCalculator = () => {
   const [inp, setInp] = useState<CostInputs>(DEFAULT_INPUTS);
   const [adv, setAdv] = useState(false);
   const r = useMemo(() => calculateCost(inp), [inp]);
-  const customCharges = inp.customCharges ?? [];
+  const customCharges = customCharges ?? [];
   const set = (k: keyof CostInputs) => (v: number) => setInp((s) => ({ ...s, [k]: v }));
   const setCharge = (idx: number, patch: Partial<CustomCharge>) =>
     setInp((s) => ({ ...s, customCharges: s.customCharges.map((c, i) => (i === idx ? { ...c, ...patch } : c)) }));
@@ -127,11 +127,11 @@ const LabourCostCalculator = () => {
                   <Plus size={14} className="mr-1" /> Add
                 </Button>
               </div>
-              {inp.customCharges.length === 0 && (
+              {customCharges.length === 0 && (
                 <p className="text-xs text-muted-foreground mt-1">e.g. Transport ₹50 per worker per day</p>
               )}
               <div className="space-y-2 mt-2">
-                {inp.customCharges.map((c, idx) => (
+                {customCharges.map((c, idx) => (
                   <div key={idx} className="flex items-center gap-2">
                     <Input placeholder="Charge name" value={c.name}
                       onChange={(e) => setCharge(idx, { name: e.target.value })} className="flex-1" />
@@ -210,7 +210,7 @@ const LabourCostCalculator = () => {
                 <Row label={`PF Employer @ ${inp.pf}%`} calc="On Basic + D.A." value={r.pf} />
                 <Row label={`ESIC Employer @ ${inp.esic}%`} calc="On Subtotal (A)" value={r.esic} />
                 <Row label={`Bonus @ ${inp.bonus}%`} calc="On Basic + D.A." value={r.bonus} />
-                {inp.customCharges.map((c, idx) => (
+                {customCharges.map((c, idx) => (
                   <Row key={idx} label={c.name.trim() || `Custom charge ${idx + 1}`} calc="Per day" value={c.amount || 0} />
                 ))}
                 <Row label="Additional Charges Total (B)" value={r.b} bold tone="bg-shivraj-50/50" />
