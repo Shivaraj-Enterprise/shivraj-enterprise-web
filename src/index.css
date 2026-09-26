@@ -127,3 +127,153 @@
   to { opacity: 0; transform: scale(.95); }
 }
 
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: white;
+    color: black;
+    font-size: 10pt;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .min-h-screen {
+    min-height: 0;
+  }
+
+  .print-report-header {
+    border-bottom: 2px solid hsl(var(--primary));
+    margin-bottom: 6mm;
+    padding-bottom: 4mm;
+  }
+
+  .print-report-header h1 {
+    color: hsl(var(--foreground));
+    font-size: 22pt;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 1mm 0;
+  }
+
+  .print-report-header p {
+    color: hsl(var(--muted-foreground));
+    margin: 0;
+  }
+
+  .print-report-header .print-company-name {
+    color: hsl(var(--primary));
+    font-size: 9pt;
+    font-weight: 700;
+  }
+
+  .print-report {
+    max-width: none;
+  }
+
+  main,
+  .print-report,
+  .print-report > div {
+    min-height: 0;
+    display: block;
+  }
+
+  .print-input-summary,
+  .print-summary,
+  .print-breakdown,
+  .print-cost-table {
+    break-inside: avoid;
+  }
+
+  .print-input-summary {
+    border: 1px solid hsl(var(--border));
+    margin-bottom: 5mm;
+    padding: 4mm;
+  }
+
+  .print-input-summary h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    margin: 0 0 3mm;
+  }
+
+  .print-input-summary dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2mm 6mm;
+    margin: 0;
+  }
+
+  .print-input-summary dl > div {
+    border-bottom: 1px solid hsl(var(--border));
+    display: flex;
+    justify-content: space-between;
+    gap: 3mm;
+    padding-bottom: 1mm;
+  }
+
+  .print-input-summary dt {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .print-input-summary dd {
+    font-weight: 600;
+    margin: 0;
+    text-align: right;
+  }
+
+  .print-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3mm;
+    margin-bottom: 5mm;
+  }
+
+  .print-summary > div,
+  .print-breakdown,
+  .print-cost-table {
+    border-color: hsl(var(--border));
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .print-summary > div {
+    padding: 3mm;
+  }
+
+  .print-summary p:last-child {
+    font-size: 15pt;
+  }
+
+  .print-breakdown {
+    margin-bottom: 5mm;
+    padding: 4mm;
+  }
+
+  .print-cost-table h2 {
+    font-size: 14pt;
+    padding: 4mm 3mm 2mm;
+  }
+
+  .print-cost-table table {
+    font-size: 9pt;
+  }
+
+  .print-cost-table thead {
+    display: table-header-group;
+  }
+
+  .print-cost-table tr {
+    break-inside: avoid;
+  }
+
+  .print-cost-table th,
+  .print-cost-table td {
+    padding: 1.6mm 2.5mm;
+  }
+}
+
