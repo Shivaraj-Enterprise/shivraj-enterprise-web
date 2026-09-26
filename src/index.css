@@ -142,6 +142,10 @@
     -webkit-print-color-adjust: exact;
   }
 
+  .min-h-screen {
+    min-height: 0;
+  }
+
   .print-report-header {
     border-bottom: 2px solid hsl(var(--primary));
     margin-bottom: 6mm;
