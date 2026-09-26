@@ -117,7 +117,7 @@ const LabourCostCalculator = () => {
         <p>Generated on {generatedOn}</p>
       </section>
 
-      <div className="container mx-auto px-4 py-10 grid lg:grid-cols-[360px_1fr] gap-8 print:py-0 print:px-0 print:block print-report">
+      <div className="container mx-auto px-4 pt-10 pb-28 sm:pb-10 grid lg:grid-cols-[360px_1fr] gap-8 print:py-0 print:px-0 print:block print-report">
         <aside className="bg-white rounded-xl border border-shivraj-100 shadow-sm p-5 h-fit lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:overscroll-contain print:hidden">
           <h2 className="text-xl font-bold text-shivraj-800 mb-4">1. Enter your details</h2>
           <div className="space-y-4">
