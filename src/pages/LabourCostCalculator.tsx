@@ -68,6 +68,11 @@ const LabourCostCalculator = () => {
   const [adv, setAdv] = useState(false);
   const r = useMemo(() => calculateCost(inp), [inp]);
   const customCharges = inp.customCharges ?? [];
+  const generatedOn = new Intl.DateTimeFormat("en-IN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
   const set = (k: keyof CostInputs) => (v: number) => setInp((s) => ({ ...s, [k]: v }));
   const setCharge = (idx: number, patch: Partial<CustomCharge>) =>
     setInp((s) => ({ ...s, customCharges: s.customCharges.map((c, i) => (i === idx ? { ...c, ...patch } : c)) }));
@@ -106,8 +111,14 @@ const LabourCostCalculator = () => {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-10 grid lg:grid-cols-[360px_1fr] gap-8">
-        <aside className="bg-white rounded-xl border border-shivraj-100 shadow-sm p-5 h-fit lg:sticky lg:top-28 print:hidden">
+      <section className="hidden print:block print-report-header">
+        <p className="print-company-name">SHIVRAJ ENTERPRISE PVT. LTD.</p>
+        <h1>Labour Cost Estimate</h1>
+        <p>Generated on {generatedOn}</p>
+      </section>
+
+      <div className="container mx-auto px-4 py-10 grid lg:grid-cols-[360px_1fr] gap-8 print:py-0 print:px-0 print:block print-report">
+        <aside className="bg-white rounded-xl border border-shivraj-100 shadow-sm p-5 h-fit lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:overscroll-contain print:hidden">
           <h2 className="text-xl font-bold text-shivraj-800 mb-4">1. Enter your details</h2>
           <div className="space-y-4">
             <NumField id="basic" label="Basic salary per day" value={inp.basic} onChange={set("basic")} suffix="₹" />
@@ -169,7 +180,31 @@ const LabourCostCalculator = () => {
         </aside>
 
         <div className="space-y-8">
-          <div className="grid sm:grid-cols-3 gap-4">
+          <section className="hidden print:block print-input-summary">
+            <h2>Entered details</h2>
+            <dl>
+              <div><dt>Basic salary / day</dt><dd>{inr(inp.basic || 0)}</dd></div>
+              <div><dt>D.A. / day</dt><dd>{inr(inp.da || 0)}</dd></div>
+              <div><dt>Overtime (4 hours)</dt><dd>{inp.overtime ? "Included" : "Not included"}</dd></div>
+              <div><dt>Workers</dt><dd>{inp.workers || 0}</dd></div>
+              <div><dt>Working days / month</dt><dd>{inp.days || 0}</dd></div>
+              <div><dt>Leave</dt><dd>{inp.leave || 0}%</dd></div>
+              <div><dt>PF</dt><dd>{inp.pf || 0}%</dd></div>
+              <div><dt>ESIC</dt><dd>{inp.esic || 0}%</dd></div>
+              <div><dt>Bonus</dt><dd>{inp.bonus || 0}%</dd></div>
+              <div><dt>Service charge</dt><dd>{inp.service || 0}%</dd></div>
+              <div><dt>CGST</dt><dd>{inp.cgst || 0}%</dd></div>
+              <div><dt>SGST</dt><dd>{inp.sgst || 0}%</dd></div>
+              {customCharges.map((charge, idx) => (
+                <div key={idx}>
+                  <dt>{charge.name.trim() || `Custom charge ${idx + 1}`} / day</dt>
+                  <dd>{inr(charge.amount || 0)}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <div className="grid sm:grid-cols-3 gap-4 print-summary">
             {[["Daily cost / worker", r.daily], [`Monthly / worker (${inp.days || 0} days)`, r.monthly], [`Monthly for ${inp.workers || 0} worker(s)`, r.monthlyAll]].map(([l, v], i) => (
               <div key={l as string} className={`rounded-xl p-5 border ${i === 2 ? "bg-shivraj-700 text-white border-shivraj-700" : "bg-white border-shivraj-100"}`}>
                 <p className={`text-sm ${i === 2 ? "text-shivraj-100" : "text-muted-foreground"}`}>{l}</p>
@@ -178,7 +213,7 @@ const LabourCostCalculator = () => {
             ))}
           </div>
 
-          <div className="bg-white rounded-xl border border-shivraj-100 p-5">
+          <div className="bg-white rounded-xl border border-shivraj-100 p-5 print-breakdown">
             <h2 className="font-bold text-shivraj-800 mb-3">Where the money goes</h2>
             <div className="flex h-4 rounded-full overflow-hidden" role="img" aria-label="Cost breakdown bar">
               {parts.map((p) => <div key={p.label} className={p.cls} style={{ width: `${r.daily ? (p.v / r.daily) * 100 : 0}%` }} />)}
@@ -192,11 +227,11 @@ const LabourCostCalculator = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl border border-shivraj-100 overflow-hidden">
+          <div className="bg-white rounded-xl border border-shivraj-100 overflow-hidden print-cost-table">
             <h2 className="text-xl font-bold text-shivraj-800 p-5 pb-3">2. Costing table (per worker, per day)</h2>
             <table className="w-full text-shivraj-900">
               <thead><tr className="bg-shivraj-700 text-white text-left text-sm">
-                <th className="py-2 px-3">Particulars</th><th className="py-2 px-3 hidden sm:table-cell">Calculation</th><th className="py-2 px-3 text-right">Amount</th>
+                <th className="py-2 px-3">Particulars</th><th className="py-2 px-3 hidden sm:table-cell print:table-cell">Calculation</th><th className="py-2 px-3 text-right">Amount</th>
               </tr></thead>
               <tbody>
                 <Section title="Wages" />
@@ -228,7 +263,7 @@ const LabourCostCalculator = () => {
             </table>
           </div>
 
-          <section>
+          <section className="print:hidden">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-4">3. What each line means</h2>
             <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {explain.map(([t, d]) => (
@@ -240,7 +275,7 @@ const LabourCostCalculator = () => {
             </div>
           </section>
 
-          <section className="bg-shivraj-50 rounded-xl p-6 border border-shivraj-100">
+          <section className="bg-shivraj-50 rounded-xl p-6 border border-shivraj-100 print:hidden">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-3 flex items-center gap-2"><Info size={22} aria-hidden="true" /> Good to know</h2>
             <ul className="list-disc pl-5 space-y-2 text-shivraj-900">{facts.map((f) => <li key={f}>{f}</li>)}</ul>
             <p className="text-xs text-muted-foreground mt-4">General information as of 2026. Rules change — confirm with a labour-law consultant or read our{" "}
@@ -248,7 +283,7 @@ const LabourCostCalculator = () => {
               <Link to="/blog/gst-tds-manpower-supply-guide" className="underline">GST & TDS guide</Link>.</p>
           </section>
 
-          <section>
+          <section className="print:hidden">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-4">Frequently asked questions</h2>
             <div className="space-y-3">
               {faqs.map(([q, a]) => (

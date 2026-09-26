@@ -11,10 +11,16 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <div className="print:hidden">
+        <Header />
+      </div>
       <main className="flex-grow">{children}</main>
-      <Footer />
-      <SalesChatWidget />
+      <div className="print:hidden">
+        <Footer />
+      </div>
+      <div className="print:hidden">
+        <SalesChatWidget />
+      </div>
     </div>
   );
 };
