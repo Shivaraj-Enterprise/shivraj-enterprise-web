@@ -54,7 +54,7 @@ const NumField = ({ id, label, value, onChange, suffix, hint }: { id: string; la
 const Row = ({ label, calc, value, bold, tone }: { label: string; calc?: string; value: number; bold?: boolean; tone?: string }) => (
   <tr className={`border-b border-shivraj-100 ${tone ?? ""}`}>
     <td className={`py-2 px-3 ${bold ? "font-semibold" : ""}`}>{label}</td>
-    <td className="py-2 px-3 text-sm text-muted-foreground hidden sm:table-cell">{calc}</td>
+    <td className="py-2 px-3 text-sm text-muted-foreground hidden sm:table-cell print:table-cell">{calc}</td>
     <td className={`py-2 px-3 text-right tabular-nums ${bold ? "font-semibold" : ""}`}>{inr(value)}</td>
   </tr>
 );
