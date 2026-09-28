@@ -103,9 +103,11 @@ const LabourCostCalculator = () => {
 
       <main className="calculator-page">
       <section className="calc-hero bg-gradient-to-br from-shivraj-800 to-shivraj-600 text-primary-foreground py-14 print:hidden">
-        <div className="container mx-auto px-4 text-center calc-reveal">
-          <Calculator className="mx-auto mb-3" size={40} aria-hidden="true" />
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">Labour Cost Calculator</h1>
+        <div className="container mx-auto px-4 text-center calc-reveal calc-hero-content">
+          <span className="calc-hero-icon" aria-hidden="true">
+            <Calculator size={40} />
+          </span>
+          <h1 className="calc-hero-title text-3xl md:text-5xl font-bold mb-4">Labour Cost Calculator</h1>
           <p className="max-w-3xl mx-auto text-shivraj-100 text-lg">
             See exactly what one worker costs per day and per month. Change the wage, and PF, ESIC, bonus, leave, service charge and GST are calculated automatically.
           </p>
