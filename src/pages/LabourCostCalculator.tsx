@@ -40,11 +40,11 @@ const faqs = [
 ];
 
 const NumField = ({ id, label, value, onChange, suffix, hint }: { id: string; label: string; value: number; onChange: (v: number) => void; suffix?: string; hint?: string }) => (
-  <div>
-    <Label htmlFor={id} className="text-shivraj-800">{label}</Label>
+  <div className="calc-field group">
+    <Label htmlFor={id} className="text-shivraj-800 transition-colors group-focus-within:text-primary">{label}</Label>
     <div className="relative mt-1">
       <Input id={id} type="number" inputMode="decimal" min={0} step="any" value={Number.isFinite(value) ? value : ""}
-        onChange={(e) => onChange(parseFloat(e.target.value))} className="pr-10" />
+        onChange={(e) => onChange(parseFloat(e.target.value))} className="pr-10 calc-input" />
       {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">{suffix}</span>}
     </div>
     {hint && <p className="text-xs text-muted-foreground mt-1">{hint}</p>}
@@ -52,7 +52,7 @@ const NumField = ({ id, label, value, onChange, suffix, hint }: { id: string; la
 );
 
 const Row = ({ label, calc, value, bold, tone }: { label: string; calc?: string; value: number; bold?: boolean; tone?: string }) => (
-  <tr className={`border-b border-shivraj-100 ${tone ?? ""}`}>
+  <tr className={`calc-table-row border-b border-shivraj-100 ${tone ?? ""}`}>
     <td className={`py-2 px-3 ${bold ? "font-semibold" : ""}`}>{label}</td>
     <td className="py-2 px-3 text-sm text-muted-foreground hidden sm:table-cell print:table-cell">{calc}</td>
     <td className={`py-2 px-3 text-right tabular-nums ${bold ? "font-semibold" : ""}`}>{inr(value)}</td>
@@ -60,7 +60,7 @@ const Row = ({ label, calc, value, bold, tone }: { label: string; calc?: string;
 );
 
 const Section = ({ title }: { title: string }) => (
-  <tr className="bg-shivraj-50"><td colSpan={3} className="py-2 px-3 font-bold text-shivraj-800">{title}</td></tr>
+  <tr className="calc-table-section bg-shivraj-50"><td colSpan={3} className="py-2 px-3 font-bold text-shivraj-800">{title}</td></tr>
 );
 
 const LabourCostCalculator = () => {
@@ -101,8 +101,9 @@ const LabourCostCalculator = () => {
         <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
-      <section className="bg-gradient-to-br from-shivraj-800 to-shivraj-600 text-white py-14 print:hidden">
-        <div className="container mx-auto px-4 text-center">
+      <main className="calculator-page">
+      <section className="calc-hero bg-gradient-to-br from-shivraj-800 to-shivraj-600 text-primary-foreground py-14 print:hidden">
+        <div className="container mx-auto px-4 text-center calc-reveal">
           <Calculator className="mx-auto mb-3" size={40} aria-hidden="true" />
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Labour Cost Calculator</h1>
           <p className="max-w-3xl mx-auto text-shivraj-100 text-lg">
@@ -118,7 +119,7 @@ const LabourCostCalculator = () => {
       </section>
 
       <div className="container mx-auto px-4 pt-10 pb-28 sm:pb-10 grid lg:grid-cols-[360px_1fr] gap-8 print:py-0 print:px-0 print:block print-report">
-        <aside className="bg-white rounded-xl border border-shivraj-100 shadow-sm p-5 h-fit lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:overscroll-contain print:hidden">
+        <aside className="calc-panel calc-reveal bg-card/90 backdrop-blur-md rounded-xl border border-shivraj-100 shadow-sm p-5 h-fit lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:overscroll-contain print:hidden">
           <h2 className="text-xl font-bold text-shivraj-800 mb-4">1. Enter your details</h2>
           <div className="space-y-4">
             <NumField id="basic" label="Basic salary per day" value={inp.basic} onChange={set("basic")} suffix="₹" />
@@ -143,7 +144,7 @@ const LabourCostCalculator = () => {
               )}
               <div className="space-y-2 mt-2">
                 {customCharges.map((c, idx) => (
-                  <div key={idx} className="flex items-center gap-2">
+                  <div key={idx} className="calc-charge-row flex items-center gap-2">
                     <Input placeholder="Charge name" value={c.name}
                       onChange={(e) => setCharge(idx, { name: e.target.value })} className="flex-1" />
                     <div className="relative w-24">
@@ -162,7 +163,7 @@ const LabourCostCalculator = () => {
               Advanced rates (%) <ChevronDown size={16} className={`transition-transform ${adv ? "rotate-180" : ""}`} />
             </button>
             {adv && (
-              <div className="grid grid-cols-2 gap-3">
+              <div className="calc-expand grid grid-cols-2 gap-3">
                 <NumField id="leave" label="Leave" value={inp.leave} onChange={set("leave")} suffix="%" />
                 <NumField id="pf" label="PF" value={inp.pf} onChange={set("pf")} suffix="%" />
                 <NumField id="esic" label="ESIC" value={inp.esic} onChange={set("esic")} suffix="%" />
@@ -204,19 +205,19 @@ const LabourCostCalculator = () => {
             </dl>
           </section>
 
-          <div className="grid sm:grid-cols-3 gap-4 print-summary">
+          <div className="calc-reveal calc-delay-1 grid sm:grid-cols-3 gap-4 print-summary">
             {[["Daily cost / worker", r.daily], [`Monthly / worker (${inp.days || 0} days)`, r.monthly], [`Monthly for ${inp.workers || 0} worker(s)`, r.monthlyAll]].map(([l, v], i) => (
-              <div key={l as string} className={`rounded-xl p-5 border ${i === 2 ? "bg-shivraj-700 text-white border-shivraj-700" : "bg-white border-shivraj-100"}`}>
+              <div key={l as string} className={`calc-summary-card rounded-xl p-5 border ${i === 2 ? "calc-primary-result bg-shivraj-700 text-primary-foreground border-shivraj-700" : "bg-card border-shivraj-100"}`}>
                 <p className={`text-sm ${i === 2 ? "text-shivraj-100" : "text-muted-foreground"}`}>{l}</p>
                 <p className="text-2xl font-bold tabular-nums mt-1">{inr(v as number)}</p>
               </div>
             ))}
           </div>
 
-          <div className="bg-white rounded-xl border border-shivraj-100 p-5 print-breakdown">
+           <div className="calc-panel calc-reveal calc-delay-2 bg-card/90 backdrop-blur-md rounded-xl border border-shivraj-100 p-5 print-breakdown">
             <h2 className="font-bold text-shivraj-800 mb-3">Where the money goes</h2>
             <div className="flex h-4 rounded-full overflow-hidden" role="img" aria-label="Cost breakdown bar">
-              {parts.map((p) => <div key={p.label} className={p.cls} style={{ width: `${r.daily ? (p.v / r.daily) * 100 : 0}%` }} />)}
+               {parts.map((p) => <div key={p.label} className={`${p.cls} calc-cost-segment`} style={{ width: `${r.daily ? (p.v / r.daily) * 100 : 0}%` }} />)}
             </div>
             <div className="flex flex-wrap gap-4 mt-3 text-sm">
               {parts.map((p) => (
@@ -227,7 +228,7 @@ const LabourCostCalculator = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl border border-shivraj-100 overflow-hidden print-cost-table">
+          <div className="calc-panel calc-reveal calc-delay-3 bg-card/90 backdrop-blur-md rounded-xl border border-shivraj-100 overflow-hidden print-cost-table">
             <h2 className="text-xl font-bold text-shivraj-800 p-5 pb-3">2. Costing table (per worker, per day)</h2>
             <table className="w-full text-shivraj-900">
               <thead><tr className="bg-shivraj-700 text-white text-left text-sm">
@@ -263,11 +264,11 @@ const LabourCostCalculator = () => {
             </table>
           </div>
 
-          <section className="print:hidden">
+          <section className="calc-reveal print:hidden">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-4">3. What each line means</h2>
             <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {explain.map(([t, d]) => (
-                <div key={t} className="bg-white rounded-xl border border-shivraj-100 p-4">
+                <div key={t} className="calc-info-card bg-card/90 backdrop-blur-md rounded-xl border border-shivraj-100 p-4">
                   <h3 className="font-semibold text-shivraj-700 mb-1">{t}</h3>
                   <p className="text-sm text-muted-foreground">{d}</p>
                 </div>
@@ -275,7 +276,7 @@ const LabourCostCalculator = () => {
             </div>
           </section>
 
-          <section className="bg-shivraj-50 rounded-xl p-6 border border-shivraj-100 print:hidden">
+          <section className="calc-panel calc-reveal bg-shivraj-50/90 backdrop-blur-md rounded-xl p-6 border border-shivraj-100 print:hidden">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-3 flex items-center gap-2"><Info size={22} aria-hidden="true" /> Good to know</h2>
             <ul className="list-disc pl-5 space-y-2 text-shivraj-900">{facts.map((f) => <li key={f}>{f}</li>)}</ul>
             <p className="text-xs text-muted-foreground mt-4">General information as of 2026. Rules change — confirm with a labour-law consultant or read our{" "}
@@ -283,11 +284,11 @@ const LabourCostCalculator = () => {
               <Link to="/blog/gst-tds-manpower-supply-guide" className="underline">GST & TDS guide</Link>.</p>
           </section>
 
-          <section className="print:hidden">
+          <section className="calc-reveal print:hidden">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-4">Frequently asked questions</h2>
             <div className="space-y-3">
               {faqs.map(([q, a]) => (
-                <details key={q} className="bg-white rounded-xl border border-shivraj-100 p-4">
+                <details key={q} className="calc-faq bg-card/90 backdrop-blur-md rounded-xl border border-shivraj-100 p-4">
                   <summary className="font-semibold text-shivraj-800 cursor-pointer">{q}</summary>
                   <p className="mt-2 text-muted-foreground">{a}</p>
                 </details>
@@ -295,7 +296,7 @@ const LabourCostCalculator = () => {
             </div>
           </section>
 
-          <section className="rounded-xl bg-gradient-to-r from-shivraj-700 to-shivraj-600 text-white p-6 text-center print:hidden">
+          <section className="calc-cta calc-reveal rounded-xl bg-gradient-to-r from-shivraj-700 to-shivraj-600 text-primary-foreground p-6 text-center print:hidden">
             <h2 className="text-2xl font-bold mb-2">Need an exact quotation?</h2>
             <p className="text-shivraj-100 mb-4">Tell us the number of workers, skill and shift — we'll send a detailed rate sheet.</p>
             <div className="flex flex-wrap justify-center gap-3">
@@ -306,6 +307,7 @@ const LabourCostCalculator = () => {
           </section>
         </div>
       </div>
+      </main>
     </Layout>
   );
 };
