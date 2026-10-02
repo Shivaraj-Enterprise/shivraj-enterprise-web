@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
   // harmless — it always submits the same public URLs).
   const provided = req.headers.get("x-internal-secret");
   const bearer = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "");
-  const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
+  const anonKeys = [Deno.env.get("SUPABASE_ANON_KEY"), Deno.env.get("SUPABASE_PUBLISHABLE_KEY")].filter(Boolean) as string[];
   let authorized = false;
   if (provided) {
     const { data: expected } = await supabase.rpc("get_monthly_report_secret");
