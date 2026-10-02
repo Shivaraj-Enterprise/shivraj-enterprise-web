@@ -68,11 +68,20 @@ Deno.serve(async (req) => {
     if (!Array.isArray((parsedBody as Record<string, unknown>)?.urls)) authorized = true;
   }
   if (!authorized) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
+    if (true) { // TEMP DEBUG
+      return new Response(JSON.stringify({
+        error: "Unauthorized",
+        debug: {
+          bearer_len: bearer.length,
+          anon_env_len: (Deno.env.get("SUPABASE_ANON_KEY") ?? "").length,
+          pub_env_len: (Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "").length,
+          matches_anon: anonKeys.includes(bearer),
+        },
+      }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
   try {
     const body = (parsedBody as Record<string, unknown>) ??
