@@ -53,7 +53,8 @@ Deno.serve(async (req) => {
   const provided = req.headers.get("x-internal-secret");
   const bearer = (req.headers.get("Authorization") ?? req.headers.get("apikey") ?? "")
     .replace(/^Bearer\s+/i, "");
-  const anonKeys = [Deno.env.get("SUPABASE_ANON_KEY"), Deno.env.get("SUPABASE_PUBLISHABLE_KEY")].filter(Boolean) as string[];
+  const PUBLIC_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52b3lqaGFjcXp0eW1ueG9manBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NTU5NTcsImV4cCI6MjA5NDEzMTk1N30.84zc7G9u_VlPvqmifbPq5bIIjkFCc3xZJB45-RDTv1M"; // publishable anon key — public by design
+  const anonKeys = [PUBLIC_KEY, Deno.env.get("SUPABASE_ANON_KEY"), Deno.env.get("SUPABASE_PUBLISHABLE_KEY")].filter(Boolean) as string[];
   let authorized = false;
   if (provided) {
     const { data: expected } = await supabase.rpc("get_monthly_report_secret");
