@@ -47,9 +47,12 @@ async function fetchSitemapUrls(): Promise<string[]> {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
-  // Auth: shared internal secret OR service-role bearer (server-to-server only)
+  // Auth: service-role bearer OR shared internal secret OR the public anon key
+  // (anon key may only trigger the site-wide sitemap submission, which is
+  // harmless — it always submits the same public URLs).
   const provided = req.headers.get("x-internal-secret");
   const bearer = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "");
+  const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
   let authorized = false;
   if (provided) {
     const { data: expected } = await supabase.rpc("get_monthly_report_secret");
@@ -57,6 +60,10 @@ Deno.serve(async (req) => {
   }
   if (!authorized && bearer && bearer === Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")) {
     authorized = true;
+  }
+  if (!authorized && bearer && bearer === anonKey && req.method === "POST") {
+    const probe = await req.json().catch(() => ({}));
+    if (!Array.isArray((probe as Record<string, unknown>).urls)) authorized = true;
   }
   if (!authorized) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
