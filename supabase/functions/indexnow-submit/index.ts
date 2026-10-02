@@ -51,7 +51,8 @@ Deno.serve(async (req) => {
   // (anon key may only trigger the site-wide sitemap submission, which is
   // harmless — it always submits the same public URLs).
   const provided = req.headers.get("x-internal-secret");
-  const bearer = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "");
+  const bearer = (req.headers.get("Authorization") ?? req.headers.get("apikey") ?? "")
+    .replace(/^Bearer\s+/i, "");
   const anonKeys = [Deno.env.get("SUPABASE_ANON_KEY"), Deno.env.get("SUPABASE_PUBLISHABLE_KEY")].filter(Boolean) as string[];
   let authorized = false;
   if (provided) {
