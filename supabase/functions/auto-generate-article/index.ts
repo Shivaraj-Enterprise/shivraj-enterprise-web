@@ -357,6 +357,7 @@ Deno.serve(async (req) => {
     fetch(`${SUPABASE_URL}/functions/v1/ingest-knowledge`, { method: "POST", headers: authHeaders, body: "{}" }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/sitemap`, { headers: authHeaders }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/sitemap/rss`, { headers: authHeaders }).catch(() => {});
+    fetch(`${SUPABASE_URL}/functions/v1/indexnow-submit`, { method: "POST", headers: authHeaders, body: "{}" }).catch(() => {});
 
 
     return new Response(
