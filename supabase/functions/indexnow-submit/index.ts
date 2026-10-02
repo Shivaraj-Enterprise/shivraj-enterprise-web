@@ -67,7 +67,7 @@ Deno.serve(async (req) => {
     if (!Array.isArray((parsedBody as Record<string, unknown>)?.urls)) authorized = true;
   }
   if (!authorized) {
-    if (Deno.env.get("INDEXNOW_DEBUG") === "1") {
+    if (true) { // TEMP DEBUG — revert to env check after diagnosing
       return new Response(JSON.stringify({
         error: "Unauthorized",
         debug: {
