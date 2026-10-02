@@ -74,7 +74,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const body = req.method === "POST" ? await req.json().catch(() => ({})) : {};
+    const body = (parsedBody as Record<string, unknown>) ??
+      (req.method === "POST" ? await req.json().catch(() => ({})) : {});
     const raw: string[] = Array.isArray(body.urls) ? body.urls : [];
     const urls = Array.from(new Set(raw.filter(isAllowedUrl)));
     const list = urls.length ? urls : (await fetchSitemapUrls()).filter(isAllowedUrl);
