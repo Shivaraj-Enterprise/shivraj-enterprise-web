@@ -61,9 +61,10 @@ Deno.serve(async (req) => {
   if (!authorized && bearer && bearer === Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")) {
     authorized = true;
   }
+  let parsedBody: unknown = null;
   if (!authorized && bearer && bearer === anonKey && req.method === "POST") {
-    const probe = await req.json().catch(() => ({}));
-    if (!Array.isArray((probe as Record<string, unknown>).urls)) authorized = true;
+    parsedBody = await req.json().catch(() => ({}));
+    if (!Array.isArray((parsedBody as Record<string, unknown>)?.urls)) authorized = true;
   }
   if (!authorized) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
