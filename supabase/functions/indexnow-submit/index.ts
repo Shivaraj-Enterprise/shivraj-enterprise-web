@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
     authorized = true;
   }
   let parsedBody: unknown = null;
-  if (!authorized && bearer && bearer === anonKey && req.method === "POST") {
+  if (!authorized && anonKeys.includes(bearer) && req.method === "POST") {
     parsedBody = await req.json().catch(() => ({}));
     if (!Array.isArray((parsedBody as Record<string, unknown>)?.urls)) authorized = true;
   }
