@@ -82,6 +82,7 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+  }
 
   try {
     const body = (parsedBody as Record<string, unknown>) ??
