@@ -15,7 +15,7 @@ const supabase = createClient(SUPABASE_URL, Deno.env.get("SUPABASE_SERVICE_ROLE_
 
 const SITE = "https://shivraj-enterprise.lovable.app";
 const HOST = "shivraj-enterprise.lovable.app";
-const INDEXNOW_KEY = "933e05c0f7fa4bdb86e32950ed56ffb5";
+const INDEXNOW_KEY = "f4dd6ab958c943dd9ea12a8c424c127e";
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow";
 
 const ALLOWED_HOSTS = new Set([
