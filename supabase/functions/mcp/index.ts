@@ -8,7 +8,7 @@ import { defineMcp } from "npm:@lovable.dev/mcp-js@0.20.1";
 // src/lib/mcp/tools/list-blog-posts.ts
 import { createClient } from "npm:@supabase/supabase-js@^2.105.4";
 import { defineTool } from "npm:@lovable.dev/mcp-js@0.20.1";
-import { z } from "npm:zod@^3.23.8";
+import { z } from "npm:zod@^3.25.76";
 
 // src/lib/mcp/static-posts.ts
 var BASE = "https://shivraj-enterprise.lovable.app/blog";
@@ -92,7 +92,7 @@ var list_blog_posts_default = defineTool({
 // src/lib/mcp/tools/get-blog-post.ts
 import { createClient as createClient2 } from "npm:@supabase/supabase-js@^2.105.4";
 import { defineTool as defineTool2 } from "npm:@lovable.dev/mcp-js@0.20.1";
-import { z as z2 } from "npm:zod@^3.23.8";
+import { z as z2 } from "npm:zod@^3.25.76";
 var get_blog_post_default = defineTool2({
   name: "get_blog_post",
   title: "Get blog post",
