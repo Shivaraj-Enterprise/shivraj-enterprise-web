@@ -47,7 +47,7 @@
       {
         "name": "list_blog_posts",
         "title": "List blog posts",
-        "description": "List published blog posts from Shivraj Enterprise (title, slug, excerpt, published date, cover image).",
+        "description": "List ALL published blog posts and compliance guides from Shivraj Enterprise (title, slug, excerpt, published date, cover image, canonical URL) — includes both the latest dynamic articles and the long-form static guides.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -71,7 +71,7 @@
       {
         "name": "get_blog_post",
         "title": "Get blog post",
-        "description": "Get a single published blog post from Shivraj Enterprise by its slug, including full content.",
+        "description": "Get a single published blog post from Shivraj Enterprise by its slug, including full content. Works for both dynamic articles (full content returned) and long-form static guides (metadata and canonical URL returned).",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
