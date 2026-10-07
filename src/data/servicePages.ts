@@ -269,7 +269,7 @@ export const servicePages: ServicePage[] = [
       "Trained housekeeping teams for plants, offices, warehouses and events — with PPE discipline and safety compliance.",
     metaTitle: "Industrial Housekeeping Services in Vapi GIDC",
     metaDescription:
-      "Industrial housekeeping services for factories, warehouses and offices in Vapi GIDC, Sarigam, Silvassa & Daman. Trained staff, PPE discipline, shift-wise cleaning.",
+      "Industrial housekeeping for factories, plants and warehouses in Vapi GIDC, Sarigam, Silvassa & Daman. Trained staff, PPE discipline, shift-wise deployment.",
     h1: "Industrial Housekeeping Services in Vapi GIDC, Silvassa, Daman, Sarigam & Umbergaon",
     heroSubtitle:
       "Trained housekeeping teams for plant floors, utility areas, warehouses, offices and events — deployed shift-wise with safety and PPE discipline.",

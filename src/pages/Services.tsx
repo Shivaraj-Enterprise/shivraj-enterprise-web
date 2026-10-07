@@ -36,12 +36,12 @@ const coreServices = [
   },
   {
     icon: Sparkles,
-    title: "Industrial Housekeeping Solutions",
-    desc: "Clean, safe and welcoming environments for industrial, commercial and event settings — with trained staff and safety compliance.",
+    title: "Industrial Housekeeping for Factories & Plants",
+    desc: "Trained housekeeping teams for plant floors, utility areas, warehouses and factory offices — deployed shift-wise with PPE discipline and safety compliance.",
     bullets: [
-      "Industrial housekeeping with safety compliance",
-      "Commercial cleaning that boosts productivity",
-      "Pre & post event cleaning services",
+      "Plant-floor housekeeping with safety compliance",
+      "Shift-wise deployment that follows production",
+      "Pre & post audit and shutdown housekeeping",
     ],
   },
 ];
@@ -126,8 +126,8 @@ const Services = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Manpower Supply & Outsourcing – Shivraj Enterprise</title>
-        <meta name="description" content="Manpower outsourcing & supply services in Vapi GIDC. Skilled, semi-skilled & unskilled labour with PF, ESIC & GST compliance. View our rate card." />
+        <title>Labour Contractor & Manpower Supply Services in Vapi GIDC</title>
+        <meta name="description" content="Licensed labour contractor in Vapi GIDC. Manpower supply & outsourcing with skilled, semi-skilled & unskilled factory workers, PF, ESIC & GST compliance. View our rate card." />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/services" />
         <meta property="og:title" content="Manpower Outsourcing & Supply Services – Shivraj Enterprise" />
         <meta property="og:description" content="Manpower outsourcing and manpower supply services with transparent rates and full statutory compliance." />
