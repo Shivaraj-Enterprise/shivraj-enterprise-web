@@ -55,8 +55,10 @@ LICENSES & REGISTRATIONS:
 2) Manpower Supply Services — supervisors, operators, fitters, helpers and housekeeping staff for
    factories, warehouses and commercial sites on 8-hour or 12-hour shifts. Screened staff; flexible shifts;
    GST-compliant invoicing with a transparent rate card.
-3) Industrial Housekeeping Solutions — industrial housekeeping with safety compliance, commercial cleaning,
-   pre & post event cleaning.
+3) Industrial Housekeeping for Factories & Plants — trained housekeeping teams for plant floors,
+   utility areas, warehouses and factory offices, deployed shift-wise with PPE discipline and safety
+   compliance. We do NOT provide home cleaning, residential cleaning or domestic cleaning services —
+   housekeeping is industrial/factory only.
 Auxiliary Services: Loading & Unloading (safe, efficient material handling); Material Handling & Dispatch;
 Quality & Packaging Inspectors.
 
