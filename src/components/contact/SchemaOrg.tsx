@@ -7,6 +7,7 @@ const SchemaOrg = () => {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Shivraj Enterprise Pvt. Ltd.",
+        "alternateName": "Shivraj Enterprises",
         "url": "https://shivraj-enterprise.lovable.app/",
         "logo": "https://shivraj-enterprise.lovable.app/placeholder.svg",
         "contactPoint": {
@@ -23,7 +24,7 @@ const SchemaOrg = () => {
           "addressRegion": "Gujarat",
           "addressCountry": "IN"
         },
-        "description": "Trusted manpower supply and staffing services company in Gujarat, India. Providing skilled, semi-skilled and unskilled labor across various industries.",
+        "description": "Trusted industrial labour contractor and manpower supply company in Gujarat, India. Providing skilled, semi-skilled and unskilled factory workers across engineering, pharma, chemical and packaging industries.",
         "sameAs": [
           "https://www.linkedin.com/company/shivraj-enterprisess/",
           "https://www.instagram.com/shivraj.enterprise/",
