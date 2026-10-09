@@ -202,6 +202,24 @@ Deno.serve(async (req) => {
       }
     }
 
+    // New (paid) generations are admin-only. Visitors only receive cached images.
+    const authHeader = req.headers.get("Authorization") ?? "";
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    let isAdmin = false;
+    if (token) {
+      const { data: userData } = await supabase.auth.getUser(token);
+      const uid = userData?.user?.id;
+      if (uid && !userData.user.is_anonymous) {
+        const { data: ok } = await supabase.rpc("has_role", { _user_id: uid, _role: "admin" });
+        isAdmin = ok === true;
+      }
+    }
+    if (!isAdmin) {
+      return new Response(JSON.stringify({ url: null, cached: false }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // Hard cap on distinct generated images per article (cost guardrail)
     const { count } = await supabase
       .from("article_images")
