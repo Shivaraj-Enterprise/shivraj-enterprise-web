@@ -17,6 +17,9 @@ function toCsv(rows: Record<string, unknown>[]): string {
   return lines.join("\n");
 }
 
+const escHtml = (v: unknown) =>
+  String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
@@ -42,8 +45,17 @@ Deno.serve(async (req) => {
     const now = new Date();
     const defaultTo = new Date(now.getFullYear(), now.getMonth(), 1); // first of current month
     const defaultFrom = new Date(now.getFullYear(), now.getMonth() - 1, 1); // first of previous month
-    const from = url.searchParams.get("from") ?? defaultFrom.toISOString().slice(0, 10);
-    const to = url.searchParams.get("to") ?? defaultTo.toISOString().slice(0, 10);
+    const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+    const qFrom = url.searchParams.get("from");
+    const qTo = url.searchParams.get("to");
+    if ((qFrom && !DATE_RE.test(qFrom)) || (qTo && !DATE_RE.test(qTo))) {
+      return new Response(JSON.stringify({ success: false, error: "Invalid date" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const from = qFrom ?? defaultFrom.toISOString().slice(0, 10);
+    const to = qTo ?? defaultTo.toISOString().slice(0, 10);
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
@@ -65,7 +77,7 @@ Deno.serve(async (req) => {
 
     const counts: Record<string, number> = {};
     (data ?? []).forEach((r: any) => { counts[r.inquiry_type] = (counts[r.inquiry_type] ?? 0) + 1; });
-    const summary = Object.entries(counts).map(([k, v]) => `${k}: ${v}`).join(", ") || "none";
+    const summary = Object.entries(counts).map(([k, v]) => `${escHtml(k)}: ${v}`).join(", ") || "none";
 
     const html = `
       <h2>Monthly Submissions Report</h2>

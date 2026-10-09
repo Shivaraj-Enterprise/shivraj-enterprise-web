@@ -1,7 +1,7 @@
 -- Store the shared secret in Vault
 DO $$
 DECLARE
-  v_secret text := 'qTzhq4QCpZXPvWhjACDSKSCVgHDQS97pTsuDyAf-QN8JHDvCKr178796vmJUX4sk';
+  v_secret text := encode(extensions.gen_random_bytes(32), 'hex');
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM vault.secrets WHERE name = 'monthly_report_secret') THEN
     PERFORM vault.create_secret(v_secret, 'monthly_report_secret', 'Shared secret for monthly-report edge function auth');
