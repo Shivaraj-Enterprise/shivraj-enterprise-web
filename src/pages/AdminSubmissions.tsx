@@ -63,7 +63,11 @@ const AdminSubmissions = () => {
 
   const exportCsv = () => {
     const header = ["Date", "Name", "Email", "Phone", "WhatsApp", "Inquiry", "Message", "Email Sent"];
-    const escape = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const escape = (v: unknown) => {
+      let s = String(v ?? "");
+      if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+      return `"${s.replace(/"/g, '""')}"`;
+    };
     const lines = [header.join(",")].concat(
       rows.map((r) =>
         [
