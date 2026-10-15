@@ -101,7 +101,7 @@ const StaticArticleShell = ({
                   {readMinutes} min read
                 </span>
                 <div className="ml-auto hidden md:block">
-                  <ShareButtons url={url} title={title} />
+                  <ShareButtons url={url} title={title} excerpt={excerpt} tags={tags} />
                 </div>
               </div>
             </FadeContent>
@@ -164,7 +164,7 @@ const StaticArticleShell = ({
                     ))}
                   </div>
                   <div className="ml-auto">
-                    <ShareButtons url={url} title={title} />
+                    <ShareButtons url={url} title={title} excerpt={excerpt} tags={tags} />
                   </div>
                 </div>
               )}
@@ -194,7 +194,7 @@ const StaticArticleShell = ({
                 <SidebarExtras currentSlug={slug} />
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-shivraj-600 mb-3">Share this post</div>
-                  <ShareButtons url={url} title={title} />
+                  <ShareButtons url={url} title={title} excerpt={excerpt} tags={tags} />
                 </div>
                 <NewsletterCard />
               </div>
