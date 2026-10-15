@@ -143,7 +143,7 @@ const BlogPost = () => {
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt ?? post.title} />
         <meta property="og:url" content={url} />
-        {post.cover_image_url && <meta property="og:image" content={post.cover_image_url} />}
+        
         <meta name="twitter:card" content={post.cover_image_url ? "summary_large_image" : "summary"} />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.excerpt ?? post.title} />
