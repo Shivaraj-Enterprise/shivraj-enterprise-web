@@ -3,7 +3,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import { Twitter, Linkedin, Facebook, MessageCircle, Mail, Copy, Download, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
-import { buildShareText, buildTweetText, coverFor, type ShareTone } from "@/lib/shareSummary";
+import { buildShareText, buildTweetText, coverFor, SITE_ORIGIN, type ShareTone } from "@/lib/shareSummary";
 
 interface Props {
   open: boolean;
@@ -63,7 +63,7 @@ const ShareMenu = ({ open, onOpenChange, url, title, excerpt, tags = [], questio
           <DialogDescription>Pick a style, edit if you like, then share. Cover image and hashtags are ready.</DialogDescription>
         </DialogHeader>
 
-        <img src={cover} alt={`Cover image for ${title}`} width={1200} height={630} className="w-full rounded-xl aspect-[1200/630] object-cover" />
+        <img src={cover.replace(SITE_ORIGIN, "")} alt={`Cover image for ${title}`} width={1200} height={630} className="w-full rounded-xl aspect-[1200/630] object-cover" />
 
         <div className="flex flex-wrap gap-2">
           {TONES.map((t) => (
@@ -98,7 +98,7 @@ const ShareMenu = ({ open, onOpenChange, url, title, excerpt, tags = [], questio
             <p className="mb-3">Scan to open on phone, or print it on quotations. Download the cover to attach to Instagram or LinkedIn posts.</p>
             <div className="flex flex-wrap gap-2">
               <button onClick={downloadQr} className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white border border-shivraj-100 text-shivraj-800 text-xs"><Download size={14} /> QR code</button>
-              <a href={cover} download className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white border border-shivraj-100 text-shivraj-800 text-xs"><Download size={14} /> Cover image</a>
+              <a href={cover.replace(SITE_ORIGIN, "")} download className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white border border-shivraj-100 text-shivraj-800 text-xs"><Download size={14} /> Cover image</a>
             </div>
           </div>
         </div>

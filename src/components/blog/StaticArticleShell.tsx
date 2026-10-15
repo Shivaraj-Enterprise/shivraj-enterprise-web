@@ -146,7 +146,7 @@ const StaticArticleShell = ({
           <FadeContent>
             <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl ring-1 ring-shivraj-100 aspect-[16/9] bg-shivraj-50">
               {cover ? (
-                <img src={cover} alt={title} loading="eager" width={1200} height={630} className="w-full h-full object-cover" />
+                <img src={cover.replace("https://shivraj-enterprise.lovable.app", "")} alt={title} loading="eager" width={1200} height={630} className="w-full h-full object-cover" />
               ) : (
                 <CoverPlaceholder title={title} category={category} className="w-full h-full" />
               )}
