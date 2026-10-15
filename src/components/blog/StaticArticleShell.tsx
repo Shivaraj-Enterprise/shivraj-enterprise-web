@@ -1,4 +1,8 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import WhatYouLearn from "@/components/blog/WhatYouLearn";
+import QuoteShare from "@/components/blog/QuoteShare";
+import { coverFor } from "@/lib/shareSummary";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, User, ArrowRight, MessageSquare } from "lucide-react";
 import Breadcrumbs from "@/components/blog/Breadcrumbs";
@@ -45,9 +49,38 @@ const StaticArticleShell = ({
 }: Props) => {
   const articleRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [questions, setQuestions] = useState<string[]>([]);
+  const cover = coverImageUrl || coverFor(title, slug);
+
+  // Pull the questions the article answers (FAQ / headings ending in "?").
+  useEffect(() => {
+    const el = articleRef.current;
+    if (!el) return;
+    const scan = () => {
+      const found = Array.from(el.querySelectorAll("h2,h3,h4,summary,button,dt"))
+        .map((n) => (n.textContent || "").replace(/^\s*\d+[.)]?\s*/, "").trim())
+        .filter((t) => t.endsWith("?") && t.length > 10 && t.length < 140);
+      const uniq = [...new Set(found)].slice(0, 3);
+      setQuestions((prev) => (prev.join("|") === uniq.join("|") ? prev : uniq));
+    };
+    scan();
+    const mo = new MutationObserver(scan);
+    mo.observe(el, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
+
+  const shareProps = { url, title, excerpt, tags, questions, readMinutes, slug };
 
   return (
     <>
+      <Helmet>
+        <meta property="og:image" content={cover} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={cover} />
+      </Helmet>
+      <QuoteShare containerRef={contentRef} url={url} title={title} />
       <ReadingProgress targetRef={articleRef} />
       <article ref={articleRef} className="bg-white">
         {/* Hero */}
@@ -101,7 +134,7 @@ const StaticArticleShell = ({
                   {readMinutes} min read
                 </span>
                 <div className="ml-auto hidden md:block">
-                  <ShareButtons url={url} title={title} excerpt={excerpt} tags={tags} />
+                  <ShareButtons {...shareProps} />
                 </div>
               </div>
             </FadeContent>
@@ -112,8 +145,8 @@ const StaticArticleShell = ({
         <div className="container mx-auto px-4 max-w-5xl -mt-2 mb-10 md:mb-16">
           <FadeContent>
             <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl ring-1 ring-shivraj-100 aspect-[16/9] bg-shivraj-50">
-              {coverImageUrl ? (
-                <img src={coverImageUrl} alt={title} loading="eager" className="w-full h-full object-cover" />
+              {cover ? (
+                <img src={cover} alt={title} loading="eager" width={1200} height={630} className="w-full h-full object-cover" />
               ) : (
                 <CoverPlaceholder title={title} category={category} className="w-full h-full" />
               )}
@@ -125,6 +158,7 @@ const StaticArticleShell = ({
         <div className="container mx-auto px-4 max-w-6xl pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-12">
             <div ref={contentRef} className="max-w-[820px] mx-auto w-full">
+              <WhatYouLearn questions={questions} />
               <div
                 className="prose prose-slate max-w-none text-left
                   prose-headings:scroll-mt-28 prose-headings:text-shivraj-900 prose-headings:font-bold prose-headings:tracking-tight
@@ -164,7 +198,7 @@ const StaticArticleShell = ({
                     ))}
                   </div>
                   <div className="ml-auto">
-                    <ShareButtons url={url} title={title} excerpt={excerpt} tags={tags} />
+                    <ShareButtons {...shareProps} />
                   </div>
                 </div>
               )}
@@ -194,7 +228,7 @@ const StaticArticleShell = ({
                 <SidebarExtras currentSlug={slug} />
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-shivraj-600 mb-3">Share this post</div>
-                  <ShareButtons url={url} title={title} excerpt={excerpt} tags={tags} />
+                  <ShareButtons {...shareProps} />
                 </div>
                 <NewsletterCard />
               </div>
