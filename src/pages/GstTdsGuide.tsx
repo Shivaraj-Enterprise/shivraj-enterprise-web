@@ -91,6 +91,7 @@ const GstTdsGuide = () => {
       </Helmet>
 
       <StaticArticleShell
+        questions={["Is GST on manpower supply 18% or under RCM?", "Which TDS section applies \u2014 194C or 194J?", "Can my plant claim full input tax credit on labour bills?"]}
         title="GST & TDS on Manpower Supply Services in India: 2026 Compliance Guide"
         excerpt="Procurement and HR managers in Vapi GIDC's engineering, pharma, chemical and packaging plants routinely outsource shop-floor and housekeeping headcount. This guide explains how GST and TDS work on those manpower supply contracts so your compliance stays clean."
         category="Compliance"

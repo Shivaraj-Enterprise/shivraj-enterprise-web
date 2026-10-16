@@ -62,14 +62,14 @@ Formatting rules:
 - Bold the target keyword and 3–5 semantic variants using <strong>. Do NOT keyword-stuff.
 - Internal links: use <a href="/services">, <a href="/contact">, <a href="/blog">, <a href="/locations"> where natural.
 
-Return a strict JSON object with keys: title, excerpt, content_html. No prose outside JSON.`;
+Return a strict JSON object with keys: title, excerpt, content_html, learn_questions. No prose outside JSON.`;
 
 async function generateArticle(topic: typeof TOPIC_POOL[number], feedback?: string) {
   const userPrompt = `Target SEO keyword: "${topic.keyword}"
 Category: ${topic.category}
 Editorial angle: ${topic.angle}
 ${feedback ? `\n${feedback}\n` : ""}
-Write the article now. Return JSON: { "title": string (55–65 chars, includes the keyword naturally), "excerpt": string (140–160 chars, meta-description style), "content_html": string }.`;
+Write the article now. Return JSON: { "title": string (55–65 chars, includes the keyword naturally), "excerpt": string (140–160 chars, meta-description style), "content_html": string, "learn_questions": string[] (exactly 3 short, curiosity-driven questions this article answers, each ending with "?") }.`;
 
   const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
@@ -95,7 +95,7 @@ Write the article now. Return JSON: { "title": string (55–65 chars, includes t
   const raw = j.choices?.[0]?.message?.content ?? "";
   const parsed = JSON.parse(raw);
   if (!parsed.title || !parsed.content_html) throw new Error("AI returned incomplete article");
-  return parsed as { title: string; excerpt: string; content_html: string };
+  return parsed as { title: string; excerpt: string; content_html: string; learn_questions?: string[] };
 }
 
 async function upsertTags(postId: string, tagNames: string[]) {
@@ -311,6 +311,7 @@ Deno.serve(async (req) => {
           title: article.title.slice(0, 200),
           excerpt: article.excerpt?.slice(0, 300) ?? null,
           content: article.content_html,
+          learn_questions: Array.isArray((article as any).learn_questions) ? (article as any).learn_questions.filter((q: unknown) => typeof q === "string").slice(0, 3).map((q: string) => q.slice(0, 140)) : null,
           seo_score: score,
           seo_report: report,
           updated_at: new Date().toISOString(),
@@ -336,6 +337,7 @@ Deno.serve(async (req) => {
         title: article.title.slice(0, 200),
         excerpt: article.excerpt?.slice(0, 300) ?? null,
         content: article.content_html,
+        learn_questions: Array.isArray((article as any).learn_questions) ? (article as any).learn_questions.filter((q: unknown) => typeof q === "string").slice(0, 3).map((q: string) => q.slice(0, 140)) : null,
         published: true,
         published_at: new Date().toISOString(),
         seo_score: score,

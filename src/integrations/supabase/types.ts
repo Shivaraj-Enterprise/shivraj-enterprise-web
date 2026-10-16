@@ -91,6 +91,7 @@ export type Database = {
           created_at: string
           excerpt: string | null
           id: string
+          learn_questions: string[] | null
           published: boolean
           published_at: string | null
           seo_report: Json | null
@@ -106,6 +107,7 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          learn_questions?: string[] | null
           published?: boolean
           published_at?: string | null
           seo_report?: Json | null
@@ -121,6 +123,7 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          learn_questions?: string[] | null
           published?: boolean
           published_at?: string | null
           seo_report?: Json | null

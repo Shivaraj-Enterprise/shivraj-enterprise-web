@@ -101,6 +101,7 @@ const HrComplianceChecklist = () => {
       </Helmet>
 
       <StaticArticleShell
+        questions={["Which registers must an industrial plant keep for an audit?", "When does the Contract Labour Act apply to your plant?", "How do you check a manpower contractor before signing?"]}
         title="2026 HR Compliance Checklist for Industrial Plants in Vapi GIDC"
         excerpt="A practical, audit-ready HR compliance checklist for engineering, chemical, pharma and packaging plants in Vapi GIDC. Covers PF, ESIC, Factories Act, Contract Labour Act, wages, POSH and manpower supply due diligence — designed for procurement and HR managers who need to reduce hiring overhead and audit risk."
         category="Compliance"

@@ -97,6 +97,7 @@ const StatutoryComplianceGuide = () => {
       </Helmet>
 
       <StaticArticleShell
+        questions={["What EPF and ESI duties does a manpower agency have?", "How can you tell a compliant agency from a risky one?", "What should you verify every month to stay audit-safe?"]}
         title="Statutory Compliance for Manpower Supply in India: The 2026 Buyer's Guide"
         excerpt="EPF, ESI, GST and labour law obligations that separate a compliant manpower agency from a risky one — with a month-by-month verification routine for industrial plants in Vapi GIDC and across Gujarat."
         category="Compliance"

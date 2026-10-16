@@ -93,6 +93,7 @@ const OutsourcingVsInHouse = () => {
       </Helmet>
 
       <StaticArticleShell
+        questions={["Is outsourcing really cheaper than hiring in-house?", "What hidden costs come with in-house shop-floor staff?", "Who carries the PF & ESIC risk when you outsource?"]}
         title="Manpower Outsourcing vs In-House Hiring in Vapi GIDC: A 2026 Cost-Benefit Guide"
         excerpt="Engineering, chemical, pharma and packaging plants in Vapi GIDC face the same recurring question: hire shop-floor and housekeeping headcount in-house, or outsource to a manpower contractor? This guide breaks down the true cost of labour supply in Vapi — statutory compliance (PF, ESIC), recruitment overhead and principal-employer risk — so procurement, finance and HR can decide with numbers, not gut feel."
         category="Outsourcing"

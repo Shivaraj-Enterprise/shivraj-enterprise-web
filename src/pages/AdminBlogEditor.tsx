@@ -36,6 +36,7 @@ const AdminBlogEditor = () => {
   const [slug, setSlug] = useState("");
   const [slugTouched, setSlugTouched] = useState(false);
   const [excerpt, setExcerpt] = useState("");
+  const [learnQs, setLearnQs] = useState<string[]>(["", "", ""]);
   const [content, setContent] = useState("");
   const [cover, setCover] = useState<string | null>(null);
   const [published, setPublished] = useState(false);
@@ -55,7 +56,7 @@ const AdminBlogEditor = () => {
       if (!isNew) {
         const { data: post } = await supabase
           .from("blog_posts")
-          .select("title, slug, excerpt, content, cover_image_url, published, published_at, blog_post_tags(tag_id)")
+          .select("title, slug, excerpt, content, cover_image_url, published, published_at, learn_questions, blog_post_tags(tag_id)")
           .eq("id", id!)
           .maybeSingle();
         if (post) {
@@ -63,6 +64,8 @@ const AdminBlogEditor = () => {
           setSlug(post.slug);
           setSlugTouched(true);
           setExcerpt(post.excerpt ?? "");
+          const lq = (post.learn_questions ?? []) as string[];
+          setLearnQs([0, 1, 2].map((i) => lq[i] ?? ""));
           setContent(post.content ?? "");
           setCover(post.cover_image_url);
           setPublished(post.published);
@@ -122,6 +125,7 @@ const AdminBlogEditor = () => {
       title,
       slug,
       excerpt: excerpt || null,
+      learn_questions: (() => { const q = learnQs.map((x) => x.trim().slice(0, 140)).filter(Boolean); return q.length ? q : null; })(),
       content,
       cover_image_url: cover,
       published,
@@ -182,6 +186,16 @@ const AdminBlogEditor = () => {
             <div>
               <Label htmlFor="excerpt">Excerpt</Label>
               <Textarea id="excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} maxLength={500} rows={2} />
+            </div>
+            <div>
+              <Label>What you'll get answered (up to 3 questions)</Label>
+              <div className="space-y-2 mt-1">
+                {learnQs.map((q, i) => (
+                  <Input key={i} value={q} maxLength={140} placeholder={`Question ${i + 1} — e.g. How much does a helper cost per day?`}
+                    onChange={(e) => setLearnQs((p) => p.map((x, j) => (j === i ? e.target.value : x)))} />
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Leave empty to use the article's own FAQ questions automatically.</p>
             </div>
 
             <div>
