@@ -29,6 +29,7 @@ interface Props {
   slug?: string;
   prev?: NavRef;
   next?: NavRef;
+  questions?: string[];
   children: ReactNode;
 }
 
@@ -45,6 +46,7 @@ const StaticArticleShell = ({
   slug,
   prev,
   next,
+  questions: givenQuestions,
   children,
 }: Props) => {
   const articleRef = useRef<HTMLElement>(null);
@@ -60,7 +62,15 @@ const StaticArticleShell = ({
       const found = Array.from(el.querySelectorAll("h2,h3,h4,summary,button,dt"))
         .map((n) => (n.textContent || "").replace(/^\s*\d+[.)]?\s*/, "").trim())
         .filter((t) => t.endsWith("?") && t.length > 10 && t.length < 140);
-      const uniq = [...new Set(found)].slice(0, 3);
+      let uniq = [...new Set(found)].slice(0, 3);
+      if (uniq.length < 3) {
+        const skip = /frequently asked|key takeaway|conclusion|table of contents|faq/i;
+        const fromH2 = Array.from(el.querySelectorAll(".prose h2"))
+          .map((n) => (n.textContent || "").replace(/^\s*\d+[.)]?\s*/, "").trim())
+          .filter((t) => t.length > 6 && t.length < 110 && !skip.test(t) && !t.endsWith("?"))
+          .map((t) => (/^(what|how|why|who|when|which|is|are|do|does|can|should)\b/i.test(t) ? `${t}?` : `What should you know about ${t.charAt(0).toLowerCase()}${t.slice(1)}?`));
+        uniq = [...new Set([...uniq, ...fromH2])].slice(0, 3);
+      }
       setQuestions((prev) => (prev.join("|") === uniq.join("|") ? prev : uniq));
     };
     scan();
@@ -69,7 +79,8 @@ const StaticArticleShell = ({
     return () => mo.disconnect();
   }, []);
 
-  const shareProps = { url, title, excerpt, tags, questions, readMinutes, slug };
+  const finalQuestions = givenQuestions && givenQuestions.filter(Boolean).length ? givenQuestions.filter(Boolean).slice(0, 3) : questions;
+  const shareProps = { url, title, excerpt, tags, questions: finalQuestions, readMinutes, slug };
 
   return (
     <>
@@ -158,7 +169,7 @@ const StaticArticleShell = ({
         <div className="container mx-auto px-4 max-w-6xl pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-12">
             <div ref={contentRef} className="max-w-[820px] mx-auto w-full">
-              <WhatYouLearn questions={questions} />
+              <WhatYouLearn questions={finalQuestions} />
               <div
                 className="prose prose-slate max-w-none text-left
                   prose-headings:scroll-mt-28 prose-headings:text-shivraj-900 prose-headings:font-bold prose-headings:tracking-tight

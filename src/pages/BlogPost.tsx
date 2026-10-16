@@ -56,6 +56,7 @@ type Post = {
   content: string;
   cover_image_url: string | null;
   published_at: string | null;
+  learn_questions: string[] | null;
   blog_post_tags: { blog_tags: { slug: string; name: string } | null }[] | null;
 };
 
@@ -75,7 +76,7 @@ const BlogPost = () => {
       setLoading(true);
       const { data } = await supabase
         .from("blog_posts")
-        .select("id, slug, title, excerpt, content, cover_image_url, published_at, blog_post_tags(blog_tags(slug, name))")
+        .select("id, slug, title, excerpt, content, cover_image_url, published_at, learn_questions, blog_post_tags(blog_tags(slug, name))")
         .eq("slug", slug!)
         .eq("published", true)
         .maybeSingle();
@@ -208,6 +209,7 @@ const BlogPost = () => {
         breadcrumbLabel={post.title}
         coverImageUrl={post.cover_image_url ?? undefined}
         slug={post.slug}
+        questions={post.learn_questions ?? undefined}
       >
         <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
         {takeawaysResult.takeaways.length > 0 && (
