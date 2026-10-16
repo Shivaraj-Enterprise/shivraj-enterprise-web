@@ -84,7 +84,17 @@ const ShareMenu = ({ open, onOpenChange, url, title, excerpt, tags = [], questio
 
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
           <button className={btn} onClick={viaCopy(`https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`, "LinkedIn")}><Linkedin size={18} />LinkedIn</button>
-          <button className={btn} onClick={() => openWin(`https://twitter.com/intent/tweet?text=${enc(tone === "professional" ? buildTweetText({ title, url, tags, questions }) : text.slice(0, 280))}`)}><Twitter size={18} />X</button>
+          <button className={btn} onClick={() => {
+            let tweet = text;
+            if (tone === "professional") tweet = buildTweetText({ title, url, tags, questions });
+            else if (text.length > 280) {
+              // Always keep the article link: trim the body, then append the URL.
+              const body = text.replace(url, "").replace(/👇\s*Read it here:\s*/, "").trim();
+              const room = 280 - url.length - 4;
+              tweet = `${body.slice(0, room).trimEnd()}… ${url}`;
+            }
+            openWin(`https://twitter.com/intent/tweet?text=${enc(tweet)}`);
+          }}><Twitter size={18} />X</button>
           <button className={btn} onClick={viaCopy(`https://www.facebook.com/sharer/sharer.php?u=${enc(url)}`, "Facebook")}><Facebook size={18} />Facebook</button>
           <button className={btn} onClick={() => openWin(`https://wa.me/?text=${enc(text)}`)}><MessageCircle size={18} />WhatsApp</button>
           <a className={btn} href={`mailto:?subject=${enc(title)}&body=${enc(text)}`}><Mail size={18} />Email</a>
