@@ -8,6 +8,13 @@
       "when": 1792175143124,
       "tag": "0000_add_learn_questions",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792347643883,
+      "tag": "0001_create_job_applications",
+      "breakpoints": true
     }
   ]
 }

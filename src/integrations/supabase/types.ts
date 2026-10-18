@@ -197,6 +197,57 @@ export type Database = {
         }
         Relationships: []
       }
+      job_applications: {
+        Row: {
+          created_at: string
+          current_location: string | null
+          cv_path: string | null
+          email: string | null
+          email_sent: boolean
+          experience_years: string | null
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          qualification: string | null
+          role: string
+          skill_level: string
+          whatsapp: string | null
+        }
+        Insert: {
+          created_at?: string
+          current_location?: string | null
+          cv_path?: string | null
+          email?: string | null
+          email_sent?: boolean
+          experience_years?: string | null
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          qualification?: string | null
+          role: string
+          skill_level: string
+          whatsapp?: string | null
+        }
+        Update: {
+          created_at?: string
+          current_location?: string | null
+          cv_path?: string | null
+          email?: string | null
+          email_sent?: boolean
+          experience_years?: string | null
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          qualification?: string | null
+          role?: string
+          skill_level?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       knowledge_chunks: {
         Row: {
           chunk_index: number
