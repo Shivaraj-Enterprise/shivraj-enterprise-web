@@ -120,6 +120,15 @@ Email: shivrajenterprise1234@gmail.com
 Address: Plot No. 228, A/303, Ved Vihar, Near Oswal Samaj Hall, Chharwada, Vapi, Gujarat - 396191
 The contact page has an inquiry form (name, email, phone, WhatsApp, inquiry type, message) and a map.
 
+=== PAGE: CAREERS (/careers) — JOBS FOR WORKERS ===
+Shivraj Enterprise is hiring skilled, semi-skilled and unskilled workers in Vapi GIDC and nearby.
+Skilled: Electrician, Panel Board Wireman, Fiber Optic Splicer, Plumber, Fitter, Turner, Welder, Machinist, Machine Operator, Supervisor (ITI preferred for trades).
+Semi-skilled: Cable Installation Helper, Pipe Fitting Helper, Machine Helper, Quality & Packaging Inspector.
+Unskilled: General Helper, Loading/Unloading Worker, Material Handler, Industrial Housekeeping Staff.
+Benefits: salary as per skill, PF & ESI per government norms, safe workplace, growth. No fee is ever charged.
+How to apply: online form with CV upload at /careers, WhatsApp +91 99984 98311 (attach CV), or email CV to shivrajenterprise1234@gmail.com.
+Documents: Aadhaar, PAN, bank passbook, photos, ITI/education certificates.
+
 === SOCIAL PROFILES ===
 LinkedIn: linkedin.com/company/shivraj-enterprisess
 Instagram: instagram.com/shivraj.enterprise

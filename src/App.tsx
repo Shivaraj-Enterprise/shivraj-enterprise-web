@@ -32,6 +32,8 @@ import AdminBlogSeo from "./pages/AdminBlogSeo";
 import AdminBlogEditor from "./pages/AdminBlogEditor";
 import AdminRateCard from "./pages/AdminRateCard";
 import LabourCostCalculator from "./pages/LabourCostCalculator";
+import Careers from "./pages/Careers";
+import AdminJobApplications from "./pages/AdminJobApplications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +54,8 @@ const App = () => (
               <Route key={p.slug} path={`/services/${p.slug}`} element={<ServiceDetail slug={p.slug} />} />
             ))}
             <Route path="/contact" element={<Contact />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/admin/job-applications" element={<AdminJobApplications />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/labour-cost-calculator" element={<LabourCostCalculator />} />
             <Route path="/locations" element={<Locations />} />

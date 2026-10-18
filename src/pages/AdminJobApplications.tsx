@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import AdminGate from "@/components/admin/AdminGate";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 
 type Row = {
   id: string; name: string; phone: string; whatsapp: string | null; email: string | null; role: string;
@@ -53,5 +54,5 @@ const List = () => {
   );
 };
 
-const AdminJobApplications = () => <AdminGate><List /></AdminGate>;
+const AdminJobApplications = () => { const auth = useAdminAuth(); return <AdminGate auth={auth}><List /></AdminGate>; };
 export default AdminJobApplications;

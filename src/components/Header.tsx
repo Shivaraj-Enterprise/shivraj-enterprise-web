@@ -97,6 +97,7 @@ const Header = () => {
 
             <Link to="/locations" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Locations</Link>
             <Link to="/blog" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Blog</Link>
+            <Link to="/careers" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Careers</Link>
             <Link to="/contact" className="text-shivraj-700 hover:text-shivraj-500 font-medium">Contact</Link>
           </nav>
 
@@ -207,6 +208,7 @@ const Header = () => {
                 <Link to="/blog" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Blog</Link>
               </li>
               <li>
+                <Link to="/careers" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Careers</Link>
                 <Link to="/contact" className="block text-shivraj-700 hover:text-shivraj-500 font-medium" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
               </li>
               <li className="pt-2">

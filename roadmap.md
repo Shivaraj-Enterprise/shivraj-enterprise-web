@@ -8,3 +8,4 @@
 - [x] Apply Glass Elevation motion and depth across the calculator.
 - [x] Add reduced-motion and print safeguards for all new effects.
 - [x] Verify desktop/mobile interactions and the A4 report after animation changes.
+- [x] Careers page with CV upload, WhatsApp & email apply, admin list
