@@ -7,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { jobRoles, SkillLevel } from "@/data/jobRoles";
+import { motion, AnimatePresence } from "framer-motion";
+import BlurText from "@/components/reactbits/BlurText";
+import FadeContent from "@/components/reactbits/FadeContent";
+import TiltedCard from "@/components/reactbits/TiltedCard";
 import poster from "@/assets/hiring-poster.png.asset.json";
 
 const PHONE = "919998498311";
@@ -78,6 +82,7 @@ const Careers = () => {
 
   return (
     <Layout>
+      <div className="careers-page">
       <Helmet>
         <title>Jobs in Vapi GIDC – Careers at Shivraj Enterprise</title>
         <meta name="description" content="Apply for skilled, semi-skilled and unskilled jobs in Vapi GIDC: electrician, fitter, welder, plumber, helper. PF & ESI. Apply online, on WhatsApp or by email." />
@@ -89,27 +94,28 @@ const Careers = () => {
       </Helmet>
 
       {/* Banner */}
-      <section className="bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-600 text-white py-16 md:py-24">
-        <div className="container mx-auto grid lg:grid-cols-2 gap-10 items-center">
+      <section className="careers-hero text-white py-16 md:py-24">
+        <div className="careers-grid" /><div className="careers-glow" />
+        <div className="container mx-auto relative grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <span className="inline-block bg-yellow-400 text-shivraj-900 font-bold px-3 py-1 rounded mb-4">📢 Now hiring in Vapi GIDC</span>
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">We're <span className="text-yellow-400">Hiring!</span></h1>
-            <p className="text-xl mt-4 text-shivraj-100">Skilled, Semi-Skilled & Unskilled workers for industrial projects. <em>Your Skills, Our Strength.</em></p>
-            <div className="flex flex-wrap gap-3 mt-8">
-              <Button onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} className="bg-yellow-400 text-shivraj-900 hover:bg-yellow-300 font-bold"><Briefcase size={18} /> Apply Now</Button>
-              <Button asChild className="bg-green-600 hover:bg-green-700"><a href={`https://wa.me/${PHONE}?text=${waText}`} target="_blank" rel="noopener noreferrer"><MessageSquare size={18} /> Apply on WhatsApp</a></Button>
+            <motion.span initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .5 }} className="inline-block bg-accent-y text-shivraj-900 font-bold px-3 py-1 rounded mb-4">📢 Now hiring in Vapi GIDC</motion.span>
+            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight"><BlurText as="span" text="We're" /> <BlurText as="span" text="Hiring!" delay={0.15} className="text-accent-y" /></h1>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4, duration: .6 }} className="text-xl mt-4 text-shivraj-100">Skilled, Semi-Skilled & Unskilled workers for industrial projects. <em>Your Skills, Our Strength.</em></motion.p>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .6, duration: .6 }} className="flex flex-wrap gap-3 mt-8">
+              <Button onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} className="careers-pulse bg-accent-y text-shivraj-900 hover:opacity-90 font-bold"><Briefcase size={18} /> Apply Now</Button>
+              <Button asChild className="careers-bounce bg-green-600 hover:bg-green-700"><a href={`https://wa.me/${PHONE}?text=${waText}`} target="_blank" rel="noopener noreferrer"><MessageSquare size={18} /> Apply on WhatsApp</a></Button>
               <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white/10"><a href={mailHref}><Mail size={18} /> Email your CV</a></Button>
-            </div>
+            </motion.div>
           </div>
-          <img src={poster.url} alt="Shivraj Enterprise hiring poster" width={1024} height={1536} className="rounded-xl shadow-2xl max-h-[520px] w-auto mx-auto hidden lg:block" />
+          <div className="hidden lg:block [perspective:1000px]"><TiltedCard maxTilt={8} className="careers-float"><img src={poster.url} alt="Shivraj Enterprise hiring poster" width={1024} height={1536} className="rounded-xl shadow-2xl max-h-[520px] w-auto mx-auto ring-4 ring-white/10" /></TiltedCard></div>
         </div>
       </section>
 
       {/* Benefits */}
-      <section className="bg-shivraj-50 py-10">
-        <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[[IndianRupee, "Attractive Salary", "As per skill & experience"], [ShieldCheck, "PF & ESI Benefits", "As per government norms"], [HardHat, "Safe Work Place", "Safety gear & training"], [TrendingUp, "Long-Term Growth", "Skill development"]].map(([Icon, t, s]: any) => (
-            <div key={t} className="flex items-start gap-3"><Icon className="text-shivraj-600 shrink-0" /><div><p className="font-semibold text-shivraj-800">{t}</p><p className="text-sm text-gray-600">{s}</p></div></div>
+      <section className="bg-shivraj-50 py-12 border-b border-shivraj-100">
+        <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[[IndianRupee, "Attractive Salary", "As per skill & experience"], [ShieldCheck, "PF & ESI Benefits", "As per government norms"], [HardHat, "Safe Work Place", "Safety gear & training"], [TrendingUp, "Long-Term Growth", "Skill development"]].map(([Icon, t, s]: any, i: number) => (
+            <FadeContent key={t} delay={i * 0.1} className="flex items-start gap-3"><span className="w-11 h-11 rounded-full bg-shivraj-600 text-white flex items-center justify-center shrink-0 shadow-md"><Icon size={20} /></span><div><p className="font-semibold text-shivraj-800">{t}</p><p className="text-sm text-gray-600">{s}</p></div></FadeContent>
           ))}
         </div>
       </section>
@@ -125,20 +131,23 @@ const Careers = () => {
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition ${level === l ? "bg-shivraj-600 text-white border-shivraj-600" : "border-shivraj-200 text-shivraj-700 hover:bg-shivraj-50"}`}>{l}</button>
             ))}
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {shown.map((r) => (
-              <div key={r.title} className="rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:-translate-y-0.5 transition flex flex-col">
+          <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <AnimatePresence mode="popLayout">
+            {shown.map((r, i) => (
+              <motion.div layout key={r.title} initial={{ opacity: 0, scale: .94, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: .94 }} transition={{ duration: .35, delay: Math.min(i, 8) * 0.04 }} className="job-card relative overflow-hidden rounded-2xl bg-white border border-shivraj-100 shadow-sm p-5 pt-6 flex flex-col">
+                <span className={`absolute top-0 left-0 right-0 h-1 strip-${r.level}`} />
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-3xl" aria-hidden>{r.emoji}</span>
-                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${r.level === "Skilled" ? "bg-shivraj-100 text-shivraj-700" : r.level === "Semi-Skilled" ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-700"}`}>{r.level}</span>
+                  <span className="w-12 h-12 rounded-xl bg-shivraj-50 flex items-center justify-center text-2xl" aria-hidden>{r.emoji}</span>
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full badge-${r.level}`}>{r.level}</span>
                 </div>
                 <h3 className="font-bold text-lg text-shivraj-800">{r.title}</h3>
                 <p className="text-xs text-gray-500 mb-2">📍 Vapi GIDC & nearby {r.iti && "· ITI preferred"}</p>
                 <ul className="text-sm text-gray-600 space-y-1 mb-4 flex-1">{r.duties.map((d) => <li key={d}>• {d}</li>)}</ul>
                 <Button onClick={() => pick(r.title, r.level)} className="bg-shivraj-600 hover:bg-shivraj-700 w-full">Apply for {r.title}</Button>
-              </div>
+              </motion.div>
             ))}
-          </div>
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
 
@@ -146,9 +155,10 @@ const Careers = () => {
       <section className="py-12 bg-shivraj-50">
         <div className="container mx-auto">
           <h2 className="text-2xl font-bold text-shivraj-800 mb-6 text-center">How hiring works</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4">
+            <motion.span aria-hidden initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: "easeOut" }} className="hidden md:block absolute top-10 left-[12%] right-[12%] h-0.5 bg-shivraj-300 origin-left" />
             {["Apply online, WhatsApp or email", "We call you", "Document check & interview", "Join work"].map((s, i) => (
-              <div key={s} className="bg-white rounded-xl p-5 text-center shadow-sm"><div className="w-10 h-10 mx-auto rounded-full bg-shivraj-600 text-white font-bold flex items-center justify-center mb-2">{i + 1}</div><p className="text-sm font-medium text-shivraj-800">{s}</p></div>
+              <FadeContent key={s} delay={i * 0.15} className="relative bg-white rounded-xl p-5 text-center shadow-sm"><motion.div initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 260, damping: 14, delay: .2 + i * 0.15 }} className="w-10 h-10 mx-auto rounded-full bg-shivraj-600 text-white font-bold flex items-center justify-center mb-2 shadow-md">{i + 1}</motion.div><p className="text-sm font-medium text-shivraj-800">{s}</p></FadeContent>
             ))}
           </div>
         </div>
@@ -157,11 +167,11 @@ const Careers = () => {
       {/* Apply */}
       <section className="section bg-white" id="apply">
         <div ref={formRef} className="container mx-auto grid lg:grid-cols-3 gap-8 scroll-mt-24">
-          <div className="lg:col-span-2 rounded-xl border border-gray-100 shadow-md p-6 md:p-8">
+          <FadeContent className="lg:col-span-2 rounded-2xl border border-shivraj-100 shadow-lg p-6 md:p-8 bg-white">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-1">Apply with your CV</h2>
             <p className="text-sm text-gray-600 mb-6">Takes 2 minutes. CV is optional.</p>
             {done ? (
-              <div className="text-center py-10"><CheckCircle2 className="mx-auto text-green-600 mb-3" size={48} /><p className="text-xl font-semibold text-shivraj-800">Thank you, {f.name}!</p><p className="text-gray-600 mt-2">We received your application. Our team will call you soon.</p></div>
+              <div className="text-center py-10"><motion.div initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 220, damping: 12 }}><CheckCircle2 className="mx-auto text-green-600 mb-3" size={48} /></motion.div><p className="text-xl font-semibold text-shivraj-800">Thank you, {f.name}!</p><p className="text-gray-600 mt-2">We received your application. Our team will call you soon.</p></div>
             ) : (
               <form onSubmit={submit} className="grid sm:grid-cols-2 gap-4">
                 <label className="text-sm">Full name *<input className={input} value={f.name} onChange={set("name")} maxLength={100} required /></label>
@@ -193,12 +203,12 @@ const Careers = () => {
                 <Button type="submit" disabled={sending} className="sm:col-span-2 bg-shivraj-600 hover:bg-shivraj-700">{sending ? "Sending..." : "Submit Application"}</Button>
               </form>
             )}
-          </div>
+          </FadeContent>
           <aside className="space-y-4">
             <h3 className="font-bold text-shivraj-800 text-lg">Other ways to apply</h3>
-            <a href={`https://wa.me/${PHONE}?text=${waText}`} target="_blank" rel="noopener noreferrer" className="flex gap-3 p-4 rounded-xl bg-green-50 border border-green-100 hover:shadow"><MessageSquare className="text-green-600" /><div><p className="font-semibold">WhatsApp</p><p className="text-sm text-gray-600">Send a message and attach your CV or a photo of it.</p></div></a>
-            <a href={mailHref} className="flex gap-3 p-4 rounded-xl bg-shivraj-50 border border-shivraj-100 hover:shadow"><Mail className="text-shivraj-600" /><div><p className="font-semibold">Email</p><p className="text-sm text-gray-600 break-all">{EMAIL}</p></div></a>
-            <a href="tel:+919998498311" className="flex gap-3 p-4 rounded-xl bg-yellow-50 border border-yellow-100 hover:shadow"><Phone className="text-yellow-700" /><div><p className="font-semibold">Call us</p><p className="text-sm text-gray-600">+91 99984 98311</p></div></a>
+            <a href={`https://wa.me/${PHONE}?text=${waText}`} target="_blank" rel="noopener noreferrer" className="job-card flex gap-3 p-4 rounded-xl bg-white border border-shivraj-100 shadow-sm"><MessageSquare className="text-green-600" /><div><p className="font-semibold">WhatsApp</p><p className="text-sm text-gray-600">Send a message and attach your CV or a photo of it.</p></div></a>
+            <a href={mailHref} className="job-card flex gap-3 p-4 rounded-xl bg-white border border-shivraj-100 shadow-sm"><Mail className="text-shivraj-600" /><div><p className="font-semibold">Email</p><p className="text-sm text-gray-600 break-all">{EMAIL}</p></div></a>
+            <a href="tel:+919998498311" className="job-card flex gap-3 p-4 rounded-xl bg-white border border-shivraj-100 shadow-sm"><Phone className="text-shivraj-600" /><div><p className="font-semibold">Call us</p><p className="text-sm text-gray-600">+91 99984 98311</p></div></a>
             <p className="text-xs text-gray-500">⚠️ We never charge any fee for jobs.</p>
           </aside>
         </div>
@@ -210,7 +220,7 @@ const Careers = () => {
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-4">Questions from job seekers</h2>
             <div className="space-y-3">{faqs.map((x) => (
-              <details key={x.q} className="bg-white rounded-lg p-4 shadow-sm"><summary className="font-semibold text-shivraj-800 cursor-pointer">{x.q}</summary><p className="text-gray-600 mt-2 text-sm">{x.a}</p></details>
+              <details key={x.q} className="bg-white rounded-lg p-4 shadow-sm border border-shivraj-100 hover:border-shivraj-300 transition"><summary className="font-semibold text-shivraj-800 cursor-pointer">{x.q}</summary><p className="text-gray-600 mt-2 text-sm">{x.a}</p></details>
             ))}</div>
           </div>
           <div className="text-center">
@@ -219,6 +229,7 @@ const Careers = () => {
           </div>
         </div>
       </section>
+      </div>
     </Layout>
   );
 };
