@@ -551,21 +551,19 @@
   background: hsl(var(--careers-accent) / .25); top: -120px; right: -80px;
   animation: careersGlow 9s ease-in-out infinite alternate;
 }
-.careers-page .text-accent-y { color: hsl(var(--careers-accent)); }
-.careers-page .bg-accent-y { background: hsl(var(--careers-accent)); }
 .careers-page .careers-pulse { animation: careersPulse 2.4s ease-in-out infinite; }
 .careers-page .careers-float { animation: careersFloat 6s ease-in-out infinite; }
 .careers-page .careers-bounce:hover { animation: careersBounce .5s ease; }
 .careers-page .job-card { transition: transform .3s ease, box-shadow .3s ease; }
 .careers-page .job-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px -16px hsl(217 91% 45% / .35); }
 .careers-page .strip-Skilled { background: hsl(217 91% 50%); }
-.careers-page .strip-Semi-Skilled { background: hsl(38 92% 50%); }
+.careers-page .strip-Semi-Skilled { background: hsl(199 89% 48%); }
 .careers-page .strip-Unskilled { background: hsl(var(--careers-teal)); }
 .careers-page .badge-Skilled { background: hsl(217 91% 95%); color: hsl(217 80% 35%); }
-.careers-page .badge-Semi-Skilled { background: hsl(38 92% 92%); color: hsl(30 80% 30%); }
+.careers-page .badge-Semi-Skilled { background: hsl(199 89% 94%); color: hsl(205 80% 32%); }
 .careers-page .badge-Unskilled { background: hsl(173 60% 92%); color: hsl(173 70% 25%); }
 @keyframes careersGlow { from { transform: translate(0,0) scale(1); } to { transform: translate(-120px,80px) scale(1.2); } }
-@keyframes careersPulse { 0%,100% { box-shadow: 0 0 0 0 hsl(45 96% 56% / .6); } 50% { box-shadow: 0 0 0 12px hsl(45 96% 56% / 0); } }
+@keyframes careersPulse { 0%,100% { box-shadow: 0 0 0 0 hsl(217 91% 50% / .55); } 50% { box-shadow: 0 0 0 12px hsl(217 91% 50% / 0); } }
 @keyframes careersFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 @keyframes careersBounce { 0%,100% { transform: translateY(0); } 40% { transform: translateY(-5px); } 70% { transform: translateY(1px); } }
 @media (prefers-reduced-motion: reduce) {
