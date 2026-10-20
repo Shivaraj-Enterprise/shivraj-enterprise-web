@@ -98,11 +98,11 @@ const Careers = () => {
         <div className="careers-grid" /><div className="careers-glow" />
         <div className="container mx-auto relative grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <motion.span initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .5 }} className="inline-block bg-accent-y text-shivraj-900 font-bold px-3 py-1 rounded mb-4">📢 Now hiring in Vapi GIDC</motion.span>
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight"><BlurText as="span" text="We're" /> <BlurText as="span" text="Hiring!" delay={0.15} className="text-accent-y" /></h1>
+            <motion.span initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .5 }} className="inline-block bg-white/10 ring-1 ring-white/25 font-semibold px-3 py-1 rounded mb-4">📢 Now hiring in Vapi GIDC</motion.span>
+            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight"><BlurText as="span" text="We're" /> <BlurText as="span" text="Hiring!" delay={0.15} className="text-shivraj-300" /></h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4, duration: .6 }} className="text-xl mt-4 text-shivraj-100">Skilled, Semi-Skilled & Unskilled workers for industrial projects. <em>Your Skills, Our Strength.</em></motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .6, duration: .6 }} className="flex flex-wrap gap-3 mt-8">
-              <Button onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} className="careers-pulse bg-accent-y text-shivraj-900 hover:opacity-90 font-bold"><Briefcase size={18} /> Apply Now</Button>
+              <Button onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} className="careers-pulse bg-shivraj-600 hover:bg-shivraj-700 font-bold"><Briefcase size={18} /> Apply Now</Button>
               <Button asChild className="careers-bounce bg-green-600 hover:bg-green-700"><a href={`https://wa.me/${PHONE}?text=${waText}`} target="_blank" rel="noopener noreferrer"><MessageSquare size={18} /> Apply on WhatsApp</a></Button>
               <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white/10"><a href={mailHref}><Mail size={18} /> Email your CV</a></Button>
             </motion.div>

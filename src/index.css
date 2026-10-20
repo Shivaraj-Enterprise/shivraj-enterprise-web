@@ -531,12 +531,12 @@
 
 /* Careers page – scoped styles */
 .careers-page {
-  --careers-accent: 45 96% 56%;
+  --careers-accent: 217 91% 62%;
   --careers-teal: 173 70% 36%;
 }
 .careers-page .careers-hero {
-  background: radial-gradient(circle at 20% 20%, hsl(217 91% 45% / 0.55), transparent 55%),
-    radial-gradient(circle at 85% 80%, hsl(var(--careers-accent) / 0.18), transparent 50%),
+  background: radial-gradient(circle at 20% 20%, hsl(217 91% 50% / 0.55), transparent 55%),
+    radial-gradient(circle at 85% 80%, hsl(217 91% 60% / 0.25), transparent 50%),
     linear-gradient(135deg, hsl(222 70% 12%), hsl(220 75% 22%) 55%, hsl(217 80% 35%));
   position: relative; overflow: hidden;
 }
