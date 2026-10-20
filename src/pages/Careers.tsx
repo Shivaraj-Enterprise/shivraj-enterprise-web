@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { jobRoles, SkillLevel } from "@/data/jobRoles";
+import { Checkbox } from "@/components/ui/checkbox";
 import { motion, AnimatePresence } from "framer-motion";
 import BlurText from "@/components/reactbits/BlurText";
 import FadeContent from "@/components/reactbits/FadeContent";
@@ -177,7 +178,7 @@ const Careers = () => {
                 <label className="text-sm">Full name *<input className={input} value={f.name} onChange={set("name")} maxLength={100} required /></label>
                 <label className="text-sm">Phone number *<input className={input} value={f.phone} onChange={set("phone")} maxLength={20} required /></label>
                 <div className="text-sm">
-                  <label className="flex items-center gap-2 mb-1"><input type="checkbox" checked={sameWa} onChange={(e) => setSameWa(e.target.checked)} /> WhatsApp same as phone</label>
+                  <label htmlFor="careers-same-wa" className="flex items-center gap-2 mb-1 cursor-pointer"><Checkbox id="careers-same-wa" checked={sameWa} onCheckedChange={(c) => setSameWa(c === true)} /><span>WhatsApp same as phone</span></label>
                   {!sameWa && <input className={input} placeholder="WhatsApp number" value={f.whatsapp} onChange={set("whatsapp")} maxLength={20} />}
                 </div>
                 <label className="text-sm">Email (optional)<input type="email" className={input} value={f.email} onChange={set("email")} maxLength={255} /></label>
