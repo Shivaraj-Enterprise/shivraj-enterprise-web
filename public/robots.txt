@@ -1,21 +1,26 @@
 User-agent: Googlebot
 Allow: /
 Disallow: /admin
+Disallow: /*.mp4$
 
 User-agent: Bingbot
 Allow: /
 Disallow: /admin
+Disallow: /*.mp4$
 
 User-agent: Twitterbot
 Allow: /
 Disallow: /admin
+Disallow: /*.mp4$
 
 User-agent: facebookexternalhit
 Allow: /
 Disallow: /admin
+Disallow: /*.mp4$
 
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /*.mp4$
 
 Sitemap: https://shivraj-enterprise.lovable.app/sitemap.xml
