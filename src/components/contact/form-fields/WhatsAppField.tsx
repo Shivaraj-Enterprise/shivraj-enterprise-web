@@ -40,7 +40,7 @@ interface WhatsAppFieldProps {
 }
 
 const WhatsAppField = ({ form }: WhatsAppFieldProps) => {
-  const [usePhoneNumber, setUsePhoneNumber] = useState(true);
+  const [usePhoneNumber, setUsePhoneNumber] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<CountryCode>(commonCountryCodes[0]);
 
   useEffect(() => {

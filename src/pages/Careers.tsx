@@ -37,7 +37,7 @@ const Careers = () => {
   const [level, setLevel] = useState<(typeof LEVELS)[number]>("All");
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
-  const [sameWa, setSameWa] = useState(true);
+  const [sameWa, setSameWa] = useState(false);
   const [f, setF] = useState({ name: "", phone: "+91 ", whatsapp: "", email: "", role: "", skill_level: "Skilled" as SkillLevel, experience_years: "", qualification: "", current_location: "", message: "" });
   const [cv, setCv] = useState<File | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -55,7 +55,8 @@ const Careers = () => {
     e.preventDefault();
     const v = schema.safeParse(f);
     if (!v.success) { toast({ title: "Please check the form", description: v.error.errors[0].message, variant: "destructive" }); return; }
-    if (cv && cv.size > 5 * 1024 * 1024) { toast({ title: "CV too large", description: "Max 5 MB", variant: "destructive" }); return; }
+    if (!cv) { toast({ title: "Please upload your CV", description: "Attach your CV as a PDF, Word file or photo.", variant: "destructive" }); formRef.current?.scrollIntoView({ behavior: "smooth" }); return; }
+    if (cv.size > 5 * 1024 * 1024) { toast({ title: "CV too large", description: "Max 5 MB", variant: "destructive" }); return; }
     setSending(true);
     try {
       const fd = new FormData();
@@ -170,7 +171,7 @@ const Careers = () => {
         <div ref={formRef} className="container mx-auto grid lg:grid-cols-3 gap-8 scroll-mt-24">
           <FadeContent className="lg:col-span-2 rounded-2xl border border-shivraj-100 shadow-lg p-6 md:p-8 bg-white">
             <h2 className="text-2xl font-bold text-shivraj-800 mb-1">Apply with your CV</h2>
-            <p className="text-sm text-gray-600 mb-6">Takes 2 minutes. CV is optional.</p>
+            <p className="text-sm text-gray-600 mb-6">Takes 2 minutes. Please attach your CV.</p>
             {done ? (
               <div className="text-center py-10"><motion.div initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 220, damping: 12 }}><CheckCircle2 className="mx-auto text-green-600 mb-3" size={48} /></motion.div><p className="text-xl font-semibold text-shivraj-800">Thank you, {f.name}!</p><p className="text-gray-600 mt-2">We received your application. Our team will call you soon.</p></div>
             ) : (
@@ -198,8 +199,8 @@ const Careers = () => {
                 <label className="text-sm sm:col-span-2">Message<textarea className={input} rows={3} value={f.message} onChange={set("message")} maxLength={1000} /></label>
                 <label className="sm:col-span-2 flex items-center gap-3 border-2 border-dashed border-shivraj-200 rounded-lg p-4 cursor-pointer hover:bg-shivraj-50">
                   <Upload className="text-shivraj-600" />
-                  <span className="text-sm">{cv ? cv.name : "Upload CV (PDF, Word or photo, max 5 MB)"}</span>
-                  <input type="file" className="sr-only" accept=".pdf,.doc,.docx,image/*" onChange={(e) => setCv(e.target.files?.[0] ?? null)} />
+                  <span className="text-sm">{cv ? cv.name : "Upload CV * (PDF, Word or photo, max 5 MB)"}</span>
+                  <input type="file" className="sr-only" accept=".pdf,.doc,.docx,image/*" required aria-required="true" onChange={(e) => setCv(e.target.files?.[0] ?? null)} />
                 </label>
                 <Button type="submit" disabled={sending} className="sm:col-span-2 bg-shivraj-600 hover:bg-shivraj-700">{sending ? "Sending..." : "Submit Application"}</Button>
               </form>

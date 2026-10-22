@@ -53,7 +53,8 @@ Deno.serve(async (req) => {
 
     let cv_path: string | null = null;
     const file = form.get("cv");
-    if (file instanceof File && file.size > 0) {
+    if (!(file instanceof File) || file.size === 0) return json({ error: "CV is required" }, 400);
+    {
       if (file.size > 5 * 1024 * 1024) return json({ error: "CV must be under 5 MB" }, 400);
       if (!ALLOWED.includes(file.type)) return json({ error: "CV must be PDF, Word or a photo" }, 400);
       cv_path = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${EXT[file.type]}`;
