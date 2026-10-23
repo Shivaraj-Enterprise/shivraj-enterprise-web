@@ -569,3 +569,8 @@
 @media (prefers-reduced-motion: reduce) {
   .careers-page *, .careers-page *::before { animation: none !important; transition: none !important; }
 }
+
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to { transform: scale(1.12) translate(-1%, -1%); }
+}

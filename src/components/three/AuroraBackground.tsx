@@ -2,12 +2,13 @@
  * Aurora background with cinematic looping video underlay.
  * Used behind page headers for cohesive brand feel across the site.
  */
-import blogHeroVideo from "@/assets/blog-hero.mp4.asset.json";
+// Still frame instead of <video>: avoids Google "Video isn't on a watch page" reports.
+import heroBg from "@/assets/hero-bg.webp";
 
 interface AuroraBackgroundProps {
   className?: string;
   intensity?: "subtle" | "bold";
-  /** Set to false to hide the underlying video (e.g. on light-themed heroes). */
+  /** Set to false to hide the background image (e.g. on light-themed heroes). */
   video?: boolean;
 }
 
@@ -22,15 +23,14 @@ const AuroraBackground = ({
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`} aria-hidden>
       {video && (
         <>
-          <video
-            src={blogHeroVideo.url}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className={`absolute inset-0 w-full h-full object-cover ${videoOpacity}`}
+          <img
+            src={heroBg}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className={`absolute inset-0 w-full h-full object-cover motion-safe:animate-[kenburns_30s_ease-in-out_infinite_alternate] ${videoOpacity}`}
           />
+
           <div className="absolute inset-0 bg-gradient-to-br from-shivraj-900/70 via-shivraj-800/60 to-shivraj-900/80" />
         </>
       )}
