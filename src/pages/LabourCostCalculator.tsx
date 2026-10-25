@@ -115,7 +115,7 @@ const LabourCostCalculator = () => {
       </section>
 
       <section className="hidden print:block print-report-header">
-        <p className="print-company-name">SHIVRAJ ENTERPRISE PVT. LTD.</p>
+        <p className="print-company-name">SHIVRAJ ENTERPRISE</p>
         <h1>Labour Cost Estimate</h1>
         <p>Generated on {generatedOn}</p>
       </section>

@@ -6,7 +6,7 @@ const SchemaOrg = () => {
       {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "Shivraj Enterprise Pvt. Ltd.",
+        "name": "Shivraj Enterprise",
         "alternateName": "Shivraj Enterprises",
         "url": "https://shivraj-enterprise.lovable.app/",
         "logo": "https://shivraj-enterprise.lovable.app/placeholder.svg",

@@ -144,7 +144,7 @@ const OutsourcingVsInHouse = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr><td>Employer of record</td><td>Your company</td><td>Contractor (e.g. Shivraj Enterprise Pvt. Ltd.)</td></tr>
+                <tr><td>Employer of record</td><td>Your company</td><td>Contractor (e.g. Shivraj Enterprise)</td></tr>
                 <tr><td>Recruitment cost</td><td>₹3,000–₹8,000 per hire (ads, referrals, HR time)</td><td>Included in service charge</td></tr>
                 <tr><td>PF &amp; ESIC compliance</td><td>Your HR team files &amp; deposits</td><td>Contractor files &amp; shares challans</td></tr>
                 <tr><td>Attrition &amp; backfill</td><td>Your problem — days of downtime</td><td>Contractor replaces within 24–48 hours</td></tr>
@@ -299,7 +299,7 @@ const OutsourcingVsInHouse = () => {
                 Weighing outsourcing vs in-house hiring for your Vapi plant?
               </h2>
               <p className="text-gray-600 mb-6">
-                Shivraj Enterprise Pvt. Ltd. is a GST-registered, private limited manpower and housekeeping contractor
+                Shivraj Enterprise is a GST-registered, private limited manpower and housekeeping contractor
                 serving Vapi GIDC's engineering, chemical, pharma and packaging units. We handle PF, ESIC, labour licence
                 and payroll — you get a single 18% GST invoice with full ITC.
               </p>

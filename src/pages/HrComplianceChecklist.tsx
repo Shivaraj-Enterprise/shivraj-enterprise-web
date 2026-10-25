@@ -330,7 +330,7 @@ const HrComplianceChecklist = () => {
               Need a compliant manpower supply partner in Vapi GIDC?
             </h2>
             <p className="text-gray-600 mb-6">
-              Shivraj Enterprise Pvt. Ltd. is a GST-registered, private limited manpower and housekeeping contractor
+              Shivraj Enterprise is a GST-registered, private limited manpower and housekeeping contractor
               serving Vapi GIDC's engineering, chemical, pharma and packaging plants. We handle PF, ESIC, labour
               licence and payroll — you get a single 18% GST invoice with full ITC and a monthly compliance pack.
             </p>

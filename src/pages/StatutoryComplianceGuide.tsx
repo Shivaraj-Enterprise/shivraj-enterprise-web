@@ -289,7 +289,7 @@ const StatutoryComplianceGuide = () => {
               Need a fully compliant manpower supply partner in Vapi GIDC?
             </h2>
             <p className="text-gray-700 mb-5">
-              Shivraj Enterprise Pvt. Ltd. supplies skilled, semi-skilled and unskilled manpower across Vapi GIDC and
+              Shivraj Enterprise supplies skilled, semi-skilled and unskilled manpower across Vapi GIDC and
               Valsad district with GST, EPF, ESIC and Labour Licence compliance handled end to end — and a monthly
               compliance pack delivered with every invoice.
             </p>

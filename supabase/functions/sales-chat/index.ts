@@ -16,7 +16,7 @@ const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 const COMPANY_INFO = `
-COMPANY: SHIVRAJ ENTERPRISE PVT. LTD.
+COMPANY: SHIVRAJ ENTERPRISE
 Location: Vapi GIDC, Gujarat, India
 Email: shivrajenterprise1234@gmail.com
 Phone / WhatsApp: +91 99984 98311
@@ -87,7 +87,7 @@ async function buildKnowledgeBase(userQuery: string): Promise<string> {
 }
 
 
-const SYSTEM_PROMPT_BASE = `You are the AI Sales Agent for SHIVRAJ ENTERPRISE PVT. LTD., a manpower supply and industrial housekeeping company in Vapi GIDC, Gujarat.
+const SYSTEM_PROMPT_BASE = `You are the AI Sales Agent for SHIVRAJ ENTERPRISE, a manpower supply and industrial housekeeping company in Vapi GIDC, Gujarat.
 
 RULES:
 1. Answer strictly using the KNOWLEDGE BASE below. It is the source of truth.

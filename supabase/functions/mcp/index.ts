@@ -168,7 +168,7 @@ var get_rate_card_default = defineTool3({
 // src/lib/mcp/tools/get-company-info.ts
 import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.20.1";
 var COMPANY_INFO = {
-  name: "SHIVRAJ ENTERPRISE PVT. LTD.",
+  name: "SHIVRAJ ENTERPRISE",
   tagline: "Manpower supply, outsourcing and industrial housekeeping in Vapi GIDC, Gujarat.",
   services: [
     "Manpower Outsourcing Services (with PF, ESIC and wages compliance)",
@@ -194,7 +194,7 @@ var COMPANY_INFO = {
 var get_company_info_default = defineTool4({
   name: "get_company_info",
   title: "Get Shivraj Enterprise company info",
-  description: "Get public company profile for Shivraj Enterprise Pvt. Ltd.: services offered, compliance handled, location, and how to contact them for a quote.",
+  description: "Get public company profile for Shivraj Enterprise: services offered, compliance handled, location, and how to contact them for a quote.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: () => ({
@@ -208,7 +208,7 @@ var mcp_default = defineMcp({
   name: "shivraj-enterprise-mcp",
   title: "Shivraj Enterprise MCP",
   version: "0.1.0",
-  instructions: "Public tools for Shivraj Enterprise Pvt. Ltd. \u2014 a manpower supply, outsourcing and industrial housekeeping company in Vapi GIDC, Gujarat. Use `get_company_info` for services, compliance and contact details; `get_rate_card` for public per-shift manpower rates; `list_blog_posts` and `get_blog_post` for published compliance guides (GST, TDS, ESI/EPF).",
+  instructions: "Public tools for Shivraj Enterprise \u2014 a manpower supply, outsourcing and industrial housekeeping company in Vapi GIDC, Gujarat. Use `get_company_info` for services, compliance and contact details; `get_rate_card` for public per-shift manpower rates; `list_blog_posts` and `get_blog_post` for published compliance guides (GST, TDS, ESI/EPF).",
   tools: [get_company_info_default, get_rate_card_default, list_blog_posts_default, get_blog_post_default]
 });
 

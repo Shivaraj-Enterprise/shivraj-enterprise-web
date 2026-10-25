@@ -86,7 +86,7 @@ Deno.serve(async (req) => {
       <p><strong>Breakdown:</strong> ${summary}</p>
       <p>The full CSV is attached.</p>
       <hr/>
-      <p style="color:#888;font-size:12px">Shivraj Enterprise Pvt. Ltd. — automated report</p>
+      <p style="color:#888;font-size:12px">Shivraj Enterprise — automated report</p>
     `;
 
     const resendKey = Deno.env.get("RESEND_API_KEY");
