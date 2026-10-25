@@ -259,7 +259,7 @@ const StatutoryComplianceGuide = () => {
 
           <h2>8. Due-diligence checklist before you sign</h2>
           <ul>
-            <li>Certificate of Incorporation, PAN and TAN</li>
+            <li>PAN, TAN and GST registration certificate</li>
             <li>GST registration certificate (active, forward charge)</li>
             <li>EPF and ESIC employer codes with last three months' challans</li>
             <li>Labour Licence for the specific site and workmen count</li>

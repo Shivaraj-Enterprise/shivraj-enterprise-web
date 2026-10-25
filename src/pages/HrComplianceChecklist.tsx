@@ -81,7 +81,7 @@ const HrComplianceChecklist = () => {
                 name: "How can HR managers reduce audit risk on outsourced manpower?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Work only with GST-registered private limited manpower contractors, collect monthly PF/ESIC challans and ECRs, keep the Labour Licence and Form V on file, insist on Section 194C-compliant invoices, and run a quarterly compliance audit covering wages register, muster roll, overtime and statutory returns.",
+                  text: "Work only with GST-registered manpower contractors, collect monthly PF/ESIC challans and ECRs, keep the Labour Licence and Form V on file, insist on Section 194C-compliant invoices, and run a quarterly compliance audit covering wages register, muster roll, overtime and statutory returns.",
                 },
               },
             ],
@@ -239,11 +239,11 @@ const HrComplianceChecklist = () => {
           <h2>4. Manpower supply contractor — due-diligence checklist</h2>
           <p>
             Before onboarding any labour supply partner in Vapi GIDC, collect and verify the following.
-            A GST-registered private limited contractor with clean statutory records collapses most of your
+            A GST-registered contractor with clean statutory records collapses most of your
             principal-employer risk.
           </p>
           <ul>
-            <li>Certificate of Incorporation & PAN</li>
+            <li>PAN &amp; TAN of the contractor</li>
             <li>GST Registration certificate (Forward Charge, 18%)</li>
             <li>PF & ESIC registration codes with latest challan copies</li>
             <li>Labour Licence for 20+ workmen (site-specific)</li>
@@ -320,7 +320,7 @@ const HrComplianceChecklist = () => {
               },
               {
                 q: "How can HR managers reduce audit risk on outsourced manpower?",
-                a: <>Work only with GST-registered <strong>private limited</strong> manpower contractors, collect monthly PF/ESIC challans and ECRs, keep the Labour Licence and Form V on file, insist on Section 194C-compliant invoices, and run a quarterly compliance audit covering wages register, muster roll, overtime and statutory returns.</>,
+                a: <>Work only with GST-registered manpower contractors, collect monthly PF/ESIC challans and ECRs, keep the Labour Licence and Form V on file, insist on Section 194C-compliant invoices, and run a quarterly compliance audit covering wages register, muster roll, overtime and statutory returns.</>,
               },
             ]}
           />
@@ -330,7 +330,7 @@ const HrComplianceChecklist = () => {
               Need a compliant manpower supply partner in Vapi GIDC?
             </h2>
             <p className="text-gray-600 mb-6">
-              Shivraj Enterprise is a GST-registered, private limited manpower and housekeeping contractor
+              Shivraj Enterprise is a GST-registered manpower and housekeeping contractor
               serving Vapi GIDC's engineering, chemical, pharma and packaging plants. We handle PF, ESIC, labour
               licence and payroll — you get a single 18% GST invoice with full ITC and a monthly compliance pack.
             </p>

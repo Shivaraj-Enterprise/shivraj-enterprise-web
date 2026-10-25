@@ -228,7 +228,7 @@ const OutsourcingVsInHouse = () => {
               client can be held liable. Mitigate this by:
             </p>
             <ul>
-              <li>Choosing a <strong>GST-registered private limited</strong> contractor (not a proprietorship) — cleaner Forward Charge billing and stronger balance sheet.</li>
+              <li>Choosing a <strong>GST-registered</strong> contractor that bills under Forward Charge — cleaner billing and full input tax credit.</li>
               <li>Verifying PF &amp; ESIC challans <em>every month</em> before releasing payment.</li>
               <li>Holding the Labour Licence, GST registration and PAN on file.</li>
               <li>Insisting on Section 194C-compliant invoices where TDS is deducted on the taxable value only.</li>
@@ -299,7 +299,7 @@ const OutsourcingVsInHouse = () => {
                 Weighing outsourcing vs in-house hiring for your Vapi plant?
               </h2>
               <p className="text-gray-600 mb-6">
-                Shivraj Enterprise is a GST-registered, private limited manpower and housekeeping contractor
+                Shivraj Enterprise is a GST-registered manpower and housekeeping contractor
                 serving Vapi GIDC's engineering, chemical, pharma and packaging units. We handle PF, ESIC, labour licence
                 and payroll — you get a single 18% GST invoice with full ITC.
               </p>

@@ -8,6 +8,7 @@ const SchemaOrg = () => {
         "@type": "Organization",
         "name": "Shivraj Enterprise",
         "alternateName": "Shivraj Enterprises",
+        "foundingDate": "2016",
         "url": "https://shivraj-enterprise.lovable.app/",
         "logo": "https://shivraj-enterprise.lovable.app/placeholder.svg",
         "contactPoint": {
