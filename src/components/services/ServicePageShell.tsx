@@ -24,7 +24,7 @@ const fallbackRates = [
 ];
 
 const ServicePageShell = ({ page }: { page: ServicePage }) => {
-  const { items, loading } = useRateCard();
+  const { items } = useRateCard();
   const source = items.length > 0 ? items : fallbackRates;
   const rates =
     page.rateFilter.length > 0
@@ -154,9 +154,7 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {loading && items.length === 0 ? (
-                    <TableRow><TableCell colSpan={5} className="text-center py-6 text-muted-foreground">Loading rates…</TableCell></TableRow>
-                  ) : rates.map((r) => (
+                  {rates.map((r) => (
                     <TableRow key={r.service}>
                       <TableCell className="font-medium">{r.service}</TableCell>
                       <TableCell>{r.unit8}</TableCell>
