@@ -15,7 +15,7 @@
       {
         "name": "get_company_info",
         "title": "Get Shivraj Enterprise company info",
-        "description": "Get public company profile for Shivraj Enterprise Pvt. Ltd.: services offered, compliance handled, location, and how to contact them for a quote.",
+        "description": "Get public company profile for Shivraj Enterprise: services offered, compliance handled, location, and how to contact them for a quote.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
