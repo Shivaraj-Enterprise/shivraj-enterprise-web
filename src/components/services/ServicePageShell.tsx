@@ -45,7 +45,7 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
     url,
     provider: {
       "@type": "Organization",
-      name: "SHIVRAJ ENTERPRISE PVT. LTD.",
+      name: "SHIVRAJ ENTERPRISE",
       url: SITE,
     },
     areaServed: SERVICE_AREAS.map((a) => ({ "@type": "Place", name: a })),

@@ -1,7 +1,7 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 
 const COMPANY_INFO = {
-  name: "SHIVRAJ ENTERPRISE PVT. LTD.",
+  name: "SHIVRAJ ENTERPRISE",
   tagline: "Manpower supply, outsourcing and industrial housekeeping in Vapi GIDC, Gujarat.",
   services: [
     "Manpower Outsourcing Services (with PF, ESIC and wages compliance)",
@@ -29,7 +29,7 @@ export default defineTool({
   name: "get_company_info",
   title: "Get Shivraj Enterprise company info",
   description:
-    "Get public company profile for Shivraj Enterprise Pvt. Ltd.: services offered, compliance handled, location, and how to contact them for a quote.",
+    "Get public company profile for Shivraj Enterprise: services offered, compliance handled, location, and how to contact them for a quote.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: () => ({

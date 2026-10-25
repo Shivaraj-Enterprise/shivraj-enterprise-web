@@ -55,7 +55,7 @@ const GstTdsGuide = () => {
                 name: "When does Reverse Charge Mechanism (RCM) apply to manpower supply?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "RCM applies when a non-body-corporate supplier (proprietor/partnership) provides security services to a registered body corporate. Ordinary manpower supply from a registered private limited company like Shivraj Enterprise Pvt. Ltd. is billed under Forward Charge at 18% GST.",
+                  text: "RCM applies when a non-body-corporate supplier (proprietor/partnership) provides security services to a registered body corporate. Ordinary manpower supply from a GST-registered contractor like Shivraj Enterprise is billed under Forward Charge at 18% GST.",
                 },
               },
               {
@@ -110,7 +110,7 @@ const GstTdsGuide = () => {
             <Callout variant="key" title="Key Takeaways">
               <ul className="list-disc pl-5 space-y-1.5 marker:text-white/60">
                 <li>Manpower supply is billed at <strong>18% GST under Forward Charge</strong> (SAC 998519) — full ITC available.</li>
-                <li><strong>RCM does NOT apply</strong> to regular manpower supply from a private limited contractor; it applies only to security services from non-body-corporates.</li>
+                <li><strong>RCM does NOT apply</strong> to regular manpower supply; it applies only to security services from non-body-corporates.</li>
                 <li><strong>TDS under Section 194C</strong>: 1% (individual/HUF) or 2% (companies), on the taxable value only — never on the GST amount.</li>
                 <li>Pay within <strong>180 days</strong> to retain Input Tax Credit under Section 16.</li>
               </ul>
@@ -153,8 +153,8 @@ const GstTdsGuide = () => {
                 registered body corporate — recipient pays GST under RCM at 18%.
               </li>
               <li>
-                Regular manpower supply from a <strong>private limited company</strong> (such as Shivraj Enterprise
-                Pvt. Ltd.) is <strong>NOT</strong> under RCM. It is billed under Forward Charge at 18%.
+                Regular manpower supply from a <strong>GST-registered contractor</strong> (such as Shivraj
+                Enterprise) is <strong>NOT</strong> under RCM. It is billed under Forward Charge at 18%.
               </li>
               <li>
                 Pure labour services for construction of a single residential unit, or certain services to
@@ -163,7 +163,7 @@ const GstTdsGuide = () => {
             </ul>
 
             <Callout variant="tip" title="Pro Tip">
-              Prefer a <strong>private limited</strong> manpower contractor over a proprietorship. Forward Charge billing is cleaner, the balance sheet is stronger, and your finance team never has to figure out whether RCM applies on a given invoice.
+              Prefer a <strong>GST-registered</strong> manpower contractor that bills under Forward Charge. Your finance team never has to figure out whether RCM applies on a given invoice, and you can claim full input tax credit.
             </Callout>
 
             <ArticleImage
@@ -258,7 +258,7 @@ const GstTdsGuide = () => {
             <p>
               Vapi's engineering, pharma, chemical and packaging units run high-headcount shifts where a single
               non-compliant contractor can freeze the client's ITC or trigger principal-employer liability under
-              the Contract Labour Act. Working with a GST-registered <em>private limited</em> manpower partner that
+              the Contract Labour Act. Working with a GST-registered manpower partner that
               bills under Forward Charge, files GSTR on time and shares PF/ESIC challans keeps procurement,
               finance and HR audits clean. Explore our{" "}
               <Link to="/services" className="text-shivraj-700 underline">manpower &amp; housekeeping services</Link>,{" "}
@@ -278,7 +278,7 @@ const GstTdsGuide = () => {
                 },
                 {
                   q: "When does Reverse Charge Mechanism (RCM) apply to manpower supply?",
-                  a: <>RCM applies when a <em>non-body-corporate</em> supplier (proprietor/partnership) provides <strong>security services</strong> to a registered body corporate. Ordinary manpower supply from a registered private limited company is billed under Forward Charge at 18% GST — RCM does not apply.</>,
+                  a: <>RCM applies when a <em>non-body-corporate</em> supplier (proprietor/partnership) provides <strong>security services</strong> to a registered body corporate. Ordinary manpower supply from a GST-registered contractor is billed under Forward Charge at 18% GST — RCM does not apply.</>,
                 },
                 {
                   q: "Which TDS section applies to manpower supply contracts?",
@@ -300,7 +300,7 @@ const GstTdsGuide = () => {
                 Need compliant manpower or housekeeping services in Vapi GIDC?
               </h2>
               <p className="text-gray-600 mb-6">
-                Shivraj Enterprise Pvt. Ltd. is a GST-registered, private limited manpower contractor. We bill under Forward Charge, handle PF/ESIC and labour licence, and issue Section 194C-ready invoices so your finance and HR audits stay clean.
+                Shivraj Enterprise is a GST-registered manpower contractor. We bill under Forward Charge, handle PF/ESIC and labour licence, and issue Section 194C-ready invoices so your finance and HR audits stay clean.
               </p>
               <ul className="grid sm:grid-cols-2 gap-3 mb-8 text-sm text-gray-700">
                 <li className="flex items-start gap-2">
