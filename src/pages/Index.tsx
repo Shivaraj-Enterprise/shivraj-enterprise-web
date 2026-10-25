@@ -17,7 +17,6 @@ import vpiLogo from "@/assets/clients/vpi.jpg.asset.json";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import FadeContent from "@/components/reactbits/FadeContent";
 import BlurText from "@/components/reactbits/BlurText";
-import CountUp from "@/components/reactbits/CountUp";
 import TiltedCard from "@/components/reactbits/TiltedCard";
 import GradientText from "@/components/reactbits/GradientText";
 import Marquee from "@/components/reactbits/Marquee";
@@ -76,17 +75,15 @@ const Index = () => {
       <section className="bg-white border-b border-shivraj-100">
         <div className="container mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
-            { end: 10, suffix: "+", label: "Years Experience" },
-            { end: 1500, suffix: "+", label: "Workers Deployed" },
-            { end: 50, suffix: "+", label: "Industrial Clients" },
-            { end: 24, suffix: "/7", label: "Support Availability" },
+            { value: "10+", label: "Years Experience" },
+            { value: "1,500+", label: "Workers Deployed" },
+            { value: "50+", label: "Industrial Clients" },
+            { value: "24/7", label: "Support Availability" },
           ].map((s, i) => (
             <FadeContent key={s.label} delay={i * 0.08}>
               <div>
                 <p className="text-3xl md:text-4xl font-bold">
-                  <GradientText>
-                    <CountUp end={s.end} suffix={s.suffix} />
-                  </GradientText>
+                  <GradientText>{s.value}</GradientText>
                 </p>
                 <p className="text-sm md:text-base text-gray-600 mt-1">{s.label}</p>
               </div>
