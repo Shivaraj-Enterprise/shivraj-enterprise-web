@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import DOMPurify from "dompurify";
 import Layout from "@/components/Layout";
@@ -66,8 +66,15 @@ const estimateReadTime = (html: string) => {
   return Math.max(2, Math.round(words / 220));
 };
 
+// Duplicate articles that were merged; old addresses forward to the kept article.
+const MERGED_SLUGS: Record<string, string> = {
+  "facility-management-services-india-2": "facility-management-services-india",
+  "optimizing-industrial-ops-with-facility-management-services-india": "facility-management-services-india",
+};
+
 const BlogPost = () => {
   const { slug } = useParams();
+  const mergedTarget = slug ? MERGED_SLUGS[slug] : undefined;
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -99,9 +106,15 @@ const BlogPost = () => {
     [post, takeawaysResult]
   );
 
+  if (mergedTarget) return <Navigate to={`/blog/${mergedTarget}`} replace />;
+
   if (loading) {
     return (
       <Layout>
+        <Helmet>
+          <link rel="canonical" href={`https://shivraj-enterprise.lovable.app/blog/${slug}`} />
+          <meta property="og:url" content={`https://shivraj-enterprise.lovable.app/blog/${slug}`} />
+        </Helmet>
         <div className="container mx-auto py-24 px-4 max-w-3xl">
           <div className="animate-pulse space-y-6">
             <div className="h-6 bg-shivraj-100 rounded w-32" />
