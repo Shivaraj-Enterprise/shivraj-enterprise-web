@@ -36,16 +36,19 @@ function slugify(s: string): string {
   return s.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 70);
 }
 
-async function pickTopic(): Promise<typeof TOPIC_POOL[number]> {
+// Never repeat a topic: duplicate articles make Google pick a different canonical.
+async function pickTopic(): Promise<typeof TOPIC_POOL[number] | null> {
   const { data } = await supabase.from("blog_posts").select("slug");
-  const usedSlugs = new Set((data ?? []).map((r) => r.slug));
-  // Prefer topics whose keyword-slug is not already used
-  const available = TOPIC_POOL.filter((t) => !usedSlugs.has(slugify(t.keyword)));
-  const pool = available.length > 0 ? available : TOPIC_POOL;
-  return pool[Math.floor(Math.random() * pool.length)];
+  const used = (data ?? []).map((r) => r.slug as string);
+  const available = TOPIC_POOL.filter((t) => {
+    const k = slugify(t.keyword);
+    return !used.some((u) => u === k || u.startsWith(`${k}-`) || u.includes(k));
+  });
+  if (available.length === 0) return null;
+  return available[Math.floor(Math.random() * available.length)];
 }
 
-const SYSTEM_PROMPT = `You are a senior B2B content editor writing for Shivraj Enterprise, a licensed manpower supply and facility management company operating in Vapi GIDC (Gujarat, India) since 2004. Your audience is factory owners, HR & procurement managers, and plant heads at chemical, pharma and engineering units.
+const SYSTEM_PROMPT = `You are a senior B2B content editor writing for Shivraj Enterprise, a licensed manpower supply and facility management company operating in Vapi GIDC (Gujarat, India) since 2016. Your audience is factory owners, HR & procurement managers, and plant heads at chemical, pharma and engineering units.
 
 Write premium, highly readable, SEO-optimized blog articles in the style of Stripe, HubSpot and Medium. You output ONLY sanitized HTML — no <html>, <head>, <body>, no markdown fences.
 
@@ -326,6 +329,11 @@ Deno.serve(async (req) => {
     }
 
     const topic = await pickTopic();
+    if (!topic) {
+      return new Response(JSON.stringify({ ok: true, skipped: "all topics already covered" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const baseSlug = slugify(topic.keyword);
     const slug = await ensureUniqueSlug(baseSlug);
     const { article, score, report } = await generateAndScore(topic, slug);
