@@ -61,10 +61,21 @@ async function retrieveKnowledge(query: string, k = 5): Promise<string> {
       words,
       { type: "websearch", config: "english" },
     )
-    .limit(k);
+    .limit(k * 3);
 
   if (error || !data || !data.length) return "";
-  return data.map((r, i) =>
+  // Only use knowledge from pages that are public right now: anything from an
+  // unpublished/draft article is dropped so private content never reaches visitors.
+  const SITE_PREFIX = "https://shivraj-enterprise.lovable.app/";
+  const { data: pub } = await supabase.from("blog_posts").select("slug").eq("published", true);
+  const publicBlog = new Set((pub ?? []).map((p) => `${SITE_PREFIX}blog/${p.slug}`));
+  const safe = data.filter((r) => {
+    if (typeof r.url !== "string" || !r.url.startsWith(SITE_PREFIX)) return false;
+    if (r.url.startsWith(`${SITE_PREFIX}blog/`)) return publicBlog.has(r.url.split(/[?#]/)[0]);
+    return r.source_type === "page";
+  }).slice(0, k);
+  if (!safe.length) return "";
+  return safe.map((r, i) =>
     `[#${i + 1}] ${r.title ?? r.url}\nURL: ${r.url}\n${r.content}`
   ).join("\n\n---\n\n");
 }
