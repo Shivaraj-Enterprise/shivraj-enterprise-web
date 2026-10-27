@@ -45,8 +45,14 @@ const Index = () => {
                 <img src={logo} alt="Shivraj Enterprise logo" width={80} height={80} loading="eager" fetchPriority="high" decoding="async" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" aria-label="Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat">
+              <BlurText as="span" text="Trusted Manpower & Housekeeping Services in" delay={0.1} />
+              <BlurText
+                as="span"
+                text="Vapi GIDC, Gujarat"
+                delay={0.55}
+                className="[&>span]:bg-gradient-to-r [&>span]:from-shivraj-200 [&>span]:via-white [&>span]:to-shivraj-300 [&>span]:bg-clip-text [&>span]:text-transparent [&>span]:bg-[length:200%_auto] [&>span]:animate-[gradientShift_6s_linear_infinite]"
+              />
             </h1>
             <p className="text-xl mb-8 text-shivraj-100">
               <TextType
