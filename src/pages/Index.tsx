@@ -47,9 +47,12 @@ const Index = () => {
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" aria-label="Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat">
               <BlurText as="span" text="Trusted Manpower & Housekeeping Services in" delay={0.1} />
-              <GradientText from="from-shivraj-200" via="via-white" to="to-shivraj-300">
-                <BlurText as="span" text="Vapi GIDC, Gujarat" delay={0.55} />
-              </GradientText>
+              <BlurText
+                as="span"
+                text="Vapi GIDC, Gujarat"
+                delay={0.55}
+                className="[&>span]:bg-gradient-to-r [&>span]:from-shivraj-200 [&>span]:via-white [&>span]:to-shivraj-300 [&>span]:bg-clip-text [&>span]:text-transparent [&>span]:bg-[length:200%_auto] [&>span]:animate-[gradientShift_6s_linear_infinite]"
+              />
             </h1>
             <p className="text-xl mb-8 text-shivraj-100">
               <TextType
