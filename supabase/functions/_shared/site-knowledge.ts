@@ -64,12 +64,15 @@ Quality & Packaging Inspectors.
 
 RATE CARD (published on /services; final quote on request):
 - Supervisor: Rs 25,000 per month
-- Skilled (Operator) Labour: Rs 600 per 8 hrs | Rs 1,300 per 12 hrs
-- Semi-Skilled Labour: Rs 550 per 8 hrs | Rs 1,020 per 12 hrs
-- Unskilled Labour: Rs 502 per 8 hrs | Rs 800 per 12 hrs
+- Skilled Labour: Rs 547 per 8 hrs | Rs 821 per 12 hrs
+- Semi-Skilled Labour: Rs 535 per 8 hrs | Rs 803 per 12 hrs
+- Unskilled Labour: Rs 525 per 8 hrs | Rs 788 per 12 hrs
 - Housekeeping: Rs 620 per 8 hrs
-- Fitter Labour: Rs 1,100 per 8 hrs
+- Fitter: Rs 1,100 per 8 hrs
+- Electrician: Rs 1,200 per 8 hrs
+- Operator: Rs 1,300 per 8 hrs
 - Loading / Unloading: Rs 200 per Tonne
+(GST extra; PF, ESIC, bonus, leave as per labour law; service charge 12%; overtime at double rate.)
 
 SERVICES FAQ:
 Q: What is manpower supply services?

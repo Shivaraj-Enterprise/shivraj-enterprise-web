@@ -54,11 +54,13 @@ const auxiliaryServices = [
 
 const rateCard = [
   { service: "Supervisor", unit8: "Per month", rate8: "₹25,000", unit12: "—", rate12: "—" },
-  { service: "Skilled (Operator) Labour", unit8: "Per 8 hrs", rate8: "₹600", unit12: "Per 12 hrs", rate12: "₹1,300" },
-  { service: "Semi-Skilled Labour", unit8: "Per 8 hrs", rate8: "₹550", unit12: "Per 12 hrs", rate12: "₹1,020" },
-  { service: "Unskilled Labour", unit8: "Per 8 hrs", rate8: "₹502", unit12: "Per 12 hrs", rate12: "₹800" },
+  { service: "Skilled Labour", unit8: "Per 8 hrs", rate8: "₹547", unit12: "Per 12 hrs", rate12: "₹821" },
+  { service: "Semi-Skilled Labour", unit8: "Per 8 hrs", rate8: "₹535", unit12: "Per 12 hrs", rate12: "₹803" },
+  { service: "Unskilled Labour", unit8: "Per 8 hrs", rate8: "₹525", unit12: "Per 12 hrs", rate12: "₹788" },
   { service: "Housekeeping", unit8: "Per 8 hrs", rate8: "₹620", unit12: "—", rate12: "—" },
-  { service: "Fitter Labour", unit8: "Per 8 hrs", rate8: "₹1,100", unit12: "—", rate12: "—" },
+  { service: "Fitter", unit8: "Per 8 hrs", rate8: "₹1,100", unit12: "—", rate12: "—" },
+  { service: "Electrician", unit8: "Per 8 hrs", rate8: "₹1,200", unit12: "—", rate12: "—" },
+  { service: "Operator", unit8: "Per 8 hrs", rate8: "₹1,300", unit12: "—", rate12: "—" },
   { service: "Loading / Unloading", unit8: "Per Tonne", rate8: "₹200", unit12: "—", rate12: "—" },
 ];
 
