@@ -99,6 +99,17 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="bg-background px-4 py-12" aria-label="Company milestones">
+        <AppleActivityCard
+          title="Our Workforce Impact"
+          activities={[
+            { label: "Workers Deployed", current: 1500, target: 1500, unit: "+", size: 200, color: "hsl(var(--primary))", colorEnd: "hsl(var(--ring))" },
+            { label: "Industrial Clients", current: 50, target: 50, unit: "+", size: 160, color: "hsl(var(--activity-clients))", colorEnd: "hsl(var(--activity-clients-end))" },
+            { label: "Years Experience", current: 10, target: 10, unit: "+", size: 120, color: "hsl(var(--activity-experience))", colorEnd: "hsl(var(--activity-experience-end))" },
+          ]}
+        />
+      </section>
+
       {/* About Summary Section */}
       <section className="section bg-white">
         <div className="container mx-auto">

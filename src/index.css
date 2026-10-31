@@ -36,6 +36,10 @@
     --elevation-soft: 0 10px 30px -18px hsl(221 83% 35% / 0.28);
     --elevation-raised: 0 22px 48px -24px hsl(221 83% 28% / 0.42);
     --elevation-focus: 0 14px 28px -18px hsl(var(--primary) / 0.5);
+    --activity-clients: 174 75% 30%;
+    --activity-clients-end: 174 65% 42%;
+    --activity-experience: 199 85% 38%;
+    --activity-experience-end: 199 80% 52%;
 
     --radius: 0.5rem;
   }
@@ -68,6 +72,10 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
+    --activity-clients: 174 65% 52%;
+    --activity-clients-end: 174 60% 65%;
+    --activity-experience: 199 85% 60%;
+    --activity-experience-end: 199 80% 72%;
   }
 }
 
