@@ -11,7 +11,8 @@
     "prefix": ""
   },
   "registries": {
-    "@react-bits": "https://reactbits.dev/r/{name}.json"
+    "@react-bits": "https://reactbits.dev/r/{name}.json",
+    "@kokonutui": "https://kokonutui.com/r/{name}.json"
   },
   "aliases": {
     "components": "@/components",
