@@ -10,5 +10,5 @@
 - [x] Verify desktop/mobile interactions and the A4 report after animation changes.
 - [x] Careers page with CV upload, WhatsApp & email apply, admin list
 - [x] Initialize the local shadcn MCP configuration for Claude Code.
-- [ ] Add the Kokonut UI Apple activity card to the homepage using existing company figures.
-- [ ] Verify the activity card on desktop and mobile with reduced-motion support.
+- [x] Add the Kokonut UI Apple activity card to the homepage using existing company figures.
+- [x] Verify the activity card on desktop and mobile with reduced-motion support.
