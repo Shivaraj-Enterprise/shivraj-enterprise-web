@@ -20,6 +20,7 @@ import BlurText from "@/components/reactbits/BlurText";
 import TiltedCard from "@/components/reactbits/TiltedCard";
 import GradientText from "@/components/reactbits/GradientText";
 import Marquee from "@/components/reactbits/Marquee";
+import AppleActivityCard from "@/components/kokonutui/apple-activity-card";
 
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
