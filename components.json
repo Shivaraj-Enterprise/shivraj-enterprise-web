@@ -13,7 +13,8 @@
   "registries": {
     "@react-bits": "https://reactbits.dev/r/{name}.json",
     "@kokonutui": "https://kokonutui.com/r/{name}.json",
-    "@magicui": "https://magicui.design/r/{name}.json"
+    "@magicui": "https://magicui.design/r/{name}.json",
+    "@bklit": "https://ui.bklit.com/r/{name}.json"
   },
   "aliases": {
     "components": "@/components",
