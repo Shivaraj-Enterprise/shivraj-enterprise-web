@@ -20,6 +20,9 @@ import BlurText from "@/components/reactbits/BlurText";
 import TiltedCard from "@/components/reactbits/TiltedCard";
 import GradientText from "@/components/reactbits/GradientText";
 import Marquee from "@/components/reactbits/Marquee";
+import { Stagger, StaggerItem, Magnetic } from "@/components/motion";
+import { MagicCard } from "@/components/ui/magic-card";
+import { BorderBeam } from "@/components/ui/border-beam";
 import AppleActivityCard from "@/components/kokonutui/apple-activity-card";
 
 const Index = () => {
@@ -193,7 +196,7 @@ const Index = () => {
             <h2 className="section-title">Why Choose Shivraj Enterprise?</h2>
             <p className="section-subtitle">What sets us apart as a workforce partner</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
             {[
               { icon: Award, title: "Proven Experience", desc: "10+ years serving leading industries." },
               { icon: CheckCircle, title: "Quality & Reliability", desc: "Trained workforce with strong attendance." },
@@ -201,15 +204,19 @@ const Index = () => {
               { icon: Users, title: "Skilled & Flexible", desc: "Tailored short or long-term staffing." },
               { icon: GraduationCap, title: "Continuous Training", desc: "Safety and operational best practices." },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="text-center p-4">
-                <div className="w-14 h-14 mx-auto rounded-full bg-shivraj-100 text-shivraj-700 flex items-center justify-center mb-3">
-                  <Icon size={26} />
-                </div>
-                <h3 className="font-semibold text-shivraj-800 mb-1">{title}</h3>
-                <p className="text-sm text-gray-600">{desc}</p>
-              </div>
+              <StaggerItem key={title} className="h-full">
+                <MagicCard className="h-full rounded-xl" gradientColor="hsl(210 100% 92%)" gradientFrom="hsl(210 90% 55%)" gradientTo="hsl(200 90% 70%)">
+                  <div className="text-center p-5 transition-transform duration-300 hover:-translate-y-1">
+                    <div className="w-14 h-14 mx-auto rounded-full bg-shivraj-100 text-shivraj-700 flex items-center justify-center mb-3">
+                      <Icon size={26} />
+                    </div>
+                    <h3 className="font-semibold text-shivraj-800 mb-1">{title}</h3>
+                    <p className="text-sm text-gray-600">{desc}</p>
+                  </div>
+                </MagicCard>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -346,15 +353,18 @@ const Index = () => {
 
       {/* Call to Action */}
       <section className="py-16 bg-shivraj-800 text-white">
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 text-center relative overflow-hidden rounded-2xl border border-white/10 py-10">
+          <BorderBeam size={120} duration={8} colorFrom="hsl(200 100% 75%)" colorTo="hsl(0 0% 100%)" />
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Work With Us?</h2>
           <p className="text-xl mb-8 text-shivraj-100 max-w-3xl mx-auto">
             Whether you need short-term staffing or long-term workforce management,
             we're here to provide reliable solutions for your business.
           </p>
+<Magnetic>
           <Button asChild size="lg" className="bg-white text-shivraj-800 hover:bg-shivraj-50">
             <Link to="/contact">Contact Us Today</Link>
           </Button>
+          </Magnetic>
         </div>
       </section>
     </Layout>
