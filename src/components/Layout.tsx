@@ -1,8 +1,8 @@
-
 import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import SalesChatWidget from "./SalesChatWidget";
+import { PageTransition, ScrollProgress } from "./motion";
 
 interface LayoutProps {
   children: ReactNode;
@@ -11,10 +11,13 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="flex flex-col min-h-screen">
+      <ScrollProgress />
       <div className="print:hidden">
         <Header />
       </div>
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow">
+        <PageTransition>{children}</PageTransition>
+      </main>
       <div className="print:hidden">
         <Footer />
       </div>
