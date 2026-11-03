@@ -1,14 +1,8 @@
-# Roadmap
-
-- [x] Make calculator inputs reachable while scrolling on desktop and mobile.
-- [x] Add a complete entered-details summary to Print / PDF.
-- [x] Format totals, breakdown, and costing table for A4 output.
-- [x] Hide website navigation, footer, assistant, and long supporting content when printing.
-- [x] Verify desktop/mobile scrolling and A4 Print / PDF output.
-- [x] Apply Glass Elevation motion and depth across the calculator.
-- [x] Add reduced-motion and print safeguards for all new effects.
-- [x] Verify desktop/mobile interactions and the A4 report after animation changes.
-- [x] Careers page with CV upload, WhatsApp & email apply, admin list
-- [x] Initialize the local shadcn MCP configuration for Claude Code.
-- [x] Add the Kokonut UI Apple activity card to the homepage using existing company figures.
-- [x] Verify the activity card on desktop and mobile with reduced-motion support.
+# Roadmap — Site-wide animation upgrade
+- [x] Phase 1: shared motion toolkit (scroll progress, page transition, stagger, magnetic)
+- [x] Phase 2: homepage (glow cards, border beam CTA, magnetic button)
+- [ ] Phase 3: Services + service pages
+- [ ] Phase 4: About, Careers, Locations, Contact
+- [ ] Phase 5: Calculator Bklit charts
+- [ ] Phase 6: Blog
+- [ ] Phase 7: small delights (cursor, 404, chat pulse, header)
