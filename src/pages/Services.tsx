@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useRateCard } from "@/hooks/useRateCard";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
+import { Stagger, StaggerItem } from "@/components/motion";
 import FaqSection from "@/components/FaqSection";
 import type { FaqItem } from "@/components/FaqSection";
 
@@ -165,21 +166,22 @@ const Services = () => {
               Dedicated pages for every service and worker category we supply across Vapi GIDC, Sarigam, Umbergaon, Silvassa and Daman.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" gap={0.06}>
             {servicePages.map((p) => (
+              <StaggerItem key={p.slug}>
               <Link
-                key={p.slug}
                 to={`/services/${p.slug}`}
-                className="group block rounded-lg border border-shivraj-100 bg-white p-6 shadow-sm hover:shadow-md hover:border-shivraj-300 transition-all"
+                className="group block h-full rounded-lg border border-shivraj-100 bg-white p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-shivraj-300 transition-all duration-300"
               >
                 <h3 className="text-lg font-semibold text-shivraj-800 mb-2 group-hover:text-shivraj-600">{p.navLabel}</h3>
                 <p className="text-sm text-gray-600">{p.cardBlurb}</p>
                 <span className="mt-3 inline-flex items-center gap-1 text-sm text-shivraj-600">
-                  Learn more <span className="sr-only">about {p.navLabel}</span><ArrowRight size={14} aria-hidden="true" />
+                  Learn more <span className="sr-only">about {p.navLabel}</span><ArrowRight size={14} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </Link>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -194,11 +196,11 @@ const Services = () => {
           </div>
 
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8" gap={0.12}>
             {coreServices.map(({ icon: Icon, title, desc, bullets }) => (
-              <div key={title} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <StaggerItem key={title} className="group bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                 <div className="bg-shivraj-50 p-6">
-                  <div className="w-12 h-12 rounded-full bg-shivraj-100 text-shivraj-700 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-shivraj-100 text-shivraj-700 flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
                     <Icon size={24} />
                   </div>
                   <h3 className="text-xl font-semibold mb-2 text-shivraj-800">{title}</h3>
@@ -214,9 +216,9 @@ const Services = () => {
                     ))}
                   </ul>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
 
           {/* Auxiliary Services */}
           <div className="mt-20">
@@ -224,17 +226,17 @@ const Services = () => {
             <p className="text-gray-600 text-center mb-10 max-w-3xl mx-auto">
               Support services that enhance operations and keep your supply chain running smoothly.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {auxiliaryServices.map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="bg-shivraj-50 border border-shivraj-100 rounded-lg p-6">
-                  <div className="w-12 h-12 rounded-full bg-white text-shivraj-700 flex items-center justify-center mb-4">
+                <StaggerItem key={title} className="group bg-shivraj-50 border border-shivraj-100 rounded-lg p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-shivraj-300">
+                  <div className="w-12 h-12 rounded-full bg-white text-shivraj-700 flex items-center justify-center mb-4 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110">
                     <Icon size={24} />
                   </div>
                   <h3 className="text-lg font-semibold text-shivraj-800 mb-2">{title}</h3>
                   <p className="text-gray-600 text-sm">{desc}</p>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
 
           {/* Rate Card */}
@@ -276,13 +278,13 @@ const Services = () => {
           {/* Industries Served */}
           <div className="mt-20">
             <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-8 text-center">Industries We Serve</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <Stagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" gap={0.06}>
               {["Engineering", "Pharmaceuticals", "Chemicals", "Packaging", "Manufacturing", "Logistics"].map((i) => (
-                <div key={i} className="bg-shivraj-50 p-4 rounded-lg text-center">
+                <StaggerItem key={i} className="bg-shivraj-50 p-4 rounded-lg text-center transition-all duration-300 hover:-translate-y-1 hover:bg-shivraj-100 hover:shadow-md">
                   <p className="font-medium">{i}</p>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </div>
       </section>
