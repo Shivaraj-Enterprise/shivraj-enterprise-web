@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useRateCard } from "@/hooks/useRateCard";
 import { SERVICE_AREAS, servicePages, type ServicePage } from "@/data/servicePages";
+import { Stagger, StaggerItem } from "@/components/motion";
 
 const SITE = "https://shivraj-enterprise.lovable.app";
 
@@ -213,34 +214,35 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
               We deploy across Vapi GIDC and the surrounding industrial belt. See all{" "}
               <Link to="/locations" className="text-shivraj-600 underline">locations we cover</Link>.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <Stagger className="flex flex-wrap gap-2" gap={0.04}>
               {SERVICE_AREAS.map((a) => (
-                <span key={a} className="inline-flex items-center gap-1 rounded-full bg-shivraj-50 border border-shivraj-100 px-3 py-1.5 text-sm text-shivraj-800">
+                <StaggerItem key={a} className="inline-flex items-center gap-1 rounded-full bg-shivraj-50 border border-shivraj-100 px-3 py-1.5 text-sm text-shivraj-800 transition-colors hover:bg-shivraj-100">
                   <MapPin size={14} className="text-shivraj-600" /> {a}
-                </span>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
 
           {/* Related services */}
           {related.length > 0 && (
             <div className="mt-14">
               <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-5">Related Services</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {related.map((r) => (
+                  <StaggerItem key={r.slug}>
                   <Link
-                    key={r.slug}
                     to={`/services/${r.slug}`}
-                    className="group block rounded-lg border border-shivraj-100 bg-white p-5 shadow-sm hover:shadow-md hover:border-shivraj-300 transition-all"
+                    className="group block h-full rounded-lg border border-shivraj-100 bg-white p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-shivraj-300 transition-all duration-300"
                   >
                     <h3 className="font-semibold text-shivraj-800 mb-2 group-hover:text-shivraj-600">{r.navLabel}</h3>
                     <p className="text-sm text-gray-600">{r.cardBlurb}</p>
                     <span className="mt-3 inline-flex items-center gap-1 text-sm text-shivraj-600">
-                      Learn more <span className="sr-only">about {r.navLabel}</span><ArrowRight size={14} aria-hidden="true" />
+                      Learn more <span className="sr-only">about {r.navLabel}</span><ArrowRight size={14} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
                   </Link>
+                  </StaggerItem>
                 ))}
-              </div>
+              </Stagger>
             </div>
           )}
         </div>
