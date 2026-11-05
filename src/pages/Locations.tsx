@@ -6,6 +6,7 @@ import LocationMap from "@/components/contact/LocationMap";
 import { Button } from "@/components/ui/button";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
+import { Stagger, StaggerItem } from "@/components/motion";
 
 const Locations = () => {
   return (
@@ -55,8 +56,8 @@ const Locations = () => {
 
       <section className="section bg-shivraj-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8" gap={0.12}>
+            <StaggerItem className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
               <h2 className="text-xl font-semibold text-shivraj-800 mb-4">Vapi GIDC Industrial Phases We Serve</h2>
               <ul className="space-y-3 text-gray-700">
                 <li><strong>Phase 1</strong> — GIDC Office Road area; chemicals & light engineering.</li>
@@ -66,7 +67,7 @@ const Locations = () => {
               </ul>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+            <StaggerItem className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
               <h2 className="text-xl font-semibold text-shivraj-800 mb-4">Villages & Areas Covered Near Vapi</h2>
               <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-gray-700">
                 {["Ambheti","Balitha","Chala","Chandor","Chhiri","Karaya","Koparli","Morai","Mota Pondha","Namdha","Ozar","Pandor","Rata","Salvav","Vatar","Chanod","Chharwada","Dabhel","Dungra","Karvad","Chanvai"].map((v) => (
@@ -75,7 +76,7 @@ const Locations = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+            <StaggerItem className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
               <h2 className="text-xl font-semibold text-shivraj-800 mb-4">Pin Codes We Operate In</h2>
               <ul className="space-y-2 text-gray-700">
                 <li><strong>396195</strong> — Chanod Colony / GIDC Area / Gunjan</li>
