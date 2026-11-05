@@ -65,7 +65,7 @@ const Locations = () => {
                 <li><strong>Phase 3</strong> — Major chemical & pharmaceutical hub (Aarti Industries, Accra Pac, Dipak Engineering).</li>
                 <li><strong>Phase 4</strong> — Large manufacturing units and varied industries.</li>
               </ul>
-            </div>
+            </StaggerItem>
 
             <StaggerItem className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
               <h2 className="text-xl font-semibold text-shivraj-800 mb-4">Villages & Areas Covered Near Vapi</h2>
@@ -74,7 +74,7 @@ const Locations = () => {
                   <div key={v} className="flex items-center"><CheckCircle size={14} className="text-shivraj-600 mr-2 flex-shrink-0" />{v}</div>
                 ))}
               </div>
-            </div>
+            </StaggerItem>
 
             <StaggerItem className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
               <h2 className="text-xl font-semibold text-shivraj-800 mb-4">Pin Codes We Operate In</h2>
@@ -86,8 +86,8 @@ const Locations = () => {
                 <li><strong>396193</strong> — Dungra / Karvad</li>
                 <li><strong>396020</strong> — Chanvai</li>
               </ul>
-            </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
