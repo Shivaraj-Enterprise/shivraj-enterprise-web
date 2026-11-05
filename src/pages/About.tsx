@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import logo from "@/assets/logo.webp";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
+import { Stagger, StaggerItem } from "@/components/motion";
 
 const About = () => {
   return (
@@ -62,22 +63,22 @@ const About = () => {
           <div className="mt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-shivraj-800 mb-10 text-center">Our Core Values</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 { icon: Shield, title: "Reliability", desc: "We deliver on our promises and ensure consistent service quality" },
                 { icon: Users, title: "Client Satisfaction", desc: "We prioritize our clients' needs and work to exceed expectations" },
                 { icon: Award, title: "Expertise", desc: "We leverage our industry knowledge to provide optimal staffing solutions" },
                 { icon: BarChart, title: "Efficiency", desc: "We optimize processes to deliver timely and effective results" },
               ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="text-center">
-                  <div className="w-16 h-16 bg-shivraj-100 text-shivraj-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <StaggerItem key={title} className="group text-center rounded-xl p-4 transition-transform duration-300 hover:-translate-y-1">
+                  <div className="w-16 h-16 bg-shivraj-100 text-shivraj-700 rounded-full flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
                     <Icon size={32} />
                   </div>
                   <h3 className="text-xl font-semibold mb-2 text-shivraj-800">{title}</h3>
                   <p className="text-gray-600">{desc}</p>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
 
           {/* Why Choose Us */}
@@ -108,7 +109,7 @@ const About = () => {
             <p className="text-gray-600 text-center mb-8">
               We hold all critical licenses and registrations confirming our compliance with industry regulations.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Stagger className="grid grid-cols-1 md:grid-cols-2 gap-4" gap={0.06}>
               {[
                 ["PAN", "AERPY4658M"],
                 ["GSTIN", "24AERPY4658M1ZF"],
@@ -116,15 +117,15 @@ const About = () => {
                 ["ESIC Registration", "39000538650000300"],
                 ["Labour Law Compliance Certificates", "Active"],
               ].map(([label, value]) => (
-                <div key={label} className="flex items-start bg-white border border-shivraj-100 rounded-lg p-4 shadow-sm">
+                <StaggerItem key={label} className="flex items-start bg-white border border-shivraj-100 rounded-lg p-4 shadow-sm transition-shadow hover:shadow-md">
                   <FileCheck size={22} className="text-shivraj-600 mr-3 mt-1 flex-shrink-0" />
                   <div>
                     <p className="text-sm text-gray-500">{label}</p>
                     <p className="font-semibold text-shivraj-800 break-all">{value}</p>
                   </div>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </div>
       </section>
