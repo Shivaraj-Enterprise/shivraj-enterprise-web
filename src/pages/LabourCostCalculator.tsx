@@ -85,10 +85,10 @@ const LabourCostCalculator = () => {
     setInp((s) => ({ ...s, customCharges: s.customCharges.filter((_, i) => i !== idx) }));
 
   const parts = [
-    { label: "Wages (A)", v: r.a, cls: "bg-shivraj-700", color: "hsl(var(--shivraj-700, 214 80% 30%))" },
-    { label: "Statutory (B)", v: r.b, cls: "bg-shivraj-500", color: "hsl(var(--shivraj-500, 214 75% 48%))" },
-    { label: "Service charge", v: r.service, cls: "bg-shivraj-300", color: "hsl(var(--shivraj-300, 212 80% 70%))" },
-    { label: "GST", v: r.cgst + r.sgst, cls: "bg-shivraj-200", color: "hsl(var(--shivraj-200, 212 85% 82%))" },
+    { label: "Wages (A)", v: r.a, cls: "bg-shivraj-700", color: "#1E40AF" },
+    { label: "Statutory (B)", v: r.b, cls: "bg-shivraj-500", color: "#3182CE" },
+    { label: "Service charge", v: r.service, cls: "bg-shivraj-300", color: "#8FC2FF" },
+    { label: "GST", v: r.cgst + r.sgst, cls: "bg-shivraj-200", color: "#B9DAFF" },
   ];
 
   const faqLd = {
