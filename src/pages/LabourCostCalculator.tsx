@@ -9,6 +9,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Calculator, RotateCcw, Printer, Info, ChevronDown, MessageCircle, Phone, Plus, X } from "lucide-react";
 import { calculateCost, CostInputs, CustomCharge, DEFAULT_INPUTS, inr } from "@/lib/costing";
 
+import { PieChart } from "@/components/charts/pie-chart";
+import { PieSlice } from "@/components/charts/pie-slice";
+import { PieCenter } from "@/components/charts/pie-center";
+
 const URL = "https://shivraj-enterprise.lovable.app/labour-cost-calculator";
 
 const explain = [
@@ -81,10 +85,10 @@ const LabourCostCalculator = () => {
     setInp((s) => ({ ...s, customCharges: s.customCharges.filter((_, i) => i !== idx) }));
 
   const parts = [
-    { label: "Wages (A)", v: r.a, cls: "bg-shivraj-700" },
-    { label: "Statutory (B)", v: r.b, cls: "bg-shivraj-500" },
-    { label: "Service charge", v: r.service, cls: "bg-shivraj-300" },
-    { label: "GST", v: r.cgst + r.sgst, cls: "bg-shivraj-200" },
+    { label: "Wages (A)", v: r.a, cls: "bg-shivraj-700", color: "#1E40AF" },
+    { label: "Statutory (B)", v: r.b, cls: "bg-shivraj-500", color: "#3182CE" },
+    { label: "Service charge", v: r.service, cls: "bg-shivraj-300", color: "#8FC2FF" },
+    { label: "GST", v: r.cgst + r.sgst, cls: "bg-shivraj-200", color: "#B9DAFF" },
   ];
 
   const faqLd = {
@@ -218,6 +222,14 @@ const LabourCostCalculator = () => {
 
            <div className="calc-panel calc-reveal calc-delay-2 bg-card/90 backdrop-blur-md rounded-xl border border-shivraj-100 p-5 print-breakdown">
             <h2 className="font-bold text-shivraj-800 mb-3">Where the money goes</h2>
+            {r.daily > 0 && (
+              <div className="mx-auto mb-4 w-56 print:hidden" aria-hidden="true">
+                <PieChart data={parts.map((p) => ({ label: p.label, value: Math.max(p.v, 0), color: p.color }))} innerRadius={70} padAngle={0.02} cornerRadius={4}>
+                  {parts.map((p, i) => <PieSlice key={p.label} index={i} hoverEffect="grow" />)}
+                  <PieCenter defaultLabel="Per day" />
+                </PieChart>
+              </div>
+            )}
             <div className="flex h-4 rounded-full overflow-hidden" role="img" aria-label="Cost breakdown bar">
                {parts.map((p) => <div key={p.label} className={`${p.cls} calc-cost-segment`} style={{ width: `${r.daily ? (p.v / r.daily) * 100 : 0}%` }} />)}
             </div>
