@@ -4,3 +4,4 @@
 - Use the `@react-bits` shadcn registry for React Bits components; `.agents/mcp_config.json` configures its local shadcn MCP client without changing the website's own MCP server.
 - Keep Kokonut UI registry components compatible with Tailwind v3 and the existing Framer Motion package; homepage activity rings visualize established company milestones while their text values remain static for search engines.
 - Use the `@magicui` shadcn registry for Magic UI components; `.agents/mcp_config.json` also configures the local `@magicuidesign/mcp` client without changing the website's own MCP server.- Shared Motion wrappers live in `src/components/motion/` and respect reduced motion; reuse them instead of per-page animation code so effects stay consistent.
+- Article pages own their reading-progress bar instead of stacking it with the global bar; shared heading reveals keep headings visible before animation for indexing and accessibility.

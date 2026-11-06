@@ -1,6 +1,37 @@
-import { ReactNode, useRef } from "react";
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring } from "motion/react";
+import { ReactNode, RefObject, useEffect, useRef } from "react";
+import { animate, inView, motion, useMotionValue, useReducedMotion, useScroll, useSpring } from "motion/react";
 import { useLocation } from "react-router-dom";
+
+/** Visible-first reveal avoids blank oversized cards on small screens. */
+export const Reveal = ({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) => {
+  const reduce = useReducedMotion();
+  return <motion.div className={className} initial={false} whileInView={reduce ? undefined : { opacity: [0.85, 1], y: [12, 0] }} viewport={{ once: true, amount: "some" }} transition={{ duration: 0.5, delay, ease: "easeOut" }}>{children}</motion.div>;
+};
+
+/** Headings remain visible before their one-time scroll animation, including late-loaded article content. */
+export const useHeadingReveal = (ref: RefObject<HTMLElement>) => {
+  const reduce = useReducedMotion();
+  useEffect(() => {
+    const root = ref.current;
+    if (!root || reduce) return;
+    const seen = new WeakSet<Element>();
+    const cleanups: (() => void)[] = [];
+    const scan = () => {
+      root.querySelectorAll(".prose h2, .prose h3").forEach((heading) => {
+        if (seen.has(heading)) return;
+        seen.add(heading);
+        cleanups.push(inView(heading, () => {
+          const animation = animate(heading, { opacity: [0.75, 1], y: [10, 0] }, { duration: 0.5, ease: "easeOut" });
+          cleanups.push(() => { animation.stop(); heading.removeAttribute("style"); });
+        }, { margin: "0px 0px -40px 0px" }));
+      });
+    };
+    scan();
+    const observer = new MutationObserver(scan);
+    observer.observe(root, { childList: true, subtree: true });
+    return () => { observer.disconnect(); cleanups.forEach((stop) => stop()); };
+  }, [ref, reduce]);
+};
 
 /** Stagger container: children using <StaggerItem> appear one after another. Content stays in the DOM for crawlers. */
 export const Stagger = ({ children, className, gap = 0.08 }: { children: ReactNode; className?: string; gap?: number }) => {

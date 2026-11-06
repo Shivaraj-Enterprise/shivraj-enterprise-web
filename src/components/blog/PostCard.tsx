@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { Calendar, ArrowUpRight, Clock } from "lucide-react";
 import CoverPlaceholder from "./CoverPlaceholder";
+import { MagicCard } from "@/components/ui/magic-card";
+import { useReducedMotion } from "motion/react";
 
 export type BlogPostCard = {
   id: string;
@@ -21,22 +23,30 @@ const estimateReadTime = (text: string | null | undefined) => {
 const PostCard = ({ post, featured = false }: { post: BlogPostCard; featured?: boolean }) => {
   const primaryTag = post.tags?.[0]?.name;
   const readTime = estimateReadTime(post.excerpt);
+  const reduce = useReducedMotion();
 
   return (
     <Link
       to={`/blog/${post.slug}`}
       aria-label={`Read article: ${post.title}`}
-      className={`group relative flex flex-col bg-white rounded-2xl border border-shivraj-100 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-shivraj-200 ${
-        featured ? "md:flex-row md:col-span-2 lg:col-span-3" : ""
-      }`}
+      className="blog-post-card group relative block h-full rounded-2xl border border-shivraj-100 overflow-hidden bg-card shadow-sm transition-all duration-300 motion-safe:hover:-translate-y-1 hover:shadow-xl hover:border-shivraj-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
+      <MagicCard
+        className={`blog-card-glow h-full [&>div:last-child]:flex [&>div:last-child]:h-full [&>div:last-child]:flex-col ${featured ? "md:[&>div:last-child]:flex-row" : ""}`}
+        gradientColor="hsl(var(--primary) / 0.12)"
+        gradientFrom="hsl(var(--primary))"
+        gradientTo="hsl(var(--activity-experience))"
+        gradientOpacity={reduce ? 0 : 0.5}
+      >
       <div className={`relative overflow-hidden bg-shivraj-50 ${featured ? "md:w-1/2 aspect-[16/10] md:aspect-auto" : "aspect-[16/10]"}`}>
         {post.cover_image_url ? (
           <img
             src={post.cover_image_url}
             alt={post.title}
             loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            width={1200}
+            height={750}
+            className="w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:group-hover:scale-105"
           />
         ) : (
           <CoverPlaceholder title={post.title} category={primaryTag} className="w-full h-full" />
@@ -75,9 +85,10 @@ const PostCard = ({ post, featured = false }: { post: BlogPostCard; featured?: b
 
         <div className="mt-5 flex items-center gap-2 text-sm font-medium text-shivraj-700">
           <span className="border-b border-transparent group-hover:border-shivraj-600 transition-colors">Read article</span>
-          <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <ArrowUpRight size={16} className="motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" />
         </div>
       </div>
+      </MagicCard>
     </Link>
   );
 };

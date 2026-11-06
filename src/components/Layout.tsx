@@ -3,15 +3,17 @@ import Header from "./Header";
 import Footer from "./Footer";
 import SalesChatWidget from "./SalesChatWidget";
 import { PageTransition, ScrollProgress } from "./motion";
+import { useLocation } from "react-router-dom";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const { pathname } = useLocation();
   return (
     <div className="flex flex-col min-h-screen">
-      <ScrollProgress />
+      {!pathname.startsWith("/blog/") && <ScrollProgress />}
       <div className="print:hidden">
         <Header />
       </div>
