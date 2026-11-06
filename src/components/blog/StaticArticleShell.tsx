@@ -15,6 +15,7 @@ import CoverPlaceholder from "@/components/blog/CoverPlaceholder";
 import FadeContent from "@/components/reactbits/FadeContent";
 import PrevNextNav, { type NavRef } from "@/components/blog/PrevNextNav";
 import SidebarExtras from "@/components/blog/SidebarExtras";
+import { useHeadingReveal } from "@/components/motion";
 
 interface Props {
   title: string;
@@ -51,6 +52,7 @@ const StaticArticleShell = ({
 }: Props) => {
   const articleRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  useHeadingReveal(contentRef);
   const [questions, setQuestions] = useState<string[]>([]);
   const cover = coverImageUrl || coverFor(title, slug);
 

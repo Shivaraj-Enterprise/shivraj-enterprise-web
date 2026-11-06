@@ -4,5 +4,5 @@
 - [x] Phase 3: Services + service pages
 - [ ] Phase 4: About, Careers, Locations, Contact
 - [ ] Phase 5: Calculator Bklit charts — ring complete; monthly bars remain
-- [ ] Phase 6: Blog — card glow, accessible reading progress, takeaway beam implemented; heading reveals and checks underway
+- [ ] Phase 6: Blog — effects implemented; desktop, mobile and reduced-motion checks underway
 - [ ] Phase 7: small delights (cursor, 404, chat pulse, header)
