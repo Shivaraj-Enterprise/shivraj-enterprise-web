@@ -1,4 +1,6 @@
 import { Lightbulb } from "lucide-react";
+import { useReducedMotion } from "motion/react";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 interface KeyTakeawaysCardProps {
   takeaways: string[];
@@ -6,13 +8,15 @@ interface KeyTakeawaysCardProps {
 }
 
 const KeyTakeawaysCard = ({ takeaways, title = "Key Takeaways" }: KeyTakeawaysCardProps) => {
+  const reduce = useReducedMotion();
   if (takeaways.length === 0) return null;
 
   return (
     <section
       aria-labelledby="key-takeaways-heading"
-      className="my-10 rounded-2xl border border-shivraj-200 bg-gradient-to-br from-shivraj-50 via-white to-shivraj-100/60 p-6 sm:p-8 shadow-sm"
+      className="blog-takeaways relative isolate my-10 rounded-2xl border border-shivraj-200 bg-gradient-to-br from-shivraj-50 via-white to-shivraj-100/60 p-6 sm:p-8 shadow-sm"
     >
+      {!reduce && <div aria-hidden="true" className="blog-takeaway-beam pointer-events-none absolute inset-0 rounded-[inherit] print:hidden"><BorderBeam size={100} duration={12} colorFrom="hsl(var(--primary))" colorTo="hsl(var(--activity-experience))" /></div>}
       <div className="flex items-center gap-3 mb-5">
         <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-shivraj-600 text-white shadow-md">
           <Lightbulb className="h-5 w-5" aria-hidden="true" />

@@ -42,6 +42,8 @@
     --activity-experience-end: 199 80% 52%;
 
     --radius: 0.5rem;
+    --color-background: hsl(var(--card));
+    --color-border: hsl(var(--border));
   }
 
   .dark {
@@ -581,4 +583,25 @@
 @keyframes kenburns {
   from { transform: scale(1); }
   to { transform: scale(1.12) translate(-1%, -1%); }
+}
+
+/* Blog effects stay local; the registry beam needs Tailwind v3 mask syntax. */
+.blog-takeaway-beam > div {
+  border: 1px solid transparent;
+  mask-image: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+  mask-composite: intersect;
+  mask-clip: padding-box, border-box;
+}
+.blog-takeaway-beam > div > div {
+  background-image: linear-gradient(to left, var(--color-from), var(--color-to), transparent);
+}
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .blog-card-glow > div:nth-child(2) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog-post-card, .blog-post-card * { transition: none !important; }
+  .blog-takeaway-beam { display: none; }
+}
+@media print {
+  .blog-card-glow > div:nth-child(2), .blog-takeaway-beam { display: none; }
 }
