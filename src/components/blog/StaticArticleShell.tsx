@@ -12,7 +12,7 @@ import ShareButtons from "@/components/blog/ShareButtons";
 import NewsletterCard from "@/components/blog/NewsletterCard";
 import ScrollTopButton from "@/components/blog/ScrollTopButton";
 import CoverPlaceholder from "@/components/blog/CoverPlaceholder";
-import FadeContent from "@/components/reactbits/FadeContent";
+import { Reveal as FadeContent } from "@/components/motion";
 import PrevNextNav, { type NavRef } from "@/components/blog/PrevNextNav";
 import SidebarExtras from "@/components/blog/SidebarExtras";
 import { useHeadingReveal } from "@/components/motion";

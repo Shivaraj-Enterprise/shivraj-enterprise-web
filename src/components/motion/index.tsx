@@ -2,6 +2,12 @@ import { ReactNode, RefObject, useEffect, useRef } from "react";
 import { animate, inView, motion, useMotionValue, useReducedMotion, useScroll, useSpring } from "motion/react";
 import { useLocation } from "react-router-dom";
 
+/** Visible-first reveal avoids blank oversized cards on small screens. */
+export const Reveal = ({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) => {
+  const reduce = useReducedMotion();
+  return <motion.div className={className} initial={false} whileInView={reduce ? undefined : { opacity: [0.85, 1], y: [12, 0] }} viewport={{ once: true, amount: "some" }} transition={{ duration: 0.5, delay, ease: "easeOut" }}>{children}</motion.div>;
+};
+
 /** Headings remain visible before their one-time scroll animation, including late-loaded article content. */
 export const useHeadingReveal = (ref: RefObject<HTMLElement>) => {
   const reduce = useReducedMotion();

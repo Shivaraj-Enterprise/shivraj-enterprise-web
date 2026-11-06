@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Sparkles, Search, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
-import FadeContent from "@/components/reactbits/FadeContent";
+import { Reveal as FadeContent } from "@/components/motion";
 
 
 
