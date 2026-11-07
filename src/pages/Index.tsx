@@ -23,7 +23,6 @@ import Marquee from "@/components/reactbits/Marquee";
 import { Stagger, StaggerItem, Magnetic } from "@/components/motion";
 import { MagicCard } from "@/components/ui/magic-card";
 import { BorderBeam } from "@/components/ui/border-beam";
-import AppleActivityCard from "@/components/kokonutui/apple-activity-card";
 
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
