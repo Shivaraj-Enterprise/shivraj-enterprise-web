@@ -23,7 +23,6 @@ import Marquee from "@/components/reactbits/Marquee";
 import { Stagger, StaggerItem, Magnetic } from "@/components/motion";
 import { MagicCard } from "@/components/ui/magic-card";
 import { BorderBeam } from "@/components/ui/border-beam";
-import AppleActivityCard from "@/components/kokonutui/apple-activity-card";
 
 const Index = () => {
   const profileUrl = useCompanyProfileUrl();
@@ -100,17 +99,6 @@ const Index = () => {
             </FadeContent>
           ))}
         </div>
-      </section>
-
-      <section className="bg-background px-4 py-12" aria-label="Company milestones">
-        <AppleActivityCard
-          title="Our Workforce Impact"
-          activities={[
-            { label: "Workers Deployed", current: 1500, target: 1500, unit: "+", size: 200, color: "hsl(var(--primary))", colorEnd: "hsl(var(--ring))" },
-            { label: "Industrial Clients", current: 50, target: 50, unit: "+", size: 160, color: "hsl(var(--activity-clients))", colorEnd: "hsl(var(--activity-clients-end))" },
-            { label: "Years Experience", current: 10, target: 10, unit: "+", size: 120, color: "hsl(var(--activity-experience))", colorEnd: "hsl(var(--activity-experience-end))" },
-          ]}
-        />
       </section>
 
       {/* About Summary Section */}
