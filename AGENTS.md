@@ -1,4 +1,5 @@
 # Project Architecture Rules
+- Monthly reports aggregate contact enquiries, job applications, and source-labelled leads using Indian calendar-month boundaries; keep exports paginated and spreadsheet-safe, and CV links signed so owner reports are complete without exposing private files.
 
 - Keep calculator motion and elevation styles scoped under `.calculator-page` so they cannot affect other pages; this preserves the site's existing visual behavior.
 - Use the `@react-bits` shadcn registry for React Bits components; `.agents/mcp_config.json` configures its local shadcn MCP client without changing the website's own MCP server.
