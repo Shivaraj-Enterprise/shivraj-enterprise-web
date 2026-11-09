@@ -15,12 +15,11 @@ import microOrgoLogo from "@/assets/clients/micro-orgo-chem.jpg.asset.json";
 import hexacellLogo from "@/assets/clients/hexacell.jpg.asset.json";
 import vpiLogo from "@/assets/clients/vpi.jpg.asset.json";
 import AuroraBackground from "@/components/three/AuroraBackground";
-import FadeContent from "@/components/reactbits/FadeContent";
 import BlurText from "@/components/reactbits/BlurText";
 import TiltedCard from "@/components/reactbits/TiltedCard";
 import GradientText from "@/components/reactbits/GradientText";
 import Marquee from "@/components/reactbits/Marquee";
-import { Stagger, StaggerItem, Magnetic } from "@/components/motion";
+import { Magnetic, Reveal, TextColourSweep } from "@/components/motion";
 import { MagicCard } from "@/components/ui/magic-card";
 import { BorderBeam } from "@/components/ui/border-beam";
 
@@ -38,13 +37,14 @@ const Index = () => {
         <meta property="og:description" content="Skilled, semi-skilled & unskilled manpower and housekeeping services across Vapi GIDC, Gujarat." />
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/" />
       </Helmet>
+      <div className="homepage-motion">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white">
+      <section className="home-hero relative overflow-hidden bg-gradient-to-br from-shivraj-900 via-shivraj-800 to-shivraj-900 text-white">
         <AuroraBackground intensity="bold" />
         <div className="container relative z-10 mx-auto px-4 py-16 md:py-24 lg:py-32">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
-              <div className="bg-white rounded-full p-4 shadow-lg">
+              <div className="home-logo bg-card rounded-full p-4 shadow-lg">
                 <img src={logo} alt="Shivraj Enterprise logo" width={80} height={80} loading="eager" fetchPriority="high" decoding="async" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
               </div>
             </div>
@@ -67,13 +67,17 @@ const Index = () => {
                 loop={false}
               />
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="home-actions flex flex-wrap justify-center gap-4">
+              <Magnetic strength={0.12}>
               <Button asChild size="lg" className="bg-white text-shivraj-800 hover:bg-shivraj-50">
                 <Link to="/services">Our Services</Link>
               </Button>
+              </Magnetic>
+              <Magnetic strength={0.12}>
               <Button asChild size="lg" variant="outline" className="border-white text-shivraj-900 font-medium hover:bg-white/10 hover:text-white">
                 <Link to="/contact">Contact Us</Link>
               </Button>
+              </Magnetic>
               <CompanyProfileDownload size="lg" className="border-white text-shivraj-900 font-medium hover:bg-white/10 hover:text-white" />
             </div>
           </div>
@@ -89,14 +93,14 @@ const Index = () => {
             { value: "50+", label: "Industrial Clients" },
             { value: "24/7", label: "Support Availability" },
           ].map((s, i) => (
-            <FadeContent key={s.label} delay={i * 0.08}>
-              <div>
+            <Reveal key={s.label} delay={i * 0.08}>
+              <div className="home-stat">
                 <p className="text-3xl md:text-4xl font-bold">
                   <GradientText>{s.value}</GradientText>
                 </p>
                 <p className="text-sm md:text-base text-gray-600 mt-1">{s.label}</p>
               </div>
-            </FadeContent>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -104,14 +108,14 @@ const Index = () => {
       {/* About Summary Section */}
       <section className="section bg-white">
         <div className="container mx-auto">
-          <FadeContent className="text-center mb-12">
-            <BlurText as="h2" text="About Shivraj Enterprise" className="section-title" />
+          <Reveal className="text-center mb-12">
+            <h2 className="section-title"><TextColourSweep text="About Shivraj Enterprise" /></h2>
             <p className="section-subtitle">
               A reliable manpower & housekeeping company with over a decade of industry experience
             </p>
-          </FadeContent>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div>
+            <Reveal>
               <p className="text-gray-600 mb-6">
                 Shivraj Enterprise is a trusted name in manpower supply and housekeeping services, with over 10 years of industry experience. We provide skilled, semi-skilled, and unskilled labour to industries such as Engineering, Pharmaceuticals, Chemicals, and Packaging.
               </p>
@@ -123,8 +127,8 @@ const Index = () => {
                   Read our company story <ArrowRight size={16} className="ml-2" />
                 </Link>
               </Button>
-            </div>
-            <div className="bg-shivraj-50 p-6 rounded-lg border border-shivraj-100">
+            </Reveal>
+            <Reveal delay={0.15} className="home-lift bg-shivraj-50 p-6 rounded-lg border border-shivraj-100">
               <h3 className="text-2xl font-semibold text-shivraj-800 mb-4">Our Presence</h3>
               <p className="text-gray-600 mb-6">
                 We provide services across many cities of Gujarat, mainly in:
@@ -137,7 +141,7 @@ const Index = () => {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -146,27 +150,27 @@ const Index = () => {
       <section className="section bg-shivraj-50 relative overflow-hidden">
         <AuroraBackground intensity="subtle" className="opacity-40" />
         <div className="container relative mx-auto">
-          <FadeContent className="text-center mb-12">
-            <BlurText as="h2" text="Our Core Services" className="section-title" />
+          <Reveal className="text-center mb-12">
+            <h2 className="section-title"><TextColourSweep text="Our Core Services" /></h2>
             <p className="section-subtitle">
               A comprehensive suite of manpower, housekeeping and auxiliary services
             </p>
-          </FadeContent>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 [perspective:1200px]">
             {[
               { icon: Users, title: "Manpower Outsourcing", desc: "Flexible access to skilled, semi-skilled and unskilled labour with strict vetting for productivity and reliability." },
               { icon: Sparkles, title: "Housekeeping Solutions", desc: "Industrial, commercial and event housekeeping that keeps your workspace clean, safe and welcoming." },
               { icon: PackageCheck, title: "Auxiliary Services", desc: "Loading & unloading, material handling, dispatch and quality & packaging inspectors." },
             ].map(({ icon: Icon, title, desc }, i) => (
-              <FadeContent key={title} delay={i * 0.1}>
+              <Reveal key={title} delay={i * 0.1}>
                 <TiltedCard className="bg-white rounded-xl shadow-md p-6 hover:shadow-2xl transition-shadow border border-shivraj-100/50 h-full">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-shivraj-500 to-shivraj-700 text-white flex items-center justify-center mb-4 shadow-lg shadow-shivraj-500/30">
+                  <div className="home-service-icon w-12 h-12 rounded-full bg-gradient-to-br from-shivraj-500 to-shivraj-700 text-white flex items-center justify-center mb-4 shadow-lg shadow-shivraj-500/30">
                     <Icon size={24} />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-shivraj-800">{title}</h3>
                   <p className="text-gray-600">{desc}</p>
                 </TiltedCard>
-              </FadeContent>
+              </Reveal>
             ))}
           </div>
           <div className="text-center mt-10">
@@ -181,10 +185,10 @@ const Index = () => {
       <section className="section bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="section-title">Why Choose Shivraj Enterprise?</h2>
+            <h2 className="section-title"><TextColourSweep text="Why Choose Shivraj Enterprise?" /></h2>
             <p className="section-subtitle">What sets us apart as a workforce partner</p>
           </div>
-          <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
             {[
               { icon: Award, title: "Proven Experience", desc: "10+ years serving leading industries." },
               { icon: CheckCircle, title: "Quality & Reliability", desc: "Trained workforce with strong attendance." },
@@ -192,7 +196,7 @@ const Index = () => {
               { icon: Users, title: "Skilled & Flexible", desc: "Tailored short or long-term staffing." },
               { icon: GraduationCap, title: "Continuous Training", desc: "Safety and operational best practices." },
             ].map(({ icon: Icon, title, desc }) => (
-              <StaggerItem key={title} className="h-full">
+              <Reveal key={title} className="h-full">
                 <MagicCard className="h-full rounded-xl" gradientColor="hsl(210 100% 92%)" gradientFrom="hsl(210 90% 55%)" gradientTo="hsl(200 90% 70%)">
                   <div className="text-center p-5 transition-transform duration-300 hover:-translate-y-1">
                     <div className="w-14 h-14 mx-auto rounded-full bg-shivraj-100 text-shivraj-700 flex items-center justify-center mb-3">
@@ -202,19 +206,19 @@ const Index = () => {
                     <p className="text-sm text-gray-600">{desc}</p>
                   </div>
                 </MagicCard>
-              </StaggerItem>
+              </Reveal>
             ))}
-          </Stagger>
+          </div>
         </div>
       </section>
 
       {/* Testimonials */}
       <section className="section bg-shivraj-50">
         <div className="container mx-auto">
-          <FadeContent className="text-center mb-8">
-            <BlurText as="h2" text="What Our Clients Say" className="section-title" />
+          <Reveal className="text-center mb-8">
+            <h2 className="section-title"><TextColourSweep text="What Our Clients Say" /></h2>
             <p className="section-subtitle">Trusted by leading companies across industries</p>
-          </FadeContent>
+          </Reveal>
 
           {/* Client logo marquee */}
           <Marquee speed={28} className="mb-10 py-4 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
@@ -246,8 +250,8 @@ const Index = () => {
               { quote: "SHIVRAJ's customer service is top-notch. The accessibility and responsiveness of their team have made our collaboration effortless and successful.", name: "Ms. Anjali Mehta", role: "Supply Chain Director, Hexacell Packaging Pvt. Ltd.", logo: hexacellLogo.url },
               { quote: "Shivraj Enterprise has been a reliable manpower partner for our operations. Their team is professional, punctual and consistently delivers quality workforce that meets our production needs.", name: "Mr. Dhruv Parmar", role: "HR Leader, Vapi Products Industries Pvt. Ltd.", logo: vpiLogo.url },
             ].map((t, i) => (
-              <FadeContent key={t.name} delay={i * 0.08}>
-                <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow border border-shivraj-100/60 h-full">
+              <Reveal key={t.name} delay={i * 0.08}>
+                <div className="home-lift bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow border border-shivraj-100/60 h-full">
                   <div className="flex items-start gap-4 mb-3">
                     <img src={t.logo} alt={`${t.role} logo`} loading="lazy" width={64} height={64} decoding="async" className="w-16 h-16 rounded-full object-contain bg-white border border-shivraj-100 p-1 flex-shrink-0" />
                     <Quote size={24} className="text-shivraj-300 mt-2" />
@@ -258,7 +262,7 @@ const Index = () => {
                     <p className="text-sm text-gray-500">{t.role}</p>
                   </div>
                 </div>
-              </FadeContent>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -268,14 +272,14 @@ const Index = () => {
       <section className="section bg-shivraj-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="section-title">Service Areas Across Vapi GIDC & Surrounding Villages</h2>
+            <h2 className="section-title"><TextColourSweep text="Service Areas Across Vapi GIDC & Surrounding Villages" /></h2>
             <p className="section-subtitle">
               Vapi GIDC is one of Asia's largest industrial hubs — covering over 1,140 hectares across four phases in Valsad District, Gujarat. With 1,500+ units in chemicals, pharmaceuticals, engineering and packaging, we proudly serve clients across the entire estate and nearby villages.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+            <Reveal className="home-lift bg-card rounded-lg p-6 shadow-sm border border-shivraj-100">
               <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Vapi GIDC Industrial Phases We Serve</h3>
               <ul className="space-y-3 text-gray-700">
                 <li><strong>Phase 1</strong> — GIDC Office Road area; chemicals & light engineering.</li>
@@ -283,18 +287,18 @@ const Index = () => {
                 <li><strong>Phase 3</strong> — Major chemical & pharmaceutical hub (Aarti Industries, Accra Pac, Dipak Engineering).</li>
                 <li><strong>Phase 4</strong> — Large manufacturing units and varied industries.</li>
               </ul>
-            </div>
+            </Reveal>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+            <Reveal delay={0.12} className="home-lift bg-card rounded-lg p-6 shadow-sm border border-shivraj-100">
               <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Villages & Areas Covered Near Vapi</h3>
               <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-gray-700">
                 {["Ambheti","Balitha","Chala","Chandor","Chhiri","Karaya","Koparli","Morai","Mota Pondha","Namdha","Ozar","Pandor","Rata","Salvav","Vatar","Chanod","Chharwada","Dabhel","Dungra","Karvad","Chanvai"].map((v) => (
                   <div key={v} className="flex items-center"><CheckCircle size={14} className="text-shivraj-600 mr-2 flex-shrink-0" />{v}</div>
                 ))}
               </div>
-            </div>
+            </Reveal>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-shivraj-100">
+            <Reveal delay={0.24} className="home-lift bg-card rounded-lg p-6 shadow-sm border border-shivraj-100">
               <h3 className="text-xl font-semibold text-shivraj-800 mb-4">Pin Codes We Operate In</h3>
               <ul className="space-y-2 text-gray-700">
                 <li><strong>396195</strong> — Chanod Colony / GIDC Area / Gunjan</li>
@@ -304,7 +308,7 @@ const Index = () => {
                 <li><strong>396193</strong> — Dungra / Karvad</li>
                 <li><strong>396020</strong> — Chanvai</li>
               </ul>
-            </div>
+            </Reveal>
           </div>
           <div className="text-center mt-10">
             <Button asChild variant="outline" className="border-shivraj-600 text-shivraj-700 hover:bg-shivraj-100">
@@ -321,11 +325,11 @@ const Index = () => {
         <section className="section bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="section-title">Latest News & Updates</h2>
+              <h2 className="section-title"><TextColourSweep text="Latest News & Updates" /></h2>
               <p className="section-subtitle">Recent posts from our team</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {latestPosts.map((p) => <PostCard key={p.id} post={p} />)}
+              {latestPosts.map((p, i) => <Reveal key={p.id} delay={i * 0.12} className="home-lift h-full"><PostCard post={p} /></Reveal>)}
             </div>
             <div className="text-center mt-10">
               <Button asChild className="bg-shivraj-600 hover:bg-shivraj-700">
@@ -340,7 +344,7 @@ const Index = () => {
 
 
       {/* Call to Action */}
-      <section className="py-16 bg-shivraj-800 text-white">
+      <section className="home-cta py-16 bg-shivraj-800 text-white">
         <div className="container mx-auto px-4 text-center relative overflow-hidden rounded-2xl border border-white/10 py-10">
           <BorderBeam size={120} duration={8} colorFrom="hsl(200 100% 75%)" colorTo="hsl(0 0% 100%)" />
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Work With Us?</h2>
@@ -355,6 +359,7 @@ const Index = () => {
           </Magnetic>
         </div>
       </section>
+      </div>
     </Layout>
   );
 };

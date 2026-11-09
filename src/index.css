@@ -44,6 +44,8 @@
     --radius: 0.5rem;
     --color-background: hsl(var(--card));
     --color-border: hsl(var(--border));
+    --home-sweep-start: 210 78% 28%;
+    --home-sweep-accent: 199 85% 52%;
   }
 
   .dark {
@@ -78,10 +80,54 @@
     --activity-clients-end: 174 60% 65%;
     --activity-experience: 199 85% 60%;
     --activity-experience-end: 199 80% 72%;
+    --home-sweep-start: 210 85% 82%;
+    --home-sweep-accent: 199 80% 65%;
   }
 }
 
 @layer components {
+  .homepage-motion .home-logo {
+    animation: homeLogoFloat 6s ease-in-out infinite;
+  }
+  .homepage-motion .home-stat {
+    position: relative;
+    padding-bottom: 0.75rem;
+    transition: transform 300ms ease;
+  }
+  .homepage-motion .home-stat::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 35%;
+    width: 30%;
+    height: 2px;
+    background: hsl(var(--primary));
+    transform: scaleX(.35);
+    transition: transform 450ms ease;
+  }
+  .homepage-motion .home-stat:hover::after { transform: scaleX(1); }
+  .homepage-motion .home-lift {
+    transition: box-shadow 350ms ease, translate 350ms ease;
+  }
+  .homepage-motion .home-colour-sweep { color: hsl(var(--home-sweep-start)); }
+  .homepage-motion .home-service-icon svg {
+    transition: transform 400ms cubic-bezier(.2,.8,.2,1);
+  }
+  .homepage-motion .home-actions a svg,
+  .homepage-motion a svg { transition: transform 250ms ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .homepage-motion .home-lift:hover { translate: 0 -5px; box-shadow: var(--elevation-raised); }
+    .homepage-motion .home-stat:hover { transform: translateY(-3px); }
+    .homepage-motion .home-service-icon:hover svg { transform: rotate(-10deg) scale(1.15); }
+    .homepage-motion a:hover svg { transform: translateX(3px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .homepage-motion *, .homepage-motion *::before, .homepage-motion *::after {
+      animation: none !important;
+      transition: none !important;
+      translate: none !important;
+    }
+  }
   .calculator-page {
     perspective: 1400px;
     background-image: linear-gradient(to bottom, hsl(var(--background)), hsl(var(--shivraj-wash, 211 100% 97%)));
@@ -257,6 +303,11 @@
 @keyframes calcReveal {
   from { opacity: 0; transform: translateY(18px) scale(.985); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes homeLogoFloat {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-7px) rotate(2deg); }
 }
 
 @keyframes calcHeroEnter {
