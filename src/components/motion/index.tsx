@@ -1,6 +1,7 @@
 import { ReactNode, RefObject, useEffect, useRef } from "react";
 import { animate, inView, motion, useMotionValue, useReducedMotion, useScroll, useSpring } from "motion/react";
 import { useLocation } from "react-router-dom";
+export { default as TextColourSweep } from "@/components/originkit/TextColourSweep";
 
 /** Visible-first reveal avoids blank oversized cards on small screens. */
 export const Reveal = ({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) => {
