@@ -1,32 +1,37 @@
 # Never-ending weekly blog topics (AI topic discovery)
 
 ## Goal
-When the 12 fixed topics are used up, the weekly generator invents a fresh topic that searchers ask about, is a different question from every existing article, and suits Shivraj Enterprise's buyers (factory HR, plant heads and purchase teams in Vapi, Sarigam, Umbergaon, Daman and Silvassa).
+When the 12 fixed topics run out, the weekly generator picks a fresh, most-searched topic. Each topic must be a different question from every existing article and suit Shivraj Enterprise's buyers. Reach now goes past the local area to all-India and global readers.
 
 ## How it works each Monday
 1. Use any remaining fixed topic first.
-2. Trending scan (runs first, every week): search the web and news for the last 14 days on Indian labour and HR updates. This covers new minimum wage notifications (Gujarat and central), Labour Codes, EPF/ESIC/GST changes, factory safety news, and GIDC industry news from Vapi and South Gujarat. It also checks trending posts on LinkedIn and Instagram where search results include them. If a fresh, relevant update is found, that week's article becomes a "What changed and what it means for your factory" piece that cites the official source.
-   - Breaking rule changes (such as a new wage notification) can also be checked daily, so an article goes out within about a day instead of waiting until Monday.
-   - Articles about rules show "Updated on" dates. If a later change replaces a rule, the older article gets a note linking to the new one.
-3. If nothing is trending, AI suggests 8 candidate topics (keyword, search intent, angle, category, tags). It sees every existing article title, slug and keyword, and gets SEO rules:
-   - Long-tail, question-style or "how to / cost / checklist / rules" keywords a buyer would type
-   - Local wording (Vapi GIDC, Valsad, Gujarat) where it fits
-   - Buyer intent only: no job-seeker, home-cleaning or residential cleaning topics
-   - Must link naturally to one of the 9 service pages or the cost calculator
-3. Duplicate filter: throw out any candidate whose words overlap too much with an existing article or with past discovered topics. This avoids Google's "chose different canonical" problem.
-4. Score the remaining candidates by buyer intent, local relevance and uniqueness, then write the top one using the current article pipeline (SEO scoring, rewrite if below threshold, cover image, IndexNow ping).
-5. Save every chosen topic so it is never picked again.
+2. Trending scan: search web and news from the last 14 days for Indian labour and HR updates (minimum wage notifications, Labour Codes, EPF/ESIC/GST changes, factory safety, GIDC news) and global workforce news. Where search results include LinkedIn and Instagram trends, it checks those too. A fresh, relevant update becomes a "What changed and what it means for your factory" article that cites the official source.
+   - It also checks every day for breaking rule changes, so an article can go out within about a day.
+   - Rule articles show "Updated on" dates. When a newer rule replaces an older one, the old article links to the new one.
+3. If nothing is trending, AI suggests 8 candidate topics. It sees every existing article and follows SEO rules: long-tail question or "how to / cost / checklist / rules" keywords, buyer intent only (no job-seeker or home-cleaning topics), and a natural link to a service page or the cost calculator.
+4. Duplicate filter: drop candidates too similar to existing or past topics. This prevents Google's "chose different canonical" problem.
+5. Rank by real search demand (search volume and how hard it is to rank), buyer intent and uniqueness. The top topic is written with the current article steps: SEO score, rewrite if needed, cover image, IndexNow ping.
+6. Save every chosen topic so it is never picked again.
+
+## Wider reach: local, all-India and global
+Monthly mix (about 4 articles):
+- 2 local (Vapi GIDC, Valsad, South Gujarat) for nearby buyers
+- 1 all-India on high-search national topics (Labour Codes, EPF/ESIC, GST on manpower, state minimum wages, contract labour rules)
+- 1 global on worldwide workforce topics (staffing trends, factory safety standards, outsourcing vs in-house, automation and labour)
+
+National and global articles still end by showing how Shivraj Enterprise helps factories in Gujarat, so readers can become enquiries. Trending national news can take any week's slot.
 
 ## Admin control
-On the Blog SEO admin page, add a "Discovered topics" list (keyword, date, article link) and a "Generate next article now" button.
+The Blog SEO admin page gets a "Discovered topics" list (keyword, reach level, date, article link) and a "Generate next article now" button.
 
 ## First run
-After deployment, run it once so a new article goes out today instead of waiting for next Monday.
+After setup, run it once so a new article goes out today.
 
 ## Technical details
-- New table `blog_topic_history` (keyword, normalized_keyword, angle, category, source fixed|ai, post_id, created_at). RLS on, admin-only read; the edge function writes using the service role.
-- `auto-generate-article/index.ts`: `pickTopic()` falls back to `discoverTopic()`, which calls Lovable AI (gemini-3-flash-preview) with tool-calling for structured JSON. Similarity uses token Jaccard on keyword and title, rejecting anything at 0.5 or above. Retry once if every candidate is rejected; otherwise skip with a logged reason.
-- Store `topic.keyword` on the post (existing column, or add `target_keyword`) for future dedupe.
-- Keep the IndexNow ping and the cover-image calls as they are.
-- The trending scan uses the built-in web search with a recency filter. Results feed the AI as source data only; the AI must cite the source URL and must not invent dates or amounts. A daily scheduled job runs a "breaking only" check, with at most one extra article per week.
-- Add a Deno test for the similarity and dedupe helper.
+- New table `blog_topic_history` (keyword, normalized_keyword, angle, category, scope local|india|global, source fixed|ai|trending, post_id, created_at). RLS is on with admin-only read; the edge function writes using the service role.
+- `auto-generate-article/index.ts`: `pickTopic()` falls back to `discoverTopic(scope)`. `pickScope()` uses the monthly mix from history. Lovable AI (gemini-3-flash-preview) returns structured candidates through tool calling, and the prompt changes by scope.
+- Search-demand ranking uses Semrush keyword data when available (`in` for local and India, `us` for global). Otherwise it falls back to AI scoring.
+- Similarity check: token Jaccard on keyword and title; anything at 0.5 or above is rejected. If every candidate is rejected, retry once, then skip and log the reason.
+- Trending scan uses web search with a recency filter. Results are source data only: the AI must cite URLs and never invent dates or amounts. A daily scheduled job checks only for breaking changes, with at most one extra article per week.
+- Keep the IndexNow ping and cover-image calls.
+- Add a Deno test for the similarity check and scope mix.
