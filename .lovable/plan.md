@@ -5,7 +5,7 @@ When the 12 fixed topics run out, the weekly generator picks a fresh, most-searc
 
 ## How it works each Monday
 1. Use any remaining fixed topic first.
-2. Trending scan: search web and news from the last 14 days for Indian labour and HR updates (minimum wage notifications, Labour Codes, EPF/ESIC/GST changes, factory safety, GIDC news) and global workforce news. Where search results include LinkedIn and Instagram trends, it checks those too. A fresh, relevant update becomes a "What changed and what it means for your factory" article that cites the official source.
+2. Trending scan: search web and news from the last 7 days for Indian labour and HR updates (minimum wage notifications, Labour Codes, EPF/ESIC/GST changes, factory safety, GIDC news) and global workforce news. Where search results include LinkedIn and Instagram trends, it checks those too. A fresh, relevant update becomes a "What changed and what it means for your factory" article that cites the official source.
    - It also checks every day for breaking rule changes, so an article can go out within about a day.
    - Rule articles show "Updated on" dates. When a newer rule replaces an older one, the old article links to the new one.
 3. If nothing is trending, AI suggests 8 candidate topics. It sees every existing article and follows SEO rules: long-tail question or "how to / cost / checklist / rules" keywords, buyer intent only (no job-seeker or home-cleaning topics), and a natural link to a service page or the cost calculator.
@@ -23,10 +23,17 @@ National and global articles still end by showing how Shivraj Enterprise helps f
 
 
 ## Trend window, future topics and wider ideas
-- Trend window: each week, check topics that trended 7 to 14 days ago. These are proven trends that still have room to rank.
+- Trend window: each week, check topics that trended in the last 7 days.
 - Future topics: predict what is coming, such as announced Labour Code start dates, wage revision dates (April and October), budget changes, EPF/ESIC deadlines, festive-season hiring, and monsoon safety. Publish 2 to 4 weeks early so the article is ready when searches rise.
 - Wider ideas: sometimes pick a trending topic outside the usual list when it still fits Shivraj Enterprise, for example factory heatwave safety, worker migration after festivals, or AI and automation in plants. Each one ties back to manpower, compliance or workforce services.
-- Each week picks the best of four sources: fresh news, the 7-14 day trend, a predicted upcoming topic, or AI evergreen ideas. Reach (local, India or global) is balanced over the month. Goal: keep the blog showing up for trending searches.
+- Each week picks the best of four sources: fresh news, the last-7-days trend, a predicted upcoming topic, or AI evergreen ideas. Reach (local, India or global) is balanced over the month. Goal: keep the blog showing up for trending searches.
+
+## Weekly flash trend article (three helpers)
+Every week, alongside the regular article, a "flash" trend article is made as quickly as possible:
+1. Trend finder: searches the internet and news for topics trending in the last 7 days (not 14) that fit Shivraj Enterprise, at local, India or global level.
+2. Topic picker: searches again to check which trends people are actually searching for, then picks the best fit for search and buyers.
+3. SEO checker: reviews the written article (title, description, keywords, headings, links, FAQs) and fixes it before it goes live.
+After publishing: the article goes into the sitemap, and Google (through Search Console) and Bing (through IndexNow) are told about the new link right away.
 
 ## Admin control
 The Blog SEO admin page gets a "Discovered topics" list (keyword, reach level, date, article link) and a "Generate next article now" button.
@@ -41,5 +48,6 @@ After setup, run it once so a new article goes out today.
 - Similarity check: token Jaccard on keyword and title; anything at 0.5 or above is rejected. If every candidate is rejected, retry once, then skip and log the reason.
 - Trending scan uses web search with a recency filter. Results are source data only: the AI must cite URLs and never invent dates or amounts. A daily scheduled job checks only for breaking changes, with at most one extra article per week.
 - Keep the IndexNow ping and cover-image calls.
-- Topic source is stored as fresh|trend_7_14|predicted|wider|evergreen. Predicted topics come from a small calendar of known dates plus AI forecasting from news; the AI must cite a source for any date or amount.
+- Topic source is stored as fresh|trend_7d|predicted|wider|evergreen. Predicted topics come from a small calendar of known dates plus AI forecasting from news; the AI must cite a source for any date or amount.
+- Flash pipeline: new edge function `flash-trend-article` runs on a weekly schedule with three separate AI calls (trend finder, topic picker, SEO checker). Each uses web search limited to the last 7 days. It has a single-run lock, a weekly cap of one article, and pauses on credit errors. After publishing it pings IndexNow and resubmits the sitemap to Google Search Console. Google decides how fast pages are indexed, so ranking is not guaranteed.
 - Add a Deno test for the similarity check and scope mix.
