@@ -21,6 +21,13 @@ Monthly mix (about 4 articles):
 
 National and global articles still end by showing how Shivraj Enterprise helps factories in Gujarat, so readers can become enquiries. Trending national news can take any week's slot.
 
+
+## Trend window, future topics and wider ideas
+- Trend window: each week, check topics that trended 7 to 14 days ago. These are proven trends that still have room to rank.
+- Future topics: predict what is coming, such as announced Labour Code start dates, wage revision dates (April and October), budget changes, EPF/ESIC deadlines, festive-season hiring, and monsoon safety. Publish 2 to 4 weeks early so the article is ready when searches rise.
+- Wider ideas: sometimes pick a trending topic outside the usual list when it still fits Shivraj Enterprise, for example factory heatwave safety, worker migration after festivals, or AI and automation in plants. Each one ties back to manpower, compliance or workforce services.
+- Each week picks the best of four sources: fresh news, the 7-14 day trend, a predicted upcoming topic, or AI evergreen ideas. Reach (local, India or global) is balanced over the month. Goal: keep the blog showing up for trending searches.
+
 ## Admin control
 The Blog SEO admin page gets a "Discovered topics" list (keyword, reach level, date, article link) and a "Generate next article now" button.
 
@@ -34,4 +41,5 @@ After setup, run it once so a new article goes out today.
 - Similarity check: token Jaccard on keyword and title; anything at 0.5 or above is rejected. If every candidate is rejected, retry once, then skip and log the reason.
 - Trending scan uses web search with a recency filter. Results are source data only: the AI must cite URLs and never invent dates or amounts. A daily scheduled job checks only for breaking changes, with at most one extra article per week.
 - Keep the IndexNow ping and cover-image calls.
+- Topic source is stored as fresh|trend_7_14|predicted|wider|evergreen. Predicted topics come from a small calendar of known dates plus AI forecasting from news; the AI must cite a source for any date or amount.
 - Add a Deno test for the similarity check and scope mix.
