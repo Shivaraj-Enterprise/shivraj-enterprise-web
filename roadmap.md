@@ -8,3 +8,4 @@
 - [x] Phase 6: Blog cards and heading reveals; article progress verified on desktop/mobile with reduced-motion support
 - [ ] Phase 6 verification: Key Takeaways beam implemented; no article using this shared panel was found among the currently displayed posts for a live check
 - [ ] Phase 7: small delights (cursor, 404, chat pulse, header)
+- [x] Weekly trending blog: no fixed topics; fresh 7-day trend search, topic picker, SEO writer; auto-publish Monday 9 AM; Google + Bing ping; admin topic list. First run published.

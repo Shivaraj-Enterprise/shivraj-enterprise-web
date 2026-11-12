@@ -8,6 +8,7 @@ import { toast } from "@/components/ui/use-toast";
 import { ArrowLeft, RefreshCw, CheckCircle2, XCircle, ChevronDown, ChevronRight } from "lucide-react";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import AdminGate from "@/components/admin/AdminGate";
+import WeeklyTopicsPanel from "@/components/admin/WeeklyTopicsPanel";
 
 type SeoCheck = { id: string; label: string; pass: boolean; detail?: string; weight: number };
 type SeoReport = {
@@ -82,6 +83,8 @@ const AdminBlogSeo = () => {
               <h1 className="text-2xl font-bold text-shivraj-800">Blog SEO Dashboard</h1>
             </div>
           </div>
+
+          <WeeklyTopicsPanel />
 
           <div className="space-y-3">
             {rows.map((r) => {

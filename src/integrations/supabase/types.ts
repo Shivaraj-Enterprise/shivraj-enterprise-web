@@ -53,6 +53,30 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_generator_state: {
+        Row: {
+          id: string
+          last_week: string | null
+          locked_until: string | null
+          paused_reason: string | null
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          last_week?: string | null
+          locked_until?: string | null
+          paused_reason?: string | null
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          last_week?: string | null
+          locked_until?: string | null
+          paused_reason?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blog_post_tags: {
         Row: {
           post_id: string
@@ -152,6 +176,54 @@ export type Database = {
           id?: string
           name?: string
           slug?: string
+        }
+        Relationships: []
+      }
+      blog_topic_history: {
+        Row: {
+          angle: string | null
+          chosen: boolean
+          created_at: string
+          id: string
+          keyword: string
+          kind: string
+          normalized_keyword: string
+          post_id: string | null
+          reason: string | null
+          scope: string
+          score: number | null
+          sources: Json
+          week: string
+        }
+        Insert: {
+          angle?: string | null
+          chosen?: boolean
+          created_at?: string
+          id?: string
+          keyword: string
+          kind?: string
+          normalized_keyword: string
+          post_id?: string | null
+          reason?: string | null
+          scope?: string
+          score?: number | null
+          sources?: Json
+          week: string
+        }
+        Update: {
+          angle?: string | null
+          chosen?: boolean
+          created_at?: string
+          id?: string
+          keyword?: string
+          kind?: string
+          normalized_keyword?: string
+          post_id?: string | null
+          reason?: string | null
+          scope?: string
+          score?: number | null
+          sources?: Json
+          week?: string
         }
         Relationships: []
       }

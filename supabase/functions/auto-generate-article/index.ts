@@ -1,6 +1,6 @@
 // Weekly auto-article generator.
-// Picks an unused SEO keyword from a curated pool (informed by Semrush research
-// for the manpower/staffing niche in Vapi GIDC), asks Lovable AI to write a
+// Every week finds fresh topics trending in the last 7 days (no fixed list),
+// picks the best SEO fit, asks Lovable AI to write a
 // premium, fully-formatted HTML article matching the blog design spec, and
 // inserts it into blog_posts. A pg_cron job invokes this every Monday.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
@@ -15,37 +15,13 @@ const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const supabase = createClient(SUPABASE_URL, SERVICE_ROLE);
 
-// Curated pool from Semrush keyword research for the manpower supply / staffing
-// niche in India. Each entry gives the SEO keyword and a target category.
-const TOPIC_POOL: Array<{ keyword: string; angle: string; category: string; tags: string[] }> = [
-  { keyword: "manpower outsourcing services", angle: "A complete buyer's guide to manpower outsourcing services for industrial units — what's included, cost structure, compliance handled by the vendor, and how to evaluate an agency.", category: "Manpower Supply", tags: ["outsourcing", "manpower", "vapi-gidc"] },
-  { keyword: "manpower supply services", angle: "How manpower supply services work in Vapi GIDC — contract structure, statutory compliance, deployment timelines, and typical SLAs for chemical and engineering plants.", category: "Manpower Supply", tags: ["manpower-supply", "compliance", "vapi-gidc"] },
-  { keyword: "skilled labour supply in Vapi", angle: "Where to source skilled labour in Vapi GIDC — trades, wage bands, PF/ESIC coverage, and how a licensed contractor de-risks hiring.", category: "Manpower Supply", tags: ["skilled-labour", "vapi", "gidc"] },
-  { keyword: "housekeeping services for factories", angle: "Industrial housekeeping in chemical and engineering plants — scope, shift models, chemicals & PPE, safety compliance, and how to price a contract.", category: "Housekeeping", tags: ["housekeeping", "facility", "industrial"] },
-  { keyword: "contract labour compliance India", angle: "Contract Labour (Regulation & Abolition) Act explained for factory owners — licences, principal employer duties, registers, and penalties.", category: "Compliance", tags: ["clra", "contract-labour", "compliance"] },
-  { keyword: "ESI EPF applicability manpower supply", angle: "ESI and EPF applicability on outsourced manpower — who deducts, who deposits, principal employer liability, and audit checklist.", category: "Compliance", tags: ["esi", "epf", "compliance"] },
-  { keyword: "GST on manpower supply services", angle: "GST on manpower supply — rate, RCM applicability, invoicing rules for pure agent vs full-service contracts, and ITC treatment.", category: "Compliance", tags: ["gst", "tax", "manpower"] },
-  { keyword: "TDS on manpower supply contract", angle: "TDS on manpower supply contracts under section 194C — thresholds, rates, TAN requirements, and quarterly return timelines.", category: "Compliance", tags: ["tds", "194c", "tax"] },
-  { keyword: "how to hire security guards for factory", angle: "Hiring PSARA-licensed security guards for a factory — vendor checks, deployment models, uniform & training standards, and cost per post.", category: "Security", tags: ["security", "psara", "guards"] },
-  { keyword: "manpower agency in Vapi GIDC", angle: "How to choose a manpower agency in Vapi GIDC — licence checks, client references, compliance track record, and red flags to avoid.", category: "Manpower Supply", tags: ["agency", "vapi", "gidc"] },
-  { keyword: "minimum wages Gujarat 2026", angle: "Latest minimum wages in Gujarat for unskilled/semi-skilled/skilled workers and how they flow into a manpower supply invoice.", category: "Compliance", tags: ["wages", "gujarat", "compliance"] },
-  { keyword: "facility management services India", angle: "Integrated facility management for industrial plants — soft services, hard services, MEP, and how bundling reduces overhead.", category: "Facility Management", tags: ["fm", "facility", "industrial"] },
-];
+import { findTrends, pickBest, GatewayStop, normalize, type Topic } from "./trends.ts";
+import { isoWeek, type Scope } from "./topics.ts";
+
+type TopicInput = { keyword: string; angle: string; category: string; tags: string[]; sources?: { title: string; url: string; date?: string }[] };
 
 function slugify(s: string): string {
   return s.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 70);
-}
-
-// Never repeat a topic: duplicate articles make Google pick a different canonical.
-async function pickTopic(): Promise<typeof TOPIC_POOL[number] | null> {
-  const { data } = await supabase.from("blog_posts").select("slug");
-  const used = (data ?? []).map((r) => r.slug as string);
-  const available = TOPIC_POOL.filter((t) => {
-    const k = slugify(t.keyword);
-    return !used.some((u) => u === k || u.startsWith(`${k}-`) || u.includes(k));
-  });
-  if (available.length === 0) return null;
-  return available[Math.floor(Math.random() * available.length)];
 }
 
 const SYSTEM_PROMPT = `You are a senior B2B content editor writing for Shivraj Enterprise, a licensed manpower supply and facility management company operating in Vapi GIDC (Gujarat, India) since 2016. Your audience is factory owners, HR & procurement managers, and plant heads at chemical, pharma and engineering units.
@@ -67,10 +43,11 @@ Formatting rules:
 
 Return a strict JSON object with keys: title, excerpt, content_html, learn_questions. No prose outside JSON.`;
 
-async function generateArticle(topic: typeof TOPIC_POOL[number], feedback?: string) {
+async function generateArticle(topic: TopicInput, feedback?: string) {
   const userPrompt = `Target SEO keyword: "${topic.keyword}"
 Category: ${topic.category}
 Editorial angle: ${topic.angle}
+${topic.sources?.length ? `Sources (use ONLY these for any dates, amounts or rule details; link each one you rely on with <a href> and say "as reported by"): ${JSON.stringify(topic.sources)}\nIf a fact is not in the sources, do not state it. Mention the date the news was published.` : "This is an evergreen topic: avoid specific new-rule claims you cannot verify."}
 ${feedback ? `\n${feedback}\n` : ""}
 Write the article now. Return JSON: { "title": string (55–65 chars, includes the keyword naturally), "excerpt": string (140–160 chars, meta-description style), "content_html": string, "learn_questions": string[] (exactly 3 short, curiosity-driven questions this article answers, each ending with "?") }.`;
 
@@ -235,7 +212,7 @@ function buildRewriteFeedback(report: { checks: SeoCheck[] }): string {
     fails.map((c) => `- ${c.label}${c.detail ? ` (was: ${c.detail})` : ""}`).join("\n");
 }
 
-async function generateAndScore(topic: typeof TOPIC_POOL[number], slug: string) {
+async function generateAndScore(topic: TopicInput, slug: string) {
   let article = await generateArticle(topic);
   let { score, report } = scoreSeo(article, slug);
   let attempts = 0;
@@ -276,6 +253,27 @@ async function isAuthorized(req: Request): Promise<boolean> {
   return false;
 }
 
+function json(o: unknown) {
+  return new Response(JSON.stringify(o), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+}
+
+const SITE = "https://shivraj-enterprise.lovable.app/";
+/** Resubmit sitemaps to the verified Google Search Console property for the site. */
+async function submitToGoogle(): Promise<string> {
+  const key = Deno.env.get("GOOGLE_SEARCH_CONSOLE_API_KEY");
+  if (!key) return "skipped: Search Console not linked";
+  const gw = "https://connector-gateway.lovable.dev/google_search_console";
+  const h = { Authorization: `Bearer ${LOVABLE_API_KEY}`, "X-Connection-Api-Key": key };
+  const r = await fetch(`${gw}/webmasters/v3/sites`, { headers: h });
+  if (!r.ok) return `sites ${r.status}: ${await r.text()}`;
+  const sites = ((await r.json()).siteEntry ?? []).filter((e: any) => e.permissionLevel !== "siteUnverifiedUser" && (e.siteUrl === SITE || e.siteUrl === "sc-domain:shivraj-enterprise.lovable.app"));
+  const site = sites.find((e: any) => e.siteUrl === SITE) ?? sites[0];
+  if (!site) return "no verified property";
+  const sitemap = `${SITE}sitemap.xml`;
+  const put = await fetch(`${gw}/webmasters/v3/sites/${encodeURIComponent(site.siteUrl)}/sitemaps/${encodeURIComponent(sitemap)}`, { method: "PUT", headers: h });
+  return put.ok ? "sitemap resubmitted" : `submit ${put.status}: ${await put.text()}`;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -289,7 +287,7 @@ Deno.serve(async (req) => {
   try {
     // Manual re-run: { post_id } — regenerates content for an existing post
     // using its current title as the topic keyword and updates in place.
-    let body: { post_id?: string } = {};
+    let body: { post_id?: string; force?: boolean } = {};
     try { body = await req.json(); } catch { /* no body */ }
 
 
@@ -328,11 +326,41 @@ Deno.serve(async (req) => {
       );
     }
 
-    const topic = await pickTopic();
+    // Weekly limit + single-run lock + pause guard.
+    const week = isoWeek(new Date());
+    const { data: state } = await supabase.from("blog_generator_state").select("*").eq("id", "weekly").single();
+    const force = (body as { force?: boolean }).force === true;
+    if (state?.paused_reason && !force) return json({ ok: false, paused: state.paused_reason });
+    if (state?.last_week === week && !force) return json({ ok: true, skipped: `already published for ${week}` });
+    if (state?.locked_until && new Date(state.locked_until) > new Date()) return json({ ok: true, skipped: "another run in progress" });
+    await supabase.from("blog_generator_state").update({ locked_until: new Date(Date.now() + 10 * 60000).toISOString(), updated_at: new Date().toISOString() }).eq("id", "weekly");
+    const unlock = (extra: Record<string, unknown> = {}) => supabase.from("blog_generator_state").update({ locked_until: null, updated_at: new Date().toISOString(), ...extra }).eq("id", "weekly");
+
+    let topic: Topic | null = null;
+    try {
+      const { data: posts } = await supabase.from("blog_posts").select("title, slug");
+      const { data: past } = await supabase.from("blog_topic_history").select("keyword, scope, created_at").eq("chosen", true);
+      const existing = [...(posts ?? []).map((p) => p.title as string), ...(posts ?? []).map((p) => (p.slug as string).replace(/-/g, " ")), ...(past ?? []).map((p) => p.keyword as string)];
+      const monthStart = new Date(); monthStart.setUTCDate(1); monthStart.setUTCHours(0, 0, 0, 0);
+      const usedScopes = (past ?? []).filter((p) => new Date(p.created_at as string) >= monthStart).map((p) => p.scope as Scope);
+      const candidates = await findTrends(LOVABLE_API_KEY, new Date().toISOString().slice(0, 10));
+      const { chosen, all } = await pickBest(LOVABLE_API_KEY, candidates, existing, usedScopes);
+      if (all.length) {
+        await supabase.from("blog_topic_history").insert(all.map((c) => ({
+          week, keyword: c.keyword.slice(0, 200), normalized_keyword: normalize(c.keyword), angle: c.angle?.slice(0, 500),
+          scope: c.scope ?? "india", kind: c.kind ?? "trending", sources: c.sources ?? [], score: (c as any).score ?? null,
+          chosen: c === chosen, reason: c === chosen ? c.reason : (c as any).rejected ?? null,
+        })));
+      }
+      topic = chosen;
+    } catch (e) {
+      if (e instanceof GatewayStop && e.status !== 429) await unlock({ paused_reason: `AI ${e.status}: credits or permission problem` });
+      else await unlock();
+      throw e;
+    }
     if (!topic) {
-      return new Response(JSON.stringify({ ok: true, skipped: "all topics already covered" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      await unlock();
+      return json({ ok: true, skipped: "no fresh topic found this week" });
     }
     const baseSlug = slugify(topic.keyword);
     const slug = await ensureUniqueSlug(baseSlug);
@@ -354,7 +382,9 @@ Deno.serve(async (req) => {
       .select("id, slug, title")
       .single();
 
-    if (error) throw error;
+    if (error) { await unlock(); throw error; }
+    await unlock({ last_week: week });
+    await supabase.from("blog_topic_history").update({ post_id: inserted!.id }).eq("week", week).eq("chosen", true);
 
     await upsertTags(inserted!.id, topic.tags);
 
@@ -367,11 +397,12 @@ Deno.serve(async (req) => {
     fetch(`${SUPABASE_URL}/functions/v1/ingest-knowledge`, { method: "POST", headers: authHeaders, body: "{}" }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/sitemap`, { headers: authHeaders }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/sitemap/rss`, { headers: authHeaders }).catch(() => {});
-    fetch(`${SUPABASE_URL}/functions/v1/indexnow-submit`, { method: "POST", headers: authHeaders, body: "{}" }).catch(() => {});
+    fetch(`${SUPABASE_URL}/functions/v1/indexnow-submit`, { method: "POST", headers: authHeaders, body: "{}" }).catch((e) => console.error("indexnow", e));
+    const gsc = await submitToGoogle().catch((e) => `failed: ${e}`);
 
 
     return new Response(
-      JSON.stringify({ ok: true, keyword: topic.keyword, seo_score: score, post: inserted }),
+      JSON.stringify({ ok: true, keyword: topic.keyword, scope: topic.scope, kind: topic.kind, seo_score: score, post: inserted, google: gsc }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {
