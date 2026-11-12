@@ -1,53 +1,38 @@
-# Never-ending weekly blog topics (AI topic discovery)
+# Weekly trending blog article (fresh topics every week)
 
 ## Goal
-When the 12 fixed topics run out, the weekly generator picks a fresh, most-searched topic. Each topic must be a different question from every existing article and suit Shivraj Enterprise's buyers. Reach now goes past the local area to all-India and global readers.
+Every Monday at 9 AM (India time), publish one new English article on a topic that is trending right now and fits Shivraj Enterprise. Topics are never chosen from a fixed list. Each week starts with a fresh search, so the blog keeps up with current searches.
 
-## How it works each Monday
-1. Use any remaining fixed topic first.
-2. Trending scan: search web and news from the last 7 days for Indian labour and HR updates (minimum wage notifications, Labour Codes, EPF/ESIC/GST changes, factory safety, GIDC news) and global workforce news. Where search results include LinkedIn and Instagram trends, it checks those too. A fresh, relevant update becomes a "What changed and what it means for your factory" article that cites the official source.
-   - It also checks every day for breaking rule changes, so an article can go out within about a day.
-   - Rule articles show "Updated on" dates. When a newer rule replaces an older one, the old article links to the new one.
-3. If nothing is trending, AI suggests 8 candidate topics. It sees every existing article and follows SEO rules: long-tail question or "how to / cost / checklist / rules" keywords, buyer intent only (no job-seeker or home-cleaning topics), and a natural link to a service page or the cost calculator.
-4. Duplicate filter: drop candidates too similar to existing or past topics. This prevents Google's "chose different canonical" problem.
-5. Rank by real search demand (search volume and how hard it is to rank), buyer intent and uniqueness. The top topic is written with the current article steps: SEO score, rewrite if needed, cover image, IndexNow ping.
-6. Save every chosen topic so it is never picked again.
+## Every Monday: three helpers working in order
+1. **Trend finder.** Searches the internet and news from the **last 7 days**. It looks for topics linked to manpower, labour, HR, factory work and compliance, including:
+   - Local: Vapi GIDC, Valsad, South Gujarat, Daman, Silvassa
+   - India: minimum wage notices, Labour Codes, EPF/ESIC/GST changes, hiring trends
+   - Global: workforce and staffing trends, factory safety, automation and labour
+   - Coming soon: announced dates such as wage revisions, Labour Code start dates, budget changes, festive hiring and monsoon safety. Articles on these go out early, before searches peak.
+   - Wider trending topics that still fit the company, such as factory heatwave safety or worker migration after festivals
+   It produces a fresh list of about 8 to 10 topics, each with its source link.
+2. **Topic picker.** Searches again to check how much people search for each topic and who already ranks for it. It removes anything too close to an existing article, then picks the one topic most likely to bring visitors and buyer enquiries. Over a month it balances local, India and global topics.
+3. **Writer and SEO checker.** Writes the article using only facts from its sources, with official links for any rule, date or amount. It then checks and fixes the title, description, keywords, headings, internal links to service pages or the cost calculator, FAQs, Key Takeaways, "What you'll learn" questions and cover image. If the SEO score is too low, it rewrites the article.
 
-## Wider reach: local, all-India and global
-Monthly mix (about 4 articles):
-- 2 local (Vapi GIDC, Valsad, South Gujarat) for nearby buyers
-- 1 all-India on high-search national topics (Labour Codes, EPF/ESIC, GST on manpower, state minimum wages, contract labour rules)
-- 1 global on worldwide workforce topics (staffing trends, factory safety standards, outsourcing vs in-house, automation and labour)
+## After writing
+- The article publishes automatically. No approval step.
+- It is added to the sitemap. Google (through Search Console) and Bing (through IndexNow) are told about the new link right away.
+- Rule articles show an "Updated on" date. When a newer rule replaces an older one, the old article links to the new one.
+- If no suitable trend turns up in a week, the picker uses the strongest evergreen question people are searching for that week, so a post still goes out.
 
-National and global articles still end by showing how Shivraj Enterprise helps factories in Gujarat, so readers can become enquiries. Trending national news can take any week's slot.
-
-
-## Trend window, future topics and wider ideas
-- Trend window: each week, check topics that trended in the last 7 days.
-- Future topics: predict what is coming, such as announced Labour Code start dates, wage revision dates (April and October), budget changes, EPF/ESIC deadlines, festive-season hiring, and monsoon safety. Publish 2 to 4 weeks early so the article is ready when searches rise.
-- Wider ideas: sometimes pick a trending topic outside the usual list when it still fits Shivraj Enterprise, for example factory heatwave safety, worker migration after festivals, or AI and automation in plants. Each one ties back to manpower, compliance or workforce services.
-- Each week picks the best of four sources: fresh news, the last-7-days trend, a predicted upcoming topic, or AI evergreen ideas. Reach (local, India or global) is balanced over the month. Goal: keep the blog showing up for trending searches.
-
-## Weekly flash trend article (three helpers)
-Every week, alongside the regular article, a "flash" trend article is made as quickly as possible:
-1. Trend finder: searches the internet and news for topics trending in the last 7 days (not 14) that fit Shivraj Enterprise, at local, India or global level.
-2. Topic picker: searches again to check which trends people are actually searching for, then picks the best fit for search and buyers.
-3. SEO checker: reviews the written article (title, description, keywords, headings, links, FAQs) and fixes it before it goes live.
-After publishing: the article goes into the sitemap, and Google (through Search Console) and Bing (through IndexNow) are told about the new link right away.
-
-## Admin control
-The Blog SEO admin page gets a "Discovered topics" list (keyword, reach level, date, article link) and a "Generate next article now" button.
+## Admin page
+The Blog SEO admin page gets:
+- A weekly list of every topic found, which one was chosen and why, and its source links
+- A "Generate this week's article now" button
 
 ## First run
-After setup, run it once so a new article goes out today.
+After setup, run it once so an article goes out today.
 
 ## Technical details
-- New table `blog_topic_history` (keyword, normalized_keyword, angle, category, scope local|india|global, source fixed|ai|trending, post_id, created_at). RLS is on with admin-only read; the edge function writes using the service role.
-- `auto-generate-article/index.ts`: `pickTopic()` falls back to `discoverTopic(scope)`. `pickScope()` uses the monthly mix from history. Lovable AI (gemini-3-flash-preview) returns structured candidates through tool calling, and the prompt changes by scope.
-- Search-demand ranking uses Semrush keyword data when available (`in` for local and India, `us` for global). Otherwise it falls back to AI scoring.
-- Similarity check: token Jaccard on keyword and title; anything at 0.5 or above is rejected. If every candidate is rejected, retry once, then skip and log the reason.
-- Trending scan uses web search with a recency filter. Results are source data only: the AI must cite URLs and never invent dates or amounts. A daily scheduled job checks only for breaking changes, with at most one extra article per week.
-- Keep the IndexNow ping and cover-image calls.
-- Topic source is stored as fresh|trend_7d|predicted|wider|evergreen. Predicted topics come from a small calendar of known dates plus AI forecasting from news; the AI must cite a source for any date or amount.
-- Flash pipeline: new edge function `flash-trend-article` runs on a weekly schedule with three separate AI calls (trend finder, topic picker, SEO checker). Each uses web search limited to the last 7 days. It has a single-run lock, a weekly cap of one article, and pauses on credit errors. After publishing it pings IndexNow and resubmits the sitemap to Google Search Console. Google decides how fast pages are indexed, so ranking is not guaranteed.
-- Add a Deno test for the similarity check and scope mix.
+- Remove the 12 fixed topics and `pickTopic()` fixed list from `auto-generate-article`. Replace with a three-step pipeline inside the same function: `findTrends()` → `pickTopic()` → `writeAndSeoCheck()`. Each step is a separate AI call with its own instructions.
+- Trend and picker steps use web search limited to the last 7 days. Results are source data only: the AI must cite URLs and must never invent dates or amounts. Search-volume checks use Semrush keyword data when available (`in` database for local and India, `us` for global). Otherwise the AI estimates.
+- New table `blog_topic_history` (week, keyword, normalized_keyword, scope local|india|global, kind trending|upcoming|wider|evergreen, sources jsonb, chosen bool, reason, post_id, created_at). Every candidate is saved each week. RLS is on with admin-only read; the function writes using the service role.
+- Duplicate filter: token Jaccard on keyword and title against all posts and past chosen topics; anything at 0.5 or above is rejected.
+- Existing weekly cron (Monday 03:30 UTC = 9:00 IST) stays. Add a single-run lock, a limit of one article per week, and a pause on credit or permission errors.
+- After publishing: update the sitemap entry, ping IndexNow, and resubmit the sitemap to Google Search Console through the connected account. Google decides indexing speed; ranking is not guaranteed.
+- Deno tests for the similarity filter and the monthly scope balance.
