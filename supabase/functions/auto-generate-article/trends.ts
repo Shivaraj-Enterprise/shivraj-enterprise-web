@@ -69,7 +69,7 @@ Return JSON {"topics":[{"keyword": search phrase a buyer would type (3-7 words),
 
 /** Helper 2: topic picker. Removes duplicates, checks search interest, picks one. */
 export async function pickBest(apiKey: string, candidates: Topic[], existingTitles: string[], usedScopes: Scope[]): Promise<{ chosen: Topic | null; all: (Topic & { score?: number; rejected?: string })[] }> {
-  const all = candidates.map((c) => isDuplicate(c.keyword, existingTitles) ? { ...c, rejected: "too similar to an existing article" } : { ...c });
+  const all: (Topic & { score?: number; rejected?: string })[] = candidates.map((c) => isDuplicate(c.keyword, existingTitles) ? { ...c, rejected: "too similar to an existing article" } : { ...c });
   const fresh = all.filter((c) => !c.rejected);
   if (!fresh.length) return { chosen: null, all };
   // Second search pass: how much fresh coverage each topic has right now.
