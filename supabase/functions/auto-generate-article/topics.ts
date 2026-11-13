@@ -48,3 +48,8 @@ export function isoWeek(d: Date): string {
 export function normalize(s: string): string {
   return [...tokens(s)].sort().join(" ");
 }
+
+/** Only successful publication proves a paused generator has recovered. */
+export function weeklyPublicationState(week: string) {
+  return { last_week: week, paused_reason: null };
+}

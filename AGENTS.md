@@ -8,3 +8,4 @@
 - Article pages own their reading-progress bar instead of stacking it with the global bar; shared heading reveals keep headings visible before animation for indexing and accessibility.
 - Adapt OriginKit motion to the existing Tailwind v3 stack with semantic tokens; expose it through shared motion exports and scope homepage effects under `.homepage-motion` to preserve other pages and static company figures.
 - Weekly blog topics come only from a fresh last-7-days news search each run (no fixed topic lists), with every candidate logged in `blog_topic_history` and a weekly lock in `blog_generator_state`, so topics stay current and never repeat.
+- Clear a weekly AI pause only after successful article publication and check the state update result; this restores cron after manual recovery without blindly retrying credit or permission failures.
