@@ -16,7 +16,7 @@ const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const supabase = createClient(SUPABASE_URL, SERVICE_ROLE);
 
 import { findTrends, pickBest, GatewayStop, normalize, type Topic } from "./trends.ts";
-import { isoWeek, type Scope } from "./topics.ts";
+import { isoWeek, weeklyPublicationState, type Scope } from "./topics.ts";
 
 type TopicInput = { keyword: string; angle: string; category: string; tags: string[]; sources?: { title: string; url: string; date?: string }[] };
 
@@ -383,7 +383,8 @@ Deno.serve(async (req) => {
       .single();
 
     if (error) { await unlock(); throw error; }
-    await unlock({ last_week: week });
+    const { error: recoveryError } = await unlock(weeklyPublicationState(week));
+    if (recoveryError) throw recoveryError;
     await supabase.from("blog_topic_history").update({ post_id: inserted!.id }).eq("week", week).eq("chosen", true);
 
     await upsertTags(inserted!.id, topic.tags);
