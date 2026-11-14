@@ -1,3 +1,4 @@
+import { pushDataLayer } from "@/lib/gtm";
 import { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { z } from "zod";
@@ -65,6 +66,7 @@ const Careers = () => {
       const { error } = await supabase.functions.invoke("job-apply", { body: fd });
       if (error) throw error;
       setDone(true);
+      pushDataLayer("job_application_submitted", { job_role: f.role, skill_level: f.skill_level });
       toast({ title: "Application sent! 🎉", description: "Our team will call you soon." });
     } catch {
       toast({ title: "Could not send", description: "Please try again or apply on WhatsApp.", variant: "destructive" });
