@@ -29,6 +29,13 @@
       "when": 1794483243231,
       "tag": "0003_blog_topic_history",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794649088049,
+      "tag": "0004_block_anonymous_generator_tables",
+      "breakpoints": true
     }
   ]
 }
