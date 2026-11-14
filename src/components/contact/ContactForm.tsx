@@ -1,3 +1,4 @@
+import { pushDataLayer } from "@/lib/gtm";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -71,6 +72,7 @@ const ContactForm = () => {
       
       // Submit form data and forward to WhatsApp (handled in the service)
       await submitContactForm(contactData);
+      pushDataLayer("contact_enquiry_submitted", { inquiry_type: data.inquiryType });
       
       toast({
         title: "Message Sent Successfully!",

@@ -1,3 +1,4 @@
+import { pushDataLayer } from "@/lib/gtm";
 import { useState } from "react";
 import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -68,6 +69,7 @@ const CompanyProfileDownload = ({
     setSaving(false);
     setOpen(false);
     if (pdfWindow) {
+      pushDataLayer("company_profile_download");
       toast({
         title: "Thank you!",
         description: "Your company profile download is starting.",
