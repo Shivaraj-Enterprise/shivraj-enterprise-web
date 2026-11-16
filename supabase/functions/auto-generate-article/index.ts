@@ -399,11 +399,14 @@ Deno.serve(async (req) => {
     fetch(`${SUPABASE_URL}/functions/v1/sitemap`, { headers: authHeaders }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/sitemap/rss`, { headers: authHeaders }).catch(() => {});
     fetch(`${SUPABASE_URL}/functions/v1/indexnow-submit`, { method: "POST", headers: authHeaders, body: "{}" }).catch((e) => console.error("indexnow", e));
+    const linkedin = await fetch(`${SUPABASE_URL}/functions/v1/publish-linkedin`, { method: "POST", headers: authHeaders, body: JSON.stringify({ post_id: inserted!.id }) })
+      .then(async (r) => (await r.json().catch(() => ({ ok: r.ok }))))
+      .catch((e) => ({ ok: false, error: String(e) }));
     const gsc = await submitToGoogle().catch((e) => `failed: ${e}`);
 
 
     return new Response(
-      JSON.stringify({ ok: true, keyword: topic.keyword, scope: topic.scope, kind: topic.kind, seo_score: score, post: inserted, google: gsc }),
+      JSON.stringify({ ok: true, keyword: topic.keyword, scope: topic.scope, kind: topic.kind, seo_score: score, post: inserted, google: gsc, linkedin }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {
