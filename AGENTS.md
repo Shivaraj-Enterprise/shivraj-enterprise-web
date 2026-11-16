@@ -10,3 +10,4 @@
 - Weekly blog topics come only from a fresh last-7-days news search each run (no fixed topic lists), with every candidate logged in `blog_topic_history` and a weekly lock in `blog_generator_state`, so topics stay current and never repeat.
 - Clear a weekly AI pause only after successful article publication and check the state update result; this restores cron after manual recovery without blindly retrying credit or permission failures.
 - When code needs `window.open`'s return value (pop-up-block detection, analytics on success), never pass `noopener` in the features string — it forces a null return even on success; detach the opener manually instead.
+- Weekly articles are shared to LinkedIn by the `publish-linkedin` function (called after publication, logged in `social_posts`, one post per article); a LinkedIn failure never blocks article publication.
