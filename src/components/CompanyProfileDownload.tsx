@@ -51,8 +51,17 @@ const CompanyProfileDownload = ({
     setSaving(true);
 
     // Open the PDF synchronously within the user gesture so pop-up blockers
-    // don't suppress it after the async save completes.
-    const pdfWindow = window.open(profileUrl, "_blank", "noopener,noreferrer");
+    // don't suppress it after the async save completes. Passing "noopener" in
+    // the features string makes window.open return null even on success, so
+    // the opener is detached manually instead.
+    const pdfWindow = window.open(profileUrl, "_blank");
+    if (pdfWindow) {
+      try {
+        pdfWindow.opener = null;
+      } catch {
+        // browser refused to detach the opener; the PDF is already opening
+      }
+    }
 
     try {
       await supabase.functions.invoke("profile-download-notify", {
@@ -80,7 +89,13 @@ const CompanyProfileDownload = ({
         description: (
           <span>
             Your browser blocked the download.{" "}
-            <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="underline font-medium">
+            <a
+              href={profileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => pushDataLayer("company_profile_download")}
+              className="underline font-medium"
+            >
               Tap here to open the company profile
             </a>
             .
