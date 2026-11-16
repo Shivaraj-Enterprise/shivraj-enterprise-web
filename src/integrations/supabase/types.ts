@@ -503,6 +503,48 @@ export type Database = {
         }
         Relationships: []
       }
+      social_posts: {
+        Row: {
+          article_url: string | null
+          blog_post_id: string | null
+          content: string
+          created_at: string
+          error_message: string | null
+          external_urn: string | null
+          id: string
+          platform: string
+          published_at: string | null
+          source: string
+          status: string
+        }
+        Insert: {
+          article_url?: string | null
+          blog_post_id?: string | null
+          content: string
+          created_at?: string
+          error_message?: string | null
+          external_urn?: string | null
+          id?: string
+          platform?: string
+          published_at?: string | null
+          source?: string
+          status?: string
+        }
+        Update: {
+          article_url?: string | null
+          blog_post_id?: string | null
+          content?: string
+          created_at?: string
+          error_message?: string | null
+          external_urn?: string | null
+          id?: string
+          platform?: string
+          published_at?: string | null
+          source?: string
+          status?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
