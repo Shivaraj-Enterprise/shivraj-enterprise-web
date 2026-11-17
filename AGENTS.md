@@ -11,3 +11,5 @@
 - Clear a weekly AI pause only after successful article publication and check the state update result; this restores cron after manual recovery without blindly retrying credit or permission failures.
 - When code needs `window.open`'s return value (pop-up-block detection, analytics on success), never pass `noopener` in the features string — it forces a null return even on success; detach the opener manually instead.
 - Weekly articles are shared to LinkedIn by the `publish-linkedin` function (called after publication, logged in `social_posts`, one post per article); a LinkedIn failure never blocks article publication.
+
+- LinkedIn posting claims a `publishing` social_posts row before calling LinkedIn; a partial unique index allows one publishing/published row per article, so retries and parallel runs cannot double-post.
