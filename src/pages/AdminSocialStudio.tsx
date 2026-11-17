@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { Button } from "@/components/ui/button";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { toast } from "sonner";
 
@@ -86,20 +86,20 @@ const List = () => {
         })}
         {rows && shown.length === 0 && <p className="p-6 text-center text-muted-foreground border rounded-lg">No LinkedIn posts yet. The first one goes out after next Monday's article.</p>}
       </div>
-      <AlertDialog open={!!confirmRow} onOpenChange={(o) => !o && setConfirmRow(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Publish this post to LinkedIn?</AlertDialogTitle>
-            <AlertDialogDescription>
+      <Dialog open={!!confirmRow} onOpenChange={(o) => !o && setConfirmRow(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Publish this post to LinkedIn?</DialogTitle>
+            <DialogDescription>
               A fresh post for this article will go live publicly on the company LinkedIn profile. If the article was already posted, nothing will be published again.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { const r = confirmRow; setConfirmRow(null); if (r) retry(r); }}>Publish now</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmRow(null)}>Cancel</Button>
+            <Button onClick={() => { const r = confirmRow; setConfirmRow(null); if (r) retry(r); }}>Publish now</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
