@@ -79,28 +79,56 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (!(await isAuthorized(req))) return json({ ok: false, error: "Unauthorized" }, 401);
 
-  let body: { post_id?: string; source?: string } = {};
+  let body: { post_id?: string; source?: string; retry_of?: string } = {};
   try { body = await req.json(); } catch { /* empty */ }
-  if (!body.post_id || !/^[0-9a-f-]{36}$/i.test(body.post_id)) return json({ ok: false, error: "post_id required" }, 400);
+  const uuid = /^[0-9a-f-]{36}$/i;
+  if (body.retry_of && !uuid.test(body.retry_of)) return json({ ok: false, error: "invalid retry_of" }, 400);
+
+  // Retrying a failed attempt: resolve the article from the failed row.
+  let retryRow: { id: string; blog_post_id: string | null; status: string } | null = null;
+  if (body.retry_of) {
+    const { data } = await supabase.from("social_posts").select("id, blog_post_id, status").eq("id", body.retry_of).maybeSingle();
+    if (!data) return json({ ok: false, error: "post not found" }, 404);
+    if (data.status !== "failed") return json({ ok: false, error: `only failed posts can be retried (status: ${data.status})` }, 409);
+    retryRow = data;
+    body.post_id = data.blog_post_id ?? undefined;
+    body.source = "manual";
+  }
+  if (!body.post_id || !uuid.test(body.post_id)) return json({ ok: false, error: "post_id required" }, 400);
 
   const { data: post } = await supabase.from("blog_posts").select("id, slug, title, excerpt, published").eq("id", body.post_id).maybeSingle();
   if (!post || !post.published) return json({ ok: false, error: "published post not found" }, 404);
 
-  const { data: already } = await supabase.from("social_posts").select("id").eq("blog_post_id", post.id).eq("platform", "linkedin").eq("status", "published").maybeSingle();
-  if (already) return json({ ok: true, skipped: "already posted" });
-
   const url = `${SITE}/blog/${post.slug}`;
   const source = body.source === "manual" ? "manual" : "auto";
+
+  // Duplicate guard: a unique index allows only one 'publishing' or 'published' row per article.
+  let rowId: string;
+  if (retryRow) {
+    const { data: claimed, error } = await supabase.from("social_posts")
+      .update({ status: "publishing", error_message: null, source }).eq("id", retryRow.id).eq("status", "failed").select("id").maybeSingle();
+    if (error?.code === "23505") return json({ ok: true, skipped: "already posted or in progress" });
+    if (error) return json({ ok: false, error: error.message }, 500);
+    if (!claimed) return json({ ok: true, skipped: "retry already in progress" });
+    rowId = claimed.id;
+  } else {
+    const { data: claimed, error } = await supabase.from("social_posts")
+      .insert({ blog_post_id: post.id, content: post.title, article_url: url, status: "publishing", source }).select("id").single();
+    if (error?.code === "23505") return json({ ok: true, skipped: "already posted or in progress" });
+    if (error) return json({ ok: false, error: error.message }, 500);
+    rowId = claimed.id;
+  }
+
   let content = "";
   try {
     content = await writeCopy(post.title, post.excerpt ?? "", url);
     const urn = await publish(content, url, post.title, post.excerpt ?? "");
-    await supabase.from("social_posts").insert({ blog_post_id: post.id, content, article_url: url, status: "published", external_urn: urn, source, published_at: new Date().toISOString() });
+    await supabase.from("social_posts").update({ content, status: "published", external_urn: urn, published_at: new Date().toISOString() }).eq("id", rowId);
     return json({ ok: true, urn });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     console.error("publish-linkedin failed:", msg);
-    await supabase.from("social_posts").insert({ blog_post_id: post.id, content: content || post.title, article_url: url, status: "failed", error_message: msg.slice(0, 1000), source });
+    await supabase.from("social_posts").update({ content: content || post.title, status: "failed", error_message: msg.slice(0, 1000) }).eq("id", rowId);
     return json({ ok: false, error: msg }, 502);
   }
 });
