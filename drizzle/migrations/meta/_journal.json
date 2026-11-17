@@ -43,6 +43,13 @@
       "when": 1794855163842,
       "tag": "0005_create_social_posts",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794903200581,
+      "tag": "0006_migration",
+      "breakpoints": true
     }
   ]
 }
