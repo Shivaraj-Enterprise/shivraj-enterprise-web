@@ -24,6 +24,26 @@ const List = () => {
   const [status, setStatus] = useState("All");
   const [confirmRow, setConfirmRow] = useState<Row | null>(null);
   const [retrying, setRetrying] = useState<string | null>(null);
+  const [articles, setArticles] = useState<{ id: string; title: string }[]>([]);
+  const [articleId, setArticleId] = useState("");
+  const [confirmNew, setConfirmNew] = useState(false);
+  useEffect(() => {
+    supabase.from("blog_posts").select("id, title").eq("published", true).order("created_at", { ascending: false }).limit(30)
+      .then(({ data }) => setArticles(data ?? []));
+  }, []);
+  const publishNew = async () => {
+    if (retrying || !articleId) return;
+    setRetrying(articleId);
+    const { data, error } = await supabase.functions.invoke("publish-linkedin", { body: { post_id: articleId, source: "manual" } });
+    if (error) {
+      let details = error.message;
+      if (error instanceof FunctionsHttpError) { try { details = (await error.context.json()).error ?? details; } catch { /* keep */ } }
+      toast.error(`LinkedIn post failed: ${details}`);
+    } else if (data?.skipped) toast.info(`Not posted: ${data.skipped}`);
+    else toast.success("Posted to LinkedIn");
+    setRetrying(null);
+    await load();
+  };
   const load = () => supabase.from("social_posts").select("*").order("created_at", { ascending: false })
     .then(({ data }) => setRows((data as Row[]) ?? []));
   useEffect(() => { load(); }, []);
@@ -56,6 +76,14 @@ const List = () => {
           <div key={l as string} className="border rounded-lg p-4 bg-card"><div className="text-sm text-muted-foreground">{l}</div><div className="text-2xl font-bold">{v}</div></div>
         ))}
       </div>
+      <div className="border rounded-lg p-4 bg-card mb-6 flex flex-wrap items-center gap-3">
+        <span className="text-sm font-medium">Post an article to LinkedIn now:</span>
+        <select aria-label="Choose article" className="border rounded px-3 py-2 text-sm flex-1 min-w-[200px]" value={articleId} onChange={(e) => setArticleId(e.target.value)}>
+          <option value="">Choose an article…</option>
+          {articles.map((a) => <option key={a.id} value={a.id}>{a.title}</option>)}
+        </select>
+        <Button size="sm" disabled={!articleId || !!retrying} onClick={() => setConfirmNew(true)}>{retrying === articleId && articleId ? "Publishing…" : "Publish to LinkedIn"}</Button>
+      </div>
       <select className="border rounded px-3 py-2 text-sm mb-4" value={status} onChange={(e) => setStatus(e.target.value)}>
         {["All", "published", "failed", "publishing", "draft"].map((s) => <option key={s}>{s}</option>)}
       </select>
@@ -86,6 +114,18 @@ const List = () => {
         })}
         {rows && shown.length === 0 && <p className="p-6 text-center text-muted-foreground border rounded-lg">No LinkedIn posts yet. The first one goes out after next Monday's article.</p>}
       </div>
+      <Dialog open={confirmNew} onOpenChange={setConfirmNew}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Publish this article to LinkedIn?</DialogTitle>
+            <DialogDescription>A post will go live publicly on the connected LinkedIn profile. Each article can only be posted once.</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmNew(false)}>Cancel</Button>
+            <Button onClick={() => { setConfirmNew(false); publishNew(); }}>Publish now</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Dialog open={!!confirmRow} onOpenChange={(o) => !o && setConfirmRow(null)}>
         <DialogContent>
           <DialogHeader>

@@ -38,7 +38,7 @@ async function writeCopy(title: string, excerpt: string, url: string): Promise<s
     body: JSON.stringify({
       model: "google/gemini-3-flash-preview",
       messages: [
-        { role: "system", content: "You write LinkedIn posts for Shivraj Enterprise, a manpower supply and labour contractor (sole proprietorship, since 2016) in Vapi GIDC, Gujarat. Audience: factory owners, plant heads, HR managers. Plain text only, no markdown. Format: one bold-sounding hook line, a blank line, 3 short bullet lines starting with '•', a blank line, a call to read the article with the URL, a blank line, 4-6 hashtags including #VapiGIDC #LabourContractor #IndustrialStaffing. Max 1200 characters. Do not invent facts beyond the article summary." },
+        { role: "system", content: "You write LinkedIn posts for Shivraj Enterprise, a manpower supply and labour contractor (sole proprietorship, since 2016) in Vapi GIDC, Gujarat. Audience: factory owners, plant heads, HR managers. Plain text only, no markdown. Format: one bold-sounding hook line, a blank line, 3 short bullet lines starting with '•', a blank line, a call to read the article with the URL, one line inviting plant managers to estimate their monthly labour budget with the free calculator at https://shivraj-enterprise.lovable.app/labour-cost-calculator, a blank line, 4-6 hashtags including #VapiGIDC #LabourContractor #IndustrialStaffing. Max 1200 characters. Do not invent facts beyond the article summary." },
         { role: "user", content: `Article title: ${title}\nSummary: ${excerpt}\nURL: ${url}` },
       ],
     }),
