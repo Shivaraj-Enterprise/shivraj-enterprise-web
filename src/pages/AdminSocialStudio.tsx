@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { toast } from "sonner";
+import SocialComposer, { type Draft } from "@/components/admin/SocialComposer";
 
 type Row = {
   id: string; platform: string; content: string; article_url: string | null; status: string;
@@ -27,6 +28,11 @@ const List = () => {
   const [articles, setArticles] = useState<{ id: string; title: string }[]>([]);
   const [articleId, setArticleId] = useState("");
   const [confirmNew, setConfirmNew] = useState(false);
+  const [editing, setEditing] = useState<Draft | null>(null);
+  const removeDraft = async (id: string) => {
+    const { error } = await supabase.functions.invoke("publish-linkedin", { body: { action: "delete_draft", draft_id: id } });
+    if (error) toast.error("Could not delete draft"); else { toast.success("Draft deleted"); load(); }
+  };
   useEffect(() => {
     supabase.from("blog_posts").select("id, title").eq("published", true).order("created_at", { ascending: false }).limit(30)
       .then(({ data }) => setArticles(data ?? []));
@@ -71,11 +77,12 @@ const List = () => {
         <h1 className="text-2xl font-bold text-shivraj-800">Social Studio</h1>
         <Link to="/admin/submissions" className="text-sm text-shivraj-600">← Admin</Link>
       </div>
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        {[["Total posts", all.length], ["Published", count("published")], ["Failed", count("failed")]].map(([l, v]) => (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        {[["Total posts", all.length], ["Published", count("published")], ["Drafts", count("draft")], ["Failed", count("failed")]].map(([l, v]) => (
           <div key={l as string} className="border rounded-lg p-4 bg-card"><div className="text-sm text-muted-foreground">{l}</div><div className="text-2xl font-bold">{v}</div></div>
         ))}
       </div>
+      <SocialComposer articles={articles} editing={editing} onDone={load} onClearEdit={() => setEditing(null)} />
       <div className="border rounded-lg p-4 bg-card mb-6 flex flex-wrap items-center gap-3">
         <span className="text-sm font-medium">Post an article to LinkedIn now:</span>
         <select aria-label="Choose article" className="border rounded px-3 py-2 text-sm flex-1 min-w-[200px]" value={articleId} onChange={(e) => setArticleId(e.target.value)}>
@@ -95,7 +102,7 @@ const List = () => {
               <div className="flex flex-wrap items-center gap-2 mb-2 text-sm">
                 <Badge variant={statusVariant(r.status)}>{r.status}</Badge>
                 <span className="capitalize">{r.platform}</span>
-                <span className="text-muted-foreground">· {r.source === "auto" ? "Monday auto-post" : "Manual"}</span>
+                <span className="text-muted-foreground">· {r.source === "auto" ? "Monday auto-post" : r.status === "draft" ? "Draft" : "Manual"}</span>
                 <span className="text-muted-foreground ml-auto">{new Date(r.published_at ?? r.created_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}</span>
               </div>
               <p className="whitespace-pre-wrap text-sm line-clamp-6">{r.content}</p>
@@ -103,6 +110,12 @@ const List = () => {
               <div className="flex gap-4 mt-3 text-sm">
                 {url && <a href={url} target="_blank" rel="noopener noreferrer" className="text-shivraj-600 underline">View on LinkedIn</a>}
                 {r.article_url && <a href={r.article_url} target="_blank" rel="noopener noreferrer" className="text-shivraj-600 underline">View article</a>}
+                {r.status === "draft" && (
+                  <span className="ml-auto flex gap-2">
+                    <Button size="sm" variant="outline" onClick={() => { setEditing({ id: r.id, content: r.content, article_url: r.article_url }); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Edit &amp; publish</Button>
+                    <Button size="sm" variant="ghost" onClick={() => removeDraft(r.id)}>Delete</Button>
+                  </span>
+                )}
                 {r.status === "failed" && r.platform === "linkedin" && (
                   <Button size="sm" variant="outline" className="ml-auto" disabled={!!retrying} onClick={() => setConfirmRow(r)}>
                     {retrying === r.id ? "Retrying…" : "Retry post"}

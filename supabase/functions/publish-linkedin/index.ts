@@ -31,7 +31,7 @@ async function isAuthorized(req: Request): Promise<boolean> {
   return isAdmin === true;
 }
 
-async function writeCopy(title: string, excerpt: string, url: string): Promise<string> {
+async function writeCopy(title: string, excerpt: string, url: string, custom = false): Promise<string> {
   const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${LOVABLE_API_KEY}` },
@@ -39,7 +39,7 @@ async function writeCopy(title: string, excerpt: string, url: string): Promise<s
       model: "google/gemini-3-flash-preview",
       messages: [
         { role: "system", content: "You write LinkedIn posts for Shivraj Enterprise, a manpower supply and labour contractor (sole proprietorship, since 2016) in Vapi GIDC, Gujarat. Audience: factory owners, plant heads, HR managers. Plain text only, no markdown. Format: one bold-sounding hook line, a blank line, 3 short bullet lines starting with '•', a blank line, a call to read the article with the URL, one line inviting plant managers to estimate their monthly labour budget with the free calculator at https://shivraj-enterprise.lovable.app/labour-cost-calculator, a blank line, 4-6 hashtags including #VapiGIDC #LabourContractor #IndustrialStaffing. Max 1200 characters. Do not invent facts beyond the article summary." },
-        { role: "user", content: `Article title: ${title}\nSummary: ${excerpt}\nURL: ${url}` },
+        { role: "user", content: custom ? `Write a practical post on this topic for factory decision-makers: ${title}\n${excerpt ? `Notes: ${excerpt}\n` : ""}Link to include: ${url}` : `Article title: ${title}\nSummary: ${excerpt}\nURL: ${url}` },
       ],
     }),
   });
@@ -79,9 +79,10 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (!(await isAuthorized(req))) return json({ ok: false, error: "Unauthorized" }, 401);
 
-  let body: { post_id?: string; source?: string; retry_of?: string } = {};
+  let body: { post_id?: string; source?: string; retry_of?: string; action?: string; topic?: string; notes?: string; link?: string; content?: string; draft_id?: string } = {};
   try { body = await req.json(); } catch { /* empty */ }
   const uuid = /^[0-9a-f-]{36}$/i;
+  if (body.action) return studio(body);
   if (body.retry_of && !uuid.test(body.retry_of)) return json({ ok: false, error: "invalid retry_of" }, 400);
 
   // Retrying a failed attempt: resolve the article from the failed row.
@@ -132,3 +133,91 @@ Deno.serve(async (req) => {
     return json({ ok: false, error: msg }, 502);
   }
 });
+
+// ---- Phase 2: Social Studio composer (generate, drafts, custom publish) ----
+const okLink = (l?: string) => { try { const u = new URL(l ?? ""); return u.protocol === "https:" ? u.toString() : null; } catch { return null; } };
+
+async function studio(b: { action?: string; post_id?: string; topic?: string; notes?: string; link?: string; content?: string; draft_id?: string }) {
+  const uuid = /^[0-9a-f-]{36}$/i;
+  const link = b.link ? okLink(b.link) : null;
+  if (b.link && !link) return json({ ok: false, error: "link must be an https URL" }, 400);
+  if (b.draft_id && !uuid.test(b.draft_id)) return json({ ok: false, error: "invalid draft_id" }, 400);
+  const content = (b.content ?? "").trim();
+
+  if (b.action === "generate") {
+    try {
+      if (b.post_id) {
+        if (!uuid.test(b.post_id)) return json({ ok: false, error: "invalid post_id" }, 400);
+        const { data: post } = await supabase.from("blog_posts").select("slug, title, excerpt, published").eq("id", b.post_id).maybeSingle();
+        if (!post?.published) return json({ ok: false, error: "published post not found" }, 404);
+        const url = `${SITE}/blog/${post.slug}`;
+        return json({ ok: true, content: await writeCopy(post.title, post.excerpt ?? "", url), link: url });
+      }
+      const topic = (b.topic ?? "").trim().slice(0, 300);
+      if (!topic) return json({ ok: false, error: "topic or article required" }, 400);
+      const url = link ?? `${SITE}/labour-cost-calculator`;
+      return json({ ok: true, content: await writeCopy(topic, (b.notes ?? "").slice(0, 1000), url, true), link: url });
+    } catch (e) { return json({ ok: false, error: e instanceof Error ? e.message : String(e) }, 502); }
+  }
+
+  if (b.action === "save_draft") {
+    if (!content || content.length > 2900) return json({ ok: false, error: "post text must be 1-2900 characters" }, 400);
+    const row = { content, article_url: link, status: "draft", source: "manual", platform: "linkedin" };
+    const q = b.draft_id
+      ? supabase.from("social_posts").update(row).eq("id", b.draft_id).eq("status", "draft").select("id").maybeSingle()
+      : supabase.from("social_posts").insert(row).select("id").single();
+    const { data, error } = await q;
+    if (error) return json({ ok: false, error: error.message }, 500);
+    if (!data) return json({ ok: false, error: "draft not found" }, 404);
+    return json({ ok: true, id: data.id });
+  }
+
+  if (b.action === "delete_draft") {
+    if (!b.draft_id) return json({ ok: false, error: "draft_id required" }, 400);
+    const { error } = await supabase.from("social_posts").delete().eq("id", b.draft_id).eq("status", "draft");
+    return error ? json({ ok: false, error: error.message }, 500) : json({ ok: true });
+  }
+
+  if (b.action === "publish_custom") {
+    if (!content || content.length > 2900) return json({ ok: false, error: "post text must be 1-2900 characters" }, 400);
+    let rowId: string;
+    if (b.draft_id) {
+      // Atomic claim: only one click can move a draft to publishing.
+      const { data } = await supabase.from("social_posts").update({ content, article_url: link, status: "publishing", error_message: null })
+        .eq("id", b.draft_id).eq("status", "draft").select("id").maybeSingle();
+      if (!data) return json({ ok: true, skipped: "draft already published or in progress" });
+      rowId = data.id;
+    } else {
+      const { data, error } = await supabase.from("social_posts").insert({ content, article_url: link, status: "publishing", source: "manual", platform: "linkedin" }).select("id").single();
+      if (error) return json({ ok: false, error: error.message }, 500);
+      rowId = data.id;
+    }
+    try {
+      const urn = await publishText(content, link);
+      await supabase.from("social_posts").update({ status: "published", external_urn: urn, published_at: new Date().toISOString() }).eq("id", rowId);
+      return json({ ok: true, urn });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      await supabase.from("social_posts").update({ status: "failed", error_message: msg.slice(0, 1000) }).eq("id", rowId);
+      return json({ ok: false, error: msg }, 502);
+    }
+  }
+  return json({ ok: false, error: "unknown action" }, 400);
+}
+
+async function publishText(text: string, link: string | null): Promise<string> {
+  if (!LINKEDIN_API_KEY) throw new Error("LinkedIn is not connected");
+  const h = { Authorization: `Bearer ${LOVABLE_API_KEY}`, "X-Connection-Api-Key": LINKEDIN_API_KEY };
+  const me = await fetch(`${GW}/v2/userinfo`, { headers: h });
+  if (!me.ok) throw new Error(`userinfo ${me.status}: ${await me.text()}`);
+  const sub = (await me.json()).sub;
+  const share: Record<string, unknown> = { shareCommentary: { text: text.slice(0, 2900) }, shareMediaCategory: link ? "ARTICLE" : "NONE" };
+  if (link) share.media = [{ status: "READY", originalUrl: link }];
+  const r = await fetch(`${GW}/v2/ugcPosts`, {
+    method: "POST",
+    headers: { ...h, "Content-Type": "application/json", "X-Restli-Protocol-Version": "2.0.0" },
+    body: JSON.stringify({ author: `urn:li:person:${sub}`, lifecycleState: "PUBLISHED", specificContent: { "com.linkedin.ugc.ShareContent": share }, visibility: { "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC" } }),
+  });
+  if (!r.ok) throw new Error(`ugcPosts ${r.status}: ${await r.text()}`);
+  return r.headers.get("x-restli-id") ?? (await r.json().catch(() => ({}))).id ?? "";
+}
