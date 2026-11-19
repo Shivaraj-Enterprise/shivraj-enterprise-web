@@ -1,6 +1,7 @@
 import { pushDataLayer } from "@/lib/gtm";
 
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -42,6 +43,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [params] = useSearchParams();
   
   // Initialize form with react-hook-form
   const form = useForm<FormValues>({
@@ -51,8 +53,8 @@ const ContactForm = () => {
       email: "",
       phone: "+91 ",
       whatsapp: "",
-      inquiryType: "service",
-      message: "",
+      inquiryType: params.get("inquiry") === "quote" ? "quote" : "service",
+      message: (params.get("message") ?? "").slice(0, 2000),
     },
   });
   

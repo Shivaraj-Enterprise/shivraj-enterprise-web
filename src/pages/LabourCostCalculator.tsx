@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Calculator, RotateCcw, Printer, Info, ChevronDown, MessageCircle, Phone, Plus, X } from "lucide-react";
 import { calculateCost, CostInputs, CustomCharge, DEFAULT_INPUTS, inr } from "@/lib/costing";
+import { quoteEnquiry, whatsappEnquiry } from "@/lib/enquiryLinks";
 
 import { PieChart } from "@/components/charts/pie-chart";
 import { PieSlice } from "@/components/charts/pie-slice";
@@ -72,6 +73,7 @@ const LabourCostCalculator = () => {
   const [adv, setAdv] = useState(false);
   const r = useMemo(() => calculateCost(inp), [inp]);
   const customCharges = inp.customCharges ?? [];
+  const enquiry = `Hello Shivraj Enterprise, please quote for my factory labour estimate: ${inp.workers} workers, ${inp.days} days/month, basic ${inr(inp.basic)}/day, DA ${inr(inp.da)}/day, overtime ${inp.overtime ? "included" : "not included"}. Estimated monthly budget including GST: ${inr(r.monthlyAll)}. Location: ; Skill: ; Start date: . This is an estimate, not a final quotation.`;
   const generatedOn = new Intl.DateTimeFormat("en-IN", {
     day: "2-digit",
     month: "long",
@@ -314,8 +316,8 @@ const LabourCostCalculator = () => {
             <h2 className="text-2xl font-bold mb-2">Need an exact quotation?</h2>
             <p className="text-shivraj-100 mb-4">Tell us the number of workers, skill and shift — we'll send a detailed rate sheet.</p>
             <div className="flex flex-wrap justify-center gap-3">
-              <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50"><Link to="/contact">Get a Quote</Link></Button>
-              <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white/10"><a href="https://wa.me/919998498311" target="_blank" rel="noopener noreferrer"><MessageCircle size={16} className="mr-1" /> WhatsApp</a></Button>
+              <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50"><Link to={quoteEnquiry(enquiry)}>Get a Quote</Link></Button>
+              <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white/10"><a href={whatsappEnquiry(enquiry)} target="_blank" rel="noopener noreferrer"><MessageCircle size={16} className="mr-1" /> WhatsApp</a></Button>
               <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white/10"><a href="tel:+919998498311"><Phone size={16} className="mr-1" /> Call</a></Button>
             </div>
           </section>

@@ -15,7 +15,8 @@ const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const supabase = createClient(SUPABASE_URL, SERVICE_ROLE);
 
-import { findTrends, pickBest, GatewayStop, normalize, type Topic } from "./trends.ts";
+import { findTrends, pickBest, searchNews, GatewayStop, normalize, type Topic } from "./trends.ts";
+import { localSearchInsights } from "../_shared/local-search.ts";
 import { isoWeek, weeklyPublicationState, type Scope } from "./topics.ts";
 
 type TopicInput = { keyword: string; angle: string; category: string; tags: string[]; sources?: { title: string; url: string; date?: string }[] };
@@ -344,6 +345,14 @@ Deno.serve(async (req) => {
       const monthStart = new Date(); monthStart.setUTCDate(1); monthStart.setUTCHours(0, 0, 0, 0);
       const usedScopes = (past ?? []).filter((p) => new Date(p.created_at as string) >= monthStart).map((p) => p.scope as Scope);
       const candidates = await findTrends(LOVABLE_API_KEY, new Date().toISOString().slice(0, 10));
+      // Search queries guide fresh discovery, but never replace last-seven-days news research.
+      try {
+        const insights = await localSearchInsights();
+        for (const query of insights.queries.slice(0, 3)) {
+          const news = await searchNews(query.query, 3);
+          if (news.length) candidates.push({ keyword: query.query, angle: `Answer the industrial buyer question "${query.query}" in the context of this week's verified news.`, category: "Manpower Supply", tags: ["Industrial Staffing", "Labour Contractor", "Vapi GIDC"], scope: "local", kind: "trending", sources: news.map(({ title, url, date }) => ({ title, url, date })) });
+        }
+      } catch (e) { console.error("Optional Search Console discovery:", e instanceof Error ? e.message : String(e)); }
       const { chosen, all } = await pickBest(LOVABLE_API_KEY, candidates, existing, usedScopes);
       if (all.length) {
         await supabase.from("blog_topic_history").insert(all.map((c) => ({
@@ -403,10 +412,13 @@ Deno.serve(async (req) => {
       .then(async (r) => (await r.json().catch(() => ({ ok: r.ok }))))
       .catch((e) => ({ ok: false, error: String(e) }));
     const gsc = await submitToGoogle().catch((e) => `failed: ${e}`);
+    const googleBusiness = inserted ? await fetch(`${SUPABASE_URL}/functions/v1/google-business`, { method: "POST", headers: authHeaders, body: JSON.stringify({ action: "publish", post_id: inserted.id }) })
+      .then(async (response) => await response.json())
+      .catch((e) => ({ ok: false, error: String(e) })) : { skipped: "No published article" };
 
 
     return new Response(
-      JSON.stringify({ ok: true, keyword: topic.keyword, scope: topic.scope, kind: topic.kind, seo_score: score, post: inserted, google: gsc, linkedin }),
+      JSON.stringify({ ok: true, keyword: topic.keyword, scope: topic.scope, kind: topic.kind, seo_score: score, post: inserted, google: gsc, linkedin, googleBusiness }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {

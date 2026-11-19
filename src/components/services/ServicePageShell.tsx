@@ -11,6 +11,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useRateCard } from "@/hooks/useRateCard";
 import { SERVICE_AREAS, servicePages, type ServicePage } from "@/data/servicePages";
 import { Stagger, StaggerItem } from "@/components/motion";
+import IndustrialAreas from "./IndustrialAreas";
+import { quoteEnquiry, serviceEnquiry, whatsappEnquiry } from "@/lib/enquiryLinks";
 
 const SITE = "https://shivraj-enterprise.lovable.app";
 
@@ -100,7 +102,7 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
           <p className="text-lg text-shivraj-100">{page.heroSubtitle}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Button asChild className="bg-white text-shivraj-800 hover:bg-shivraj-50">
-              <Link to="/contact">Get a Quote</Link>
+              <Link to={quoteEnquiry(serviceEnquiry(page.navLabel))}>Get a Quote</Link>
             </Button>
             <CompanyProfileDownload className="border-white/40 bg-white/10 text-white hover:bg-white/20" />
           </div>
@@ -248,6 +250,7 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
         </div>
       </section>
 
+      <IndustrialAreas service={page.navLabel} />
       <FaqSection
         title={`${page.navLabel} — FAQs`}
         subtitle="Answers to the questions Vapi GIDC plants ask us most often."
@@ -263,13 +266,13 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
             screened workers, usually within 24 to 48 hours for standard roles.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/contact" className="inline-block bg-white text-shivraj-800 px-7 py-3 rounded-lg font-medium hover:bg-shivraj-100 transition-colors">
+            <Link to={quoteEnquiry(serviceEnquiry(page.navLabel))} className="inline-block bg-white text-shivraj-800 px-7 py-3 rounded-lg font-medium hover:bg-shivraj-100 transition-colors">
               Get a Quote
             </Link>
             <a href="tel:+919998498311" className="inline-flex items-center gap-2 border border-white/40 bg-white/10 px-7 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors">
               <Phone size={18} /> Call Us
             </a>
-            <a href="https://wa.me/919998498311" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 border border-white/40 bg-white/10 px-7 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors">
+            <a href={whatsappEnquiry(serviceEnquiry(page.navLabel))} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 border border-white/40 bg-white/10 px-7 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors">
               <MessageCircle size={18} /> WhatsApp
             </a>
           </div>

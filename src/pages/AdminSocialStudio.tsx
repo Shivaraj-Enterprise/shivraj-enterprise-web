@@ -10,6 +10,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { toast } from "sonner";
 import SocialComposer, { type Draft } from "@/components/admin/SocialComposer";
+import ReviewRequests from "@/components/admin/ReviewRequests";
+import GoogleBusinessPanel from "@/components/admin/GoogleBusinessPanel";
 
 type Row = {
   id: string; platform: string; content: string; article_url: string | null; status: string;
@@ -83,6 +85,8 @@ const List = () => {
         ))}
       </div>
       <SocialComposer articles={articles} editing={editing} onDone={load} onClearEdit={() => setEditing(null)} />
+      <ReviewRequests />
+      <GoogleBusinessPanel articles={articles} />
       <div className="border rounded-lg p-4 bg-card mb-6 flex flex-wrap items-center gap-3">
         <span className="text-sm font-medium">Post an article to LinkedIn now:</span>
         <select aria-label="Choose article" className="border rounded px-3 py-2 text-sm flex-1 min-w-[200px]" value={articleId} onChange={(e) => setArticleId(e.target.value)}>

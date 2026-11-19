@@ -1,0 +1,10 @@
+CREATE TABLE public.google_business_settings (id text PRIMARY KEY DEFAULT 'primary' CHECK (id = 'primary'), location_name text NOT NULL, location_title text NOT NULL, review_url text, maps_url text, auto_publish boolean NOT NULL DEFAULT false, updated_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT ON public.google_business_settings TO authenticated;
+GRANT ALL ON public.google_business_settings TO service_role;
+ALTER TABLE public.google_business_settings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY google_settings_admin_read ON public.google_business_settings FOR SELECT TO authenticated USING (public.has_role(auth.uid(), 'admin') AND NOT COALESCE((auth.jwt()->>'is_anonymous')::boolean, false));
+CREATE TABLE public.google_business_posts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), location_name text NOT NULL, dedupe_key text NOT NULL, blog_post_id uuid, content text NOT NULL, link text NOT NULL, status text NOT NULL CHECK (status IN ('publishing','submitted','failed','unknown')), google_state text, external_name text, external_url text, error_message text, source text NOT NULL DEFAULT 'manual', created_at timestamptz NOT NULL DEFAULT now(), published_at timestamptz, UNIQUE(location_name, dedupe_key));
+GRANT SELECT ON public.google_business_posts TO authenticated;
+GRANT ALL ON public.google_business_posts TO service_role;
+ALTER TABLE public.google_business_posts ENABLE ROW LEVEL SECURITY;
+CREATE POLICY google_posts_admin_read ON public.google_business_posts FOR SELECT TO authenticated USING (public.has_role(auth.uid(), 'admin') AND NOT COALESCE((auth.jwt()->>'is_anonymous')::boolean, false));

@@ -16,6 +16,7 @@ import { Reveal as FadeContent } from "@/components/motion";
 import PrevNextNav, { type NavRef } from "@/components/blog/PrevNextNav";
 import SidebarExtras from "@/components/blog/SidebarExtras";
 import { useHeadingReveal } from "@/components/motion";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   title: string;
@@ -225,7 +226,7 @@ const StaticArticleShell = ({
                   <div className="text-xs font-semibold uppercase tracking-wider text-shivraj-600 mb-1">Written by</div>
                   <h3 className="text-lg font-bold text-shivraj-800 mb-1">Shivraj Enterprise Editorial</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Practical playbooks on manpower supply, compliance and workforce operations — informed by two decades of on-ground work across Vapi GIDC.
+                    Practical playbooks on manpower supply, compliance and workforce operations — informed by on-ground work across Vapi GIDC since 2016.
                   </p>
                 </div>
               </div>
@@ -268,6 +269,7 @@ const StaticArticleShell = ({
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
+                  <Button asChild variant="secondary"><Link to="/labour-cost-calculator">Estimate labour budget</Link></Button>
                   <a
                     href="/contact"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white text-shivraj-800 font-semibold hover:bg-shivraj-50 hover:-translate-y-0.5 transition-all shadow-lg"

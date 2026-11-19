@@ -7,15 +7,16 @@ import { Button } from "@/components/ui/button";
 import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
 import { Stagger, StaggerItem } from "@/components/motion";
+import IndustrialAreas from "@/components/services/IndustrialAreas";
 
 const Locations = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Service Areas in Vapi GIDC – Shivraj Enterprise</title>
+        <title>Manpower in Vapi, Sarigam, Daman & Silvassa | Shivraj</title>
         <meta
           name="description"
-          content="Manpower & housekeeping coverage across Vapi GIDC Phases 1–4, surrounding villages and pin codes in Valsad, Gujarat."
+          content="Industrial manpower and housekeeping in Vapi GIDC, Sarigam, Umbergaon, Silvassa and Daman. Discuss workers, shifts and compliance with Shivraj Enterprise."
         />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/locations" />
         <meta property="og:title" content="Service Areas in Vapi GIDC – Shivraj Enterprise" />
@@ -28,6 +29,7 @@ const Locations = () => {
             areaServed: [
               "Vapi GIDC", "Chala", "Balitha", "Chhiri", "Salvav", "Chharwada",
               "Daman", "Dadra and Nagar Haveli", "Valsad",
+              "Sarigam GIDC", "Umbergaon", "Silvassa",
             ],
             address: {
               "@type": "PostalAddress",
@@ -91,6 +93,7 @@ const Locations = () => {
         </div>
       </section>
 
+      <IndustrialAreas />
       <LocationMap />
 
       <section className="py-16 bg-shivraj-800 text-white">

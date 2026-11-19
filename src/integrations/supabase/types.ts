@@ -269,6 +269,87 @@ export type Database = {
         }
         Relationships: []
       }
+      google_business_posts: {
+        Row: {
+          blog_post_id: string | null
+          content: string
+          created_at: string
+          dedupe_key: string
+          error_message: string | null
+          external_name: string | null
+          external_url: string | null
+          google_state: string | null
+          id: string
+          link: string
+          location_name: string
+          published_at: string | null
+          source: string
+          status: string
+        }
+        Insert: {
+          blog_post_id?: string | null
+          content: string
+          created_at?: string
+          dedupe_key: string
+          error_message?: string | null
+          external_name?: string | null
+          external_url?: string | null
+          google_state?: string | null
+          id?: string
+          link: string
+          location_name: string
+          published_at?: string | null
+          source?: string
+          status: string
+        }
+        Update: {
+          blog_post_id?: string | null
+          content?: string
+          created_at?: string
+          dedupe_key?: string
+          error_message?: string | null
+          external_name?: string | null
+          external_url?: string | null
+          google_state?: string | null
+          id?: string
+          link?: string
+          location_name?: string
+          published_at?: string | null
+          source?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      google_business_settings: {
+        Row: {
+          auto_publish: boolean
+          id: string
+          location_name: string
+          location_title: string
+          maps_url: string | null
+          review_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          auto_publish?: boolean
+          id?: string
+          location_name: string
+          location_title: string
+          maps_url?: string | null
+          review_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          auto_publish?: boolean
+          id?: string
+          location_name?: string
+          location_title?: string
+          maps_url?: string | null
+          review_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       job_applications: {
         Row: {
           created_at: string
