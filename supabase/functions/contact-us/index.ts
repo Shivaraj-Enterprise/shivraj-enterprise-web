@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@2.0.0";
+import { sendLeadAlert } from "../_shared/lead-alert.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseAdmin = createClient(
-  Deno.env.get("SUPABASE_URL")!,
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  Deno.env.get("SUPABASE_URL") ?? "",
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
 );
 
 const corsHeaders = {
@@ -200,38 +199,31 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (insertError) {
       console.error("DB insert error:", insertError);
+      return new Response(JSON.stringify({ error: "Could not save your enquiry. Please try again." }), {
+        status: 503, headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
 
-    const emailResponse = await resend.emails.send({
-      from: "Shivraj Enterprise <onboarding@resend.dev>",
-      to: ["shivrajenterprise1234@gmail.com"],
-      subject: "📩 New Contact Us Message - SHIVRAJ Website",
+    const emailResponse = await sendLeadAlert({
+      id: inserted.id,
+      subject: `${formData.inquiryType === "quote" ? "🔔 Quote request" : "📩 New enquiry"} — ${formData.name}`.slice(0, 150),
       html: emailHtml,
-      reply_to: formData.email,
+      replyTo: formData.email,
     });
 
-    if (emailResponse.error) {
-      console.error("Resend error:", emailResponse.error);
-      return new Response(
-        JSON.stringify({ error: emailResponse.error.message || "Failed to send email" }),
-        { status: 502, headers: { "Content-Type": "application/json", ...corsHeaders } },
-      );
-    }
-
-    if (inserted?.id) {
+    if (emailResponse.status === "accepted") {
       await supabaseAdmin
         .from("contact_submissions")
         .update({ email_sent: true })
         .eq("id", inserted.id);
     }
 
-    console.log("Email sent successfully");
-
     return new Response(
       JSON.stringify({
         success: true,
         message: "Contact form submitted successfully",
-        data: emailResponse,
+        id: inserted.id,
+        alert_status: emailResponse.status,
       }),
       {
         status: 200,

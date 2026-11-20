@@ -13,6 +13,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Download, LogOut, RefreshCw } from "lucide-react";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import AdminGate from "@/components/admin/AdminGate";
+import ProfileLeads from "@/components/admin/ProfileLeads";
 
 type Submission = {
   id: string;
@@ -108,7 +109,7 @@ const AdminSubmissions = () => {
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <h1 className="text-2xl font-bold text-shivraj-800">Contact Submissions</h1>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Link to="/admin/roles"><Button variant="outline">Manage Roles</Button></Link>
               <Link to="/admin/blog"><Button variant="outline">Blog Posts</Button></Link>
               <Link to="/admin/company-profile"><Button variant="outline">Company Profile PDF</Button></Link>
@@ -183,7 +184,7 @@ const AdminSubmissions = () => {
                     <TableCell>{r.whatsapp ?? "—"}</TableCell>
                     <TableCell><Badge>{r.inquiry_type}</Badge></TableCell>
                     <TableCell className="max-w-md whitespace-pre-wrap">{r.message}</TableCell>
-                    <TableCell>{r.email_sent ? "✅" : "❌"}</TableCell>
+                    <TableCell>{r.email_sent ? "Accepted" : "Not confirmed"}</TableCell>
                   </TableRow>
                 ))}
                 {!rows.length && !loading && (
@@ -196,6 +197,7 @@ const AdminSubmissions = () => {
               </TableBody>
             </Table>
           </div>
+          {auth.isAdmin && <ProfileLeads />}
         </div>
       </div>
     </AdminGate>

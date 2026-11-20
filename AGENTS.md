@@ -16,3 +16,5 @@
 - Google Business updates use a dedicated admin-only function and unique location/update claims; weekly publishing requires an explicit opt-in, and unknown provider outcomes stay locked to prevent duplicate public posts.
 - Search Console buyer queries may inform weekly discovery only when backed by fresh seven-day news; monitoring failures never block the weekly article.
 - Enquiry links carry service, area or calculator assumptions into the existing stored contact form and WhatsApp; shared industrial-area content refines existing pages rather than creating duplicate city doorway pages.
+- Quote and company-profile alerts use a shared sender with event-derived idempotency keys; save leads before notifying and distinguish provider acceptance from delivery so failures never cause lost leads or false delivery claims.
+- Candidate sourcing reuses private job applications and short-lived CV links; recruitment sharing contains only public job information and requires an explicit owner action to avoid exposing applicant data or broadcasting automatically.

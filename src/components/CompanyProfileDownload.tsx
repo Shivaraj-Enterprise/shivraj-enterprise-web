@@ -50,21 +50,21 @@ const CompanyProfileDownload = ({
     e.preventDefault();
     setSaving(true);
 
-    // Open the PDF synchronously within the user gesture so pop-up blockers
-    // don't suppress it after the async save completes. Passing "noopener" in
+    // Reserve a tab within the user gesture, then open the PDF only once
+    // the lead is saved. Passing "noopener" in
     // the features string makes window.open return null even on success, so
     // the opener is detached manually instead.
-    const pdfWindow = window.open(profileUrl, "_blank");
+    const pdfWindow = window.open("about:blank", "_blank");
     if (pdfWindow) {
       try {
         pdfWindow.opener = null;
       } catch {
-        // browser refused to detach the opener; the PDF is already opening
+        // browser refused to detach the opener
       }
     }
 
     try {
-      await supabase.functions.invoke("profile-download-notify", {
+      const { data, error } = await supabase.functions.invoke("profile-download-notify", {
         body: {
           company: form.company,
           email: form.email,
@@ -72,8 +72,13 @@ const CompanyProfileDownload = ({
           whatsapp: sameAsPhone ? form.phone : form.whatsapp,
         },
       });
+      if (error || !data?.success) throw new Error("Could not save request");
+      if (pdfWindow) pdfWindow.location.href = profileUrl;
     } catch {
-      // download already opened; saving/notifying failures are non-blocking
+      pdfWindow?.close();
+      setSaving(false);
+      toast({ title: "Could not save your details", description: "Please try again to download the profile.", variant: "destructive" });
+      return;
     }
     setSaving(false);
     setOpen(false);
@@ -124,11 +129,11 @@ const CompanyProfileDownload = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="cp-company">Company name</Label>
-            <Input id="cp-company" required value={form.company} onChange={update("company")} placeholder="Your company name" />
+            <Input id="cp-company" required maxLength={150} value={form.company} onChange={update("company")} placeholder="Your company name" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="cp-email">Email ID</Label>
-            <Input id="cp-email" type="email" required value={form.email} onChange={update("email")} placeholder="name@company.com" />
+            <Input id="cp-email" type="email" required maxLength={255} value={form.email} onChange={update("email")} placeholder="name@company.com" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="cp-phone">Phone number</Label>

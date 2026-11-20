@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@2.0.0";
+import { sendLeadAlert } from "../_shared/lead-alert.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseAdmin = createClient(
-  Deno.env.get("SUPABASE_URL")!,
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  Deno.env.get("SUPABASE_URL") ?? "",
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
 );
 
 const corsHeaders = {
@@ -71,19 +70,22 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    const whatsapp = data.whatsapp?.trim() ? data.whatsapp.trim() : data.phone;
+    const whatsapp = data.whatsapp?.trim() || "Not provided";
 
     // Save lead so we never lose it even if email fails
-    const { error: insertError } = await supabaseAdmin.from("leads").insert({
+    const { data: lead, error: insertError } = await supabaseAdmin.from("leads").insert({
       company_name: data.company,
       email: data.email,
       mobile: data.phone,
       source: "company-profile-download",
       notes: `Company profile download request. WhatsApp: ${whatsapp}`,
-    });
+    }).select("id").single();
 
     if (insertError) {
       console.error("Lead insert error:", insertError);
+      return new Response(JSON.stringify({ error: "Could not save your details. Please try again." }), {
+        status: 503, headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
 
     const emailHtml = `
@@ -101,19 +103,19 @@ const handler = async (req: Request): Promise<Response> => {
       </div>
     `;
 
-    const emailResponse = await resend.emails.send({
-      from: "Shivraj Enterprise <onboarding@resend.dev>",
-      to: ["shivrajenterprise1234@gmail.com"],
-      subject: "📥 Company Profile Downloaded - SHIVRAJ Website",
+    const emailResponse = await sendLeadAlert({
+      id: lead.id,
+      subject: `📥 Company profile request — ${data.company}`.slice(0, 150),
       html: emailHtml,
-      reply_to: data.email,
+      replyTo: data.email,
     });
 
-    if (emailResponse.error) {
-      console.error("Resend error:", emailResponse.error);
-    }
+    const { error: statusError } = await supabaseAdmin.from("leads").update({
+      notes: `Company profile download request. WhatsApp: ${whatsapp}\nEmail alert: ${emailResponse.status}`,
+    }).eq("id", lead.id);
+    if (statusError) console.error("Could not record profile alert status:", statusError.message);
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, id: lead.id, alert_status: emailResponse.status }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });

@@ -7,12 +7,12 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       body: formData
     });
 
-    if (error) {
+    if (error || !data?.success || !data?.id) {
       throw new Error("Failed to submit contact form");
     }
 
     const submission: ContactSubmission = {
-      id: `contact-${Date.now()}`,
+      id: data.id,
       ...formData,
       createdAt: new Date(),
     };
