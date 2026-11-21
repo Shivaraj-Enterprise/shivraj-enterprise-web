@@ -19,7 +19,7 @@ export function trackWhatsAppClicks() {
 }
 
 // Google Analytics 4: loads only when VITE_GA_MEASUREMENT_ID (G-XXXX) is set; page views are sent on route change.
-const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const GA_ID = (import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY || import.meta.env.VITE_GA_MEASUREMENT_ID) as string | undefined;
 function gtag(..._args: unknown[]) {
   const w = window as unknown as { dataLayer?: unknown[] };
   w.dataLayer = w.dataLayer || [];
@@ -32,6 +32,7 @@ export function initGA() {
   s.async = true;
   s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
   document.head.appendChild(s);
+  gtag("set", "developer_id.dZjgwMW", true);
   gtag("js", new Date());
   gtag("config", GA_ID, { send_page_view: false });
   document.addEventListener("click", (e) => {
