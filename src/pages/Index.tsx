@@ -1,4 +1,6 @@
 import CompanyProfileDownload from "@/components/CompanyProfileDownload";
+import GoogleRatingBadge from "@/components/GoogleRatingBadge";
+import GoogleReviewsSection from "@/components/GoogleReviewsSection";
 import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, GraduationCap, Download, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -29,12 +31,12 @@ const Index = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Shivraj Enterprise – Manpower & Housekeeping in Vapi GIDC</title>
-        <meta name="description" content="Skilled, semi-skilled & unskilled manpower and housekeeping services across Vapi GIDC, Gujarat. Serving engineering, pharma, chemical & packaging industries." />
+        <title>Shivraj Enterprise | Labour Contractor & Manpower Supply in Vapi GIDC</title>
+        <meta name="description" content="Labour contractor in Vapi GIDC, Sarigam & Daman. Skilled, unskilled & housekeeping manpower with PF/ESIC compliance. Rated 5.0 on Google. Quick deployment." />
         <link rel="preload" as="image" href={logo} fetchPriority="high" />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/" />
-        <meta property="og:title" content="Shivraj Enterprise – Manpower & Housekeeping in Vapi GIDC" />
-        <meta property="og:description" content="Skilled, semi-skilled & unskilled manpower and housekeeping services across Vapi GIDC, Gujarat." />
+        <meta property="og:title" content="Shivraj Enterprise | Labour Contractor & Manpower Supply in Vapi GIDC" />
+        <meta property="og:description" content="Labour contractor in Vapi GIDC, Sarigam & Daman. Skilled, unskilled & housekeeping manpower with PF/ESIC compliance. Rated 5.0 on Google. Quick deployment." />
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/" />
       </Helmet>
       <div className="homepage-motion">
@@ -48,6 +50,7 @@ const Index = () => {
                 <img src={logo} alt="Shivraj Enterprise logo" width={80} height={80} loading="eager" fetchPriority="high" decoding="async" className="h-16 w-16 md:h-20 md:w-20 object-contain" />
               </div>
             </div>
+            <div className="flex justify-center mb-5"><GoogleRatingBadge /></div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" aria-label="Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat">
               <BlurText as="span" text="Trusted Manpower & Housekeeping Services in" delay={0.1} />
               <BlurText
@@ -104,6 +107,8 @@ const Index = () => {
           ))}
         </div>
       </section>
+
+      <GoogleReviewsSection />
 
       {/* About Summary Section */}
       <section className="section bg-white">

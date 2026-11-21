@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import SalesChatWidget from "./SalesChatWidget";
+import MobileQuickBar from "./MobileQuickBar";
 import { PageTransition, ScrollProgress } from "./motion";
 import { useLocation } from "react-router-dom";
 
@@ -26,6 +27,7 @@ const Layout = ({ children }: LayoutProps) => {
       <div className="print:hidden">
         <SalesChatWidget />
       </div>
+      <MobileQuickBar />
     </div>
   );
 };
