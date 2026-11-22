@@ -350,6 +350,36 @@ export type Database = {
         }
         Relationships: []
       }
+      growth_reports: {
+        Row: {
+          created_at: string
+          email_sent: boolean
+          error_message: string | null
+          id: string
+          metrics: Json
+          opportunities: Json
+          week: string
+        }
+        Insert: {
+          created_at?: string
+          email_sent?: boolean
+          error_message?: string | null
+          id?: string
+          metrics?: Json
+          opportunities?: Json
+          week: string
+        }
+        Update: {
+          created_at?: string
+          email_sent?: boolean
+          error_message?: string | null
+          id?: string
+          metrics?: Json
+          opportunities?: Json
+          week?: string
+        }
+        Relationships: []
+      }
       job_applications: {
         Row: {
           created_at: string

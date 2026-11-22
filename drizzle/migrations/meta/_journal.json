@@ -57,6 +57,13 @@
       "when": 1795082709464,
       "tag": "0007_google_business_publishing",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795337408703,
+      "tag": "0008_growth_reports",
+      "breakpoints": true
     }
   ]
 }
