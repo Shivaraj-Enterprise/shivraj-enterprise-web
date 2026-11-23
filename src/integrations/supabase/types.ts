@@ -677,6 +677,36 @@ export type Database = {
         }
         Relationships: []
       }
+      weekly_trending_content: {
+        Row: {
+          active: boolean
+          created_at: string
+          faqs: Json
+          id: string
+          keywords: string[]
+          topic: string
+          week: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          faqs?: Json
+          id?: string
+          keywords?: string[]
+          topic: string
+          week: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          faqs?: Json
+          id?: string
+          keywords?: string[]
+          topic?: string
+          week?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

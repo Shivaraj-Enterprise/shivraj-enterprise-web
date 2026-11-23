@@ -64,6 +64,13 @@
       "when": 1795337408703,
       "tag": "0008_growth_reports",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795451024715,
+      "tag": "0009_weekly_trending_content",
+      "breakpoints": true
     }
   ]
 }

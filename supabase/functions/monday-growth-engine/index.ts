@@ -24,7 +24,8 @@ Deno.serve(async (req) => {
   const start = new Date(end.getTime() - 6 * 864e5);
   const week = day(now);
   const { data: existing } = await db.from("growth_reports").select("email_sent").eq("week", week).maybeSingle();
-  if (existing?.email_sent) return json({ skipped: "already sent this week" });
+  const { data: trendRow } = await db.from("weekly_trending_content").select("id").eq("week", week).maybeSingle();
+  if (existing?.email_sent && trendRow) return json({ skipped: "already done this week" });
 
   const lovKey = Deno.env.get("LOVABLE_API_KEY") ?? "";
   const metrics: Record<string, unknown> = { from: day(start), to: day(end) };
@@ -86,6 +87,38 @@ Deno.serve(async (req) => {
 
   await db.from("growth_reports").upsert({ week, metrics, opportunities, error_message: errors.join("; ") || null }, { onConflict: "week" });
 
+  // Trending Q&A: turn this week's searches into 3 FAQs shown live on the website.
+  let trending: { topic: string; faqs: { question: string; answer: string }[] } | null = null;
+  try {
+    const { data: already } = await db.from("weekly_trending_content").select("topic").eq("week", week).maybeSingle();
+    if (!already) {
+      const searchTerms = [...nearWins.map(n => n.query), ...topQueries.map(r => r.keys[0])].slice(0, 15);
+      const prompt = `You write FAQ content for Shivraj Enterprise, a manpower supply / labour contractor (sole proprietorship since 2016) serving factories in Vapi GIDC, Sarigam, Umbergaon, Daman and Silvassa. Audience: factory HR heads and plant managers.
+Real Google searches people used to find the site this week: ${JSON.stringify(searchTerms)}.
+Pick the strongest buyer-intent theme and write exactly 3 practical FAQs that naturally use these search phrases. Rules: never state specific wage amounts, prices, rates, phone numbers, addresses or new legal rules/dates; keep answers general, accurate and 40-80 words; mention PF/ESIC compliance or quick deployment only where natural; never write "Pvt. Ltd.".
+Return JSON: {"topic": string (max 60 chars), "keywords": string[] (3-6), "faqs": [{"question": string, "answer": string}]}`;
+      const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST", headers: { Authorization: `Bearer ${lovKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ model: "google/gemini-3-flash-preview", messages: [{ role: "user", content: prompt }], response_format: { type: "json_object" } }),
+      });
+      if (!r.ok) throw new Error(`AI ${r.status}: ${(await r.text()).slice(0, 200)}`);
+      const out = JSON.parse((await r.json()).choices?.[0]?.message?.content ?? "{}");
+      const faqs = (Array.isArray(out.faqs) ? out.faqs : []).filter((f: any) => typeof f?.question === "string" && typeof f?.answer === "string")
+        .slice(0, 3).map((f: any) => ({ question: f.question.slice(0, 200), answer: f.answer.slice(0, 700) }));
+      if (faqs.length && typeof out.topic === "string") {
+        const keywords = (Array.isArray(out.keywords) ? out.keywords : []).filter((k: any) => typeof k === "string").slice(0, 6);
+        const { error } = await db.from("weekly_trending_content").insert({ week, topic: out.topic.slice(0, 80), keywords, faqs });
+        if (error) throw new Error(error.message);
+        trending = { topic: out.topic, faqs };
+        const secret = Deno.env.get("INTERNAL_FUNCTION_SECRET");
+        if (secret) await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/indexnow-submit`, {
+          method: "POST", headers: { "Content-Type": "application/json", "x-internal-secret": secret },
+          body: JSON.stringify({ urls: [SITE] }),
+        }).catch(e => errors.push(`IndexNow: ${e.message}`));
+      }
+    }
+  } catch (e) { errors.push(`Trending content: ${(e as Error).message}`); }
+
   const gb = (metrics.googleBusiness ?? {}) as Record<string, number>;
   const rows = (items: any[], cols: string[]) => items.map(i => `<tr>${cols.map(c => `<td style="padding:4px 8px;border-bottom:1px solid #eee">${esc(i[c])}</td>`).join("")}</tr>`).join("");
   const html = `<div style="font-family:Arial,sans-serif;color:#0f172a">
@@ -95,12 +128,13 @@ Deno.serve(async (req) => {
 <h3>Top searches</h3><table>${rows(metrics.topQueries as any[], ["query", "clicks", "impressions", "position"])}</table>
 <h3>Almost on page 1 (quick wins)</h3><table>${rows(nearWins, ["query", "impressions", "position"])}</table>
 <h3>Pages seen but rarely clicked</h3><table>${rows(lowCtr, ["page", "impressions", "ctr"])}</table>
+${trending ? `<h3>Added to your website this week: ${esc(trending.topic)}</h3><ul>${trending.faqs.map(f => `<li>${esc(f.question)}</li>`).join("")}</ul>` : ""}
 <p>This week's automatic blog article will use these searches as topic fuel.</p>
 ${errors.length ? `<p style="color:#b91c1c">Data issues: ${esc(errors.join("; "))}</p>` : ""}</div>`;
 
-  let emailSent = false;
+  let emailSent = !!existing?.email_sent;
   const resendKey = Deno.env.get("RESEND_API_KEY");
-  if (resendKey) {
+  if (resendKey && !emailSent) {
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST", headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": `growth-${week}` },
       body: JSON.stringify({ from: FROM, to: [RECIPIENT], subject: `Monday Growth Briefing - ${week}`, html }),

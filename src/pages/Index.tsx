@@ -1,6 +1,7 @@
 import CompanyProfileDownload from "@/components/CompanyProfileDownload";
 import GoogleRatingBadge from "@/components/GoogleRatingBadge";
 import GoogleReviewsSection from "@/components/GoogleReviewsSection";
+import WeeklyTrendingFaq from "@/components/WeeklyTrendingFaq";
 import { ArrowRight, Users, Sparkles, PackageCheck, CheckCircle, Award, Shield, GraduationCap, Download, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -109,6 +110,7 @@ const Index = () => {
       </section>
 
       <GoogleReviewsSection />
+      <WeeklyTrendingFaq />
 
       {/* About Summary Section */}
       <section className="section bg-white">
