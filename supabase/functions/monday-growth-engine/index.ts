@@ -1,12 +1,13 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
-// Every Monday: pull last 7 days of Google Search Console + Business Profile data,
+// Every Monday: pull last 7 days of Google Search Console, Business Profile and Bing data,
 // find opportunities, store a snapshot, and email the owner a briefing.
 const SITE = "https://shivraj-enterprise.lovable.app/";
 const RECIPIENT = "shivrajenterprise1234@gmail.com";
 const FROM = "Shivraj Growth <onboarding@resend.dev>";
 const GSC = "https://connector-gateway.lovable.dev/google_search_console";
 const GBP = "https://connector-gateway.lovable.dev/google_business_profile";
+const BING = "https://connector-gateway.lovable.dev/bing_webmaster_tools";
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { "Content-Type": "application/json" } });
 const esc = (v: unknown) => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] ?? c));
 const day = (d: Date) => d.toISOString().slice(0, 10);
@@ -73,6 +74,53 @@ Deno.serve(async (req) => {
     }
   } catch (e) { errors.push(`Google Business: ${(e as Error).message}`); }
 
+  // Bing (also powers Yahoo and Microsoft Copilot): weekly traffic, top searches,
+  // then resubmit the sitemap and last week's articles so Bing re-crawls them.
+  let bingQueries: { query: string; clicks: number; impressions: number; position: number }[] = [];
+  try {
+    const bk = Deno.env.get("BING_WEBMASTER_TOOLS_API_KEY");
+    if (!bk) throw new Error("not connected");
+    const bh = { Authorization: `Bearer ${lovKey}`, "X-Connection-Api-Key": bk, "Content-Type": "application/json" };
+    const bget = async (path: string) => {
+      const r = await fetch(`${BING}/${path}?siteUrl=${encodeURIComponent(SITE)}`, { headers: bh });
+      if (!r.ok) throw new Error(`${path} ${r.status}: ${(await r.text()).slice(0, 150)}`);
+      return ((await r.json()).d ?? []) as any[];
+    };
+    const msDate = (v: unknown) => Number(/-?\d+/.exec(String(v ?? ""))?.[0] ?? 0);
+    const since = now.getTime() - 7 * 864e5;
+    const [traffic, qs] = await Promise.all([bget("GetRankAndTrafficStats"), bget("GetQueryStats")]);
+    const recent = traffic.filter(t => msDate(t.Date) >= since);
+    metrics.bing = {
+      clicks: recent.reduce((a, t) => a + Number(t.Clicks ?? 0), 0),
+      impressions: recent.reduce((a, t) => a + Number(t.Impressions ?? 0), 0),
+    };
+    // Query stats update weekly, so look back 14 days and merge rows per search.
+    const agg = new Map<string, { clicks: number; impressions: number; posSum: number }>();
+    for (const q of qs.filter(q => msDate(q.Date) >= since - 7 * 864e5)) {
+      const key = String(q.Query ?? "").trim().toLowerCase();
+      if (!key) continue;
+      const a = agg.get(key) ?? { clicks: 0, impressions: 0, posSum: 0 };
+      const imp = Number(q.Impressions ?? 0);
+      a.clicks += Number(q.Clicks ?? 0); a.impressions += imp; a.posSum += Number(q.AvgImpressionPosition ?? 0) * imp;
+      agg.set(key, a);
+    }
+    bingQueries = [...agg].map(([query, a]) => ({ query, clicks: a.clicks, impressions: a.impressions, position: a.impressions ? +(a.posSum / a.impressions).toFixed(1) : 0 }))
+      .sort((x, y) => y.clicks - x.clicks || y.impressions - x.impressions).slice(0, 10);
+    (metrics.bing as Record<string, unknown>).topQueries = bingQueries;
+
+    const submitted: string[] = [];
+    const fr = await fetch(`${BING}/SubmitFeed`, { method: "POST", headers: bh, body: JSON.stringify({ siteUrl: SITE, feedUrl: `${SITE}sitemap.xml` }) });
+    if (fr.ok) submitted.push("sitemap"); else errors.push(`Bing sitemap ${fr.status}`);
+    const { data: posts } = await db.from("blog_posts").select("slug").eq("published", true)
+      .gte("published_at", new Date(since).toISOString()).limit(10);
+    for (const p of posts ?? []) {
+      const url = `${SITE}blog/${p.slug}`;
+      const ur = await fetch(`${BING}/SubmitUrl`, { method: "POST", headers: bh, body: JSON.stringify({ siteUrl: SITE, url }) });
+      if (ur.ok) submitted.push(url); else errors.push(`Bing URL ${ur.status}`);
+    }
+    (metrics.bing as Record<string, unknown>).submitted = submitted;
+  } catch (e) { errors.push(`Bing: ${(e as Error).message}`); }
+
   // Opportunities: page-2 queries with real impressions, and pages with low CTR.
   const nearWins = queries.filter(r => r.position >= 8 && r.position <= 20 && r.impressions >= 5)
     .sort((a, b) => b.impressions - a.impressions).slice(0, 10)
@@ -92,9 +140,9 @@ Deno.serve(async (req) => {
   try {
     const { data: already } = await db.from("weekly_trending_content").select("topic").eq("week", week).maybeSingle();
     if (!already) {
-      const searchTerms = [...nearWins.map(n => n.query), ...topQueries.map(r => r.keys[0])].slice(0, 15);
+      const searchTerms = [...new Set([...nearWins.map(n => n.query), ...topQueries.map(r => r.keys[0]), ...bingQueries.map(b => b.query)])].slice(0, 18);
       const prompt = `You write FAQ content for Shivraj Enterprise, a manpower supply / labour contractor (sole proprietorship since 2016) serving factories in Vapi GIDC, Sarigam, Umbergaon, Daman and Silvassa. Audience: factory HR heads and plant managers.
-Real Google searches people used to find the site this week: ${JSON.stringify(searchTerms)}.
+Real Google and Bing searches people used to find the site this week: ${JSON.stringify(searchTerms)}.
 Pick the strongest buyer-intent theme and write exactly 3 practical FAQs that naturally use these search phrases. Rules: never state specific wage amounts, prices, rates, phone numbers, addresses or new legal rules/dates; keep answers general, accurate and 40-80 words; mention PF/ESIC compliance or quick deployment only where natural; never write "Pvt. Ltd.".
 Return JSON: {"topic": string (max 60 chars), "keywords": string[] (3-6), "faqs": [{"question": string, "answer": string}]}`;
       const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -125,7 +173,9 @@ Return JSON: {"topic": string (max 60 chars), "keywords": string[] (3-6), "faqs"
 <h2 style="color:#1e3a8a">Monday Growth Briefing (${esc(metrics.from)} to ${esc(metrics.to)})</h2>
 <p><b>Google Search:</b> ${esc(metrics.clicks ?? "n/a")} clicks, ${esc(metrics.impressions ?? "n/a")} impressions.</p>
 <p><b>Google Business:</b> ${esc(gb.CALL_CLICKS ?? "n/a")} call clicks, ${esc(gb.WEBSITE_CLICKS ?? "n/a")} website clicks, ${esc(gb.BUSINESS_DIRECTION_REQUESTS ?? "n/a")} direction requests.</p>
+<p><b>Bing / Copilot:</b> ${esc((metrics.bing as any)?.clicks ?? "n/a")} clicks, ${esc((metrics.bing as any)?.impressions ?? "n/a")} impressions. ${((metrics.bing as any)?.submitted ?? []).length ? `Sent ${esc(((metrics.bing as any).submitted as string[]).length)} item(s) to Bing for re-crawl.` : ""}</p>
 <h3>Top searches</h3><table>${rows(metrics.topQueries as any[], ["query", "clicks", "impressions", "position"])}</table>
+${bingQueries.length ? `<h3>Top Bing searches</h3><table>${rows(bingQueries, ["query", "clicks", "impressions", "position"])}</table>` : ""}
 <h3>Almost on page 1 (quick wins)</h3><table>${rows(nearWins, ["query", "impressions", "position"])}</table>
 <h3>Pages seen but rarely clicked</h3><table>${rows(lowCtr, ["page", "impressions", "ctr"])}</table>
 ${trending ? `<h3>Added to your website this week: ${esc(trending.topic)}</h3><ul>${trending.faqs.map(f => `<li>${esc(f.question)}</li>`).join("")}</ul>` : ""}
