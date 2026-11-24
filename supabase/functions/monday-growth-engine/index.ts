@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
-// Every Monday: pull last 7 days of Google Search Console, Business Profile and Bing data,
+// Every Monday: pull last 7 days of Google Search Console, Business Profile and Bing data plus Semrush keyword ideas,
 // find opportunities, store a snapshot, and email the owner a briefing.
 const SITE = "https://shivraj-enterprise.lovable.app/";
 const RECIPIENT = "shivrajenterprise1234@gmail.com";
@@ -8,6 +8,9 @@ const FROM = "Shivraj Growth <onboarding@resend.dev>";
 const GSC = "https://connector-gateway.lovable.dev/google_search_console";
 const GBP = "https://connector-gateway.lovable.dev/google_business_profile";
 const BING = "https://connector-gateway.lovable.dev/bing_webmaster_tools";
+const SEMRUSH = "https://connector-gateway.lovable.dev/semrush";
+// Searches from job seekers, other brands or definitions are not buyers - skip them.
+const SEMRUSH_NOISE = /login|manpowergroup|manpower group|define|meaning|definition|personal|jobs?\b|vacanc|salary|recruitment agency|naukri|\bpdf\b/i;
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { "Content-Type": "application/json" } });
 const esc = (v: unknown) => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] ?? c));
 const day = (d: Date) => d.toISOString().slice(0, 10);
@@ -133,6 +136,31 @@ Deno.serve(async (req) => {
   metrics.topQueries = topQueries.map(r => ({ query: r.keys[0], clicks: r.clicks, impressions: r.impressions, position: +r.position.toFixed(1) }));
   metrics.topPages = [...pages].sort((a, b) => b.clicks - a.clicks).slice(0, 5).map(r => ({ page: r.keys[0], clicks: r.clicks, impressions: r.impressions }));
 
+  // Semrush (free plan: few calls a day, so max 3 per week): related buyer searches and
+  // questions people ask in India around this week's strongest Google search.
+  let semrushKeywords: { keyword: string; volume: number; difficulty: number }[] = [];
+  let semrushQuestions: string[] = [];
+  try {
+    const sh = { Authorization: `Bearer ${lovKey}`, "X-Connection-Api-Key": Deno.env.get("SEMRUSH_API_KEY") ?? "" };
+    const sget = async (method: string, phrase: string) => {
+      const p = new URLSearchParams({ phrase, database: "in", export_columns: "Ph,Nq,Kd", display_limit: "15" });
+      const r = await fetch(`${SEMRUSH}/keywords/${method}?${p}`, { headers: sh });
+      const text = await r.text();
+      if (/LIMIT EXCEEDED/i.test(text)) throw new Error("Semrush daily quota used up - will retry next Monday");
+      if (!r.ok) throw new Error(`${method} ${r.status}: ${text.slice(0, 120)}`);
+      if (/ERROR 50 :: NOTHING FOUND/i.test(text)) return [];
+      return ((JSON.parse(text).data?.rows ?? []) as string[][])
+        .map(([k, v, d]) => ({ keyword: k, volume: Number(v) || 0, difficulty: Number(d) || 0 }))
+        .filter(x => x.keyword && !SEMRUSH_NOISE.test(x.keyword));
+    };
+    const seed = [...queries].filter(r => !/shivraj/i.test(r.keys[0])).sort((a, b) => b.impressions - a.impressions)[0]?.keys[0] ?? "manpower supply";
+    let related = await sget("phrase_related", seed);
+    if (!related.length && seed !== "manpower supply") related = await sget("phrase_related", "manpower supply");
+    semrushKeywords = related.sort((a, b) => b.volume - a.volume).slice(0, 8);
+    semrushQuestions = (await sget("phrase_questions", seed)).sort((a, b) => b.volume - a.volume).slice(0, 5).map(q => q.keyword);
+    metrics.semrush = { seed, keywords: semrushKeywords, questions: semrushQuestions };
+  } catch (e) { errors.push(`Semrush: ${(e as Error).message}`); }
+
   await db.from("growth_reports").upsert({ week, metrics, opportunities, error_message: errors.join("; ") || null }, { onConflict: "week" });
 
   // Trending Q&A: turn this week's searches into 3 FAQs shown live on the website.
@@ -143,7 +171,8 @@ Deno.serve(async (req) => {
       const searchTerms = [...new Set([...nearWins.map(n => n.query), ...topQueries.map(r => r.keys[0]), ...bingQueries.map(b => b.query)])].slice(0, 18);
       const prompt = `You write FAQ content for Shivraj Enterprise, a manpower supply / labour contractor (sole proprietorship since 2016) serving factories in Vapi GIDC, Sarigam, Umbergaon, Daman and Silvassa. Audience: factory HR heads and plant managers.
 Real Google and Bing searches people used to find the site this week: ${JSON.stringify(searchTerms)}.
-Pick the strongest buyer-intent theme and write exactly 3 practical FAQs that naturally use these search phrases. Rules: never state specific wage amounts, prices, rates, phone numbers, addresses or new legal rules/dates; keep answers general, accurate and 40-80 words; mention PF/ESIC compliance or quick deployment only where natural; never write "Pvt. Ltd.".
+Popular related searches and questions in India (Semrush): ${JSON.stringify([...semrushKeywords.slice(0, 6).map(k => k.keyword), ...semrushQuestions])}.
+Pick the strongest buyer-intent theme and write exactly 3 practical FAQs that naturally use these search phrases (prefer the site's own searches; use Semrush phrases where they fit). Rules: never state specific wage amounts, prices, rates, phone numbers, addresses or new legal rules/dates; keep answers general, accurate and 40-80 words; mention PF/ESIC compliance or quick deployment only where natural; never write "Pvt. Ltd.".
 Return JSON: {"topic": string (max 60 chars), "keywords": string[] (3-6), "faqs": [{"question": string, "answer": string}]}`;
       const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST", headers: { Authorization: `Bearer ${lovKey}`, "Content-Type": "application/json" },
@@ -176,6 +205,8 @@ Return JSON: {"topic": string (max 60 chars), "keywords": string[] (3-6), "faqs"
 <p><b>Bing / Copilot:</b> ${esc((metrics.bing as any)?.clicks ?? "n/a")} clicks, ${esc((metrics.bing as any)?.impressions ?? "n/a")} impressions. ${((metrics.bing as any)?.submitted ?? []).length ? `Sent ${esc(((metrics.bing as any).submitted as string[]).length)} item(s) to Bing for re-crawl.` : ""}</p>
 <h3>Top searches</h3><table>${rows(metrics.topQueries as any[], ["query", "clicks", "impressions", "position"])}</table>
 ${bingQueries.length ? `<h3>Top Bing searches</h3><table>${rows(bingQueries, ["query", "clicks", "impressions", "position"])}</table>` : ""}
+${semrushKeywords.length ? `<h3>Popular related searches in India (Semrush, seed: "${esc((metrics.semrush as any)?.seed)}")</h3><table><tr><th align="left">Search</th><th>Monthly searches</th><th>Difficulty (0-100)</th></tr>${rows(semrushKeywords, ["keyword", "volume", "difficulty"])}</table>` : ""}
+${semrushQuestions.length ? `<h3>Questions people ask (Semrush)</h3><ul>${semrushQuestions.map(q => `<li>${esc(q)}</li>`).join("")}</ul>` : ""}
 <h3>Almost on page 1 (quick wins)</h3><table>${rows(nearWins, ["query", "impressions", "position"])}</table>
 <h3>Pages seen but rarely clicked</h3><table>${rows(lowCtr, ["page", "impressions", "ctr"])}</table>
 ${trending ? `<h3>Added to your website this week: ${esc(trending.topic)}</h3><ul>${trending.faqs.map(f => `<li>${esc(f.question)}</li>`).join("")}</ul>` : ""}
