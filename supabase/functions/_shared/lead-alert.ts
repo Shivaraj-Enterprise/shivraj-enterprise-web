@@ -1,4 +1,14 @@
+import { sendGmail } from "./gmail.ts";
+
+// Owner alert: Resend first (idempotent per lead); if Resend rejects it, fall back to the business Gmail.
 export async function sendLeadAlert(input: { id: string; subject: string; html: string; replyTo: string }) {
+  const first = await sendViaResend(input);
+  if (first.status !== "failed") return first;
+  const fallback = await sendGmail({ to: "shivrajenterprise1234@gmail.com", subject: input.subject, html: input.html, replyTo: input.replyTo });
+  return fallback.status === "accepted" ? fallback : first;
+}
+
+async function sendViaResend(input: { id: string; subject: string; html: string; replyTo: string }) {
   const key = Deno.env.get("RESEND_API_KEY");
   if (!key) return { status: "failed", error: "Email credentials missing" };
   try {

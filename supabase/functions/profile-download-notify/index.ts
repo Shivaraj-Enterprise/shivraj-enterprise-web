@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { sendLeadAlert } from "../_shared/lead-alert.ts";
+import { sendCustomerConfirmation } from "../_shared/gmail.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const supabaseAdmin = createClient(
@@ -110,8 +111,15 @@ const handler = async (req: Request): Promise<Response> => {
       replyTo: data.email,
     });
 
+    // One automatic reply per email address per day, so the form can't be used to spam anyone.
+    const { count: recent } = await supabaseAdmin.from("leads").select("id", { count: "exact", head: true })
+      .ilike("email", data.email).gte("created_at", new Date(Date.now() - 864e5).toISOString());
+    const confirmation = (recent ?? 0) <= 1
+      ? await sendCustomerConfirmation({ to: data.email, name: data.company, kind: "profile" })
+      : { status: "skipped" };
+
     const { error: statusError } = await supabaseAdmin.from("leads").update({
-      notes: `Company profile download request. WhatsApp: ${whatsapp}\nEmail alert: ${emailResponse.status}`,
+      notes: `Company profile download request. WhatsApp: ${whatsapp}\nEmail alert: ${emailResponse.status}\nCustomer reply: ${confirmation.status}`,
     }).eq("id", lead.id);
     if (statusError) console.error("Could not record profile alert status:", statusError.message);
 
