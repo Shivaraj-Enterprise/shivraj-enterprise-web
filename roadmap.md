@@ -1,4 +1,6 @@
 # Roadmap
+- [ ] Connector Phase 4: link Firecrawl and add shared fresh-news research to weekly articles and Monday FAQs/briefing
+- [ ] Connector Phase 4: test live research without publishing an extra article, email or social post
 - [x] Auto-post weekly Monday article to LinkedIn
 - [x] Admin Social Studio (/admin/social): post history, manual compose/publish, connection status
 - [x] Phase 3: managed Google Business Profile updates and opt-in weekly publishing hook
