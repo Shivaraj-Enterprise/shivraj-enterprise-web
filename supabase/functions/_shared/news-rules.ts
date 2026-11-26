@@ -1,4 +1,4 @@
-export type NewsSource = { title: string; url: string; date: string; source: string; summary: string; provider: "firecrawl" | "google-news" };
+export type NewsSource = { title: string; url: string; date: string; source: string; summary: string; provider: "firecrawl" | "google-news" | "perplexity" };
 
 const WEEK_MS = 7 * 86400000;
 

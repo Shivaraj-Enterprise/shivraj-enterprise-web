@@ -1,4 +1,6 @@
 # Roadmap
+- [x] Phase 5A: connect Perplexity Search and add dated local industrial-demand evidence to Monday FAQs and owner briefing
+- [x] Phase 5A: validate live research without sending email or publishing content
 - [x] Connector Phase 4: link Firecrawl and add shared fresh-news research to weekly articles and Monday FAQs/briefing
 - [x] Connector Phase 4: test live research without publishing an extra article, email or social post
 - [x] Auto-post weekly Monday article to LinkedIn
