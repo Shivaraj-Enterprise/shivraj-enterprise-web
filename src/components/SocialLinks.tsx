@@ -1,4 +1,4 @@
-import { Linkedin, Instagram, Facebook, ExternalLink, Star, Globe, Link as LinkIcon } from "lucide-react";
+import { Linkedin, Instagram, Facebook, Twitter, ExternalLink, Star, Globe, Store, Link as LinkIcon } from "lucide-react";
 import type { ElementType } from "react";
 
 export interface SocialItem {
@@ -11,10 +11,12 @@ export const socialItems: SocialItem[] = [
   { name: "LinkedIn", url: "https://www.linkedin.com/company/shivraj-enterprisess/?viewasmember=true", icon: Linkedin },
   { name: "Instagram", url: "https://www.instagram.com/shivraj.enterprise/?hl=en", icon: Instagram },
   { name: "Facebook", url: "https://www.facebook.com/Shivraj.Enterprise.1234/", icon: Facebook },
+  { name: "X (Twitter)", url: "https://x.com/Shivraj_Enter", icon: Twitter },
   { name: "Google Reviews", url: "https://g.page/r/cwyjmz32ndejebm/review", icon: Star },
   { name: "Justdial", url: "https://www.jsdl.in/rsl-lji1779101080", icon: Globe },
   { name: "TradeIndia", url: "https://www.tradeindia.com/shivraj-enterprise-162621929", icon: ExternalLink },
   { name: "IndiaMART", url: "https://www.indiamart.com/company/156852222", icon: ExternalLink },
+  { name: "Sulekha", url: "https://www.sulekha.com/business/shivraj-enterprises-vapi-industrial-estate-vapi-contact-address", icon: Store },
   { name: "Linktree", url: "https://linktr.ee/shivraj_enterprise", icon: LinkIcon },
 ];
 
