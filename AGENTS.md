@@ -16,6 +16,7 @@
 
 - LinkedIn posting claims a `publishing` social_posts row before calling LinkedIn; a partial unique index allows one publishing/published row per article, so retries and parallel runs cannot double-post.
 - Google Business updates use a dedicated admin-only function and unique location/update claims; weekly publishing requires an explicit opt-in, and unknown provider outcomes stay locked to prevent duplicate public posts.
+- The Monday growth engine owns automatic Google posts, reusing stored FAQs with a factual service fallback and an Indian-week dedupe key; article hooks skip posting to avoid a second update, and the briefing reports provider acceptance separately from visibility.
 - Search Console buyer queries may inform weekly discovery only when backed by fresh seven-day news; monitoring failures never block the weekly article.
 - Enquiry links carry service, area or calculator assumptions into the existing stored contact form and WhatsApp; shared industrial-area content refines existing pages rather than creating duplicate city doorway pages.
 - Quote and company-profile alerts use a shared sender with event-derived idempotency keys (Resend first, business Gmail fallback); customer auto-replies go from the business Gmail at most once per address per day to prevent abuse; save leads before notifying and distinguish provider acceptance from delivery so failures never cause lost leads or false delivery claims.

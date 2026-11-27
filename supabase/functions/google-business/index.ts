@@ -2,10 +2,10 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { z } from "npm:zod@3";
 import { localSearchInsights } from "../_shared/local-search.ts";
-import { validatePost, canRetry } from "./post-rules.ts";
+import { validatePost, canRetry, mondayKey, weeklyDraft } from "./post-rules.ts";
 
 const Body = z.object({
-  action: z.enum(["status", "preview", "publish", "retry", "auto_publish", "search_insights"]),
+  action: z.enum(["status", "preview", "publish", "retry", "auto_publish", "search_insights", "weekly_publish", "weekly_preview"]),
   post_id: z.string().uuid().optional(), retry_id: z.string().uuid().optional(),
   content: z.string().max(1500).optional(), link: z.string().url().optional(), enabled: z.boolean().optional(),
 });
@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
   }
   let input;
   try { input = Body.parse(await req.json()); } catch { return json({ error: "Invalid publishing request" }, 400); }
-  if (internal && (input.action !== "publish" || !input.post_id)) return json({ error: "Scheduled calls may only publish an article" }, 403);
+  if (internal && input.action !== "weekly_publish" && (input.action !== "publish" || !input.post_id)) return json({ error: "Scheduled calls may only publish weekly updates" }, 403);
   const gatewayKey = Deno.env.get("LOVABLE_API_KEY"), connectionKey = Deno.env.get("GOOGLE_BUSINESS_PROFILE_API_KEY");
   const google = async (path: string, method = "GET", body?: unknown) => {
     if (!gatewayKey || !connectionKey) throw new Error("Google Business Profile is not connected");
@@ -59,12 +59,30 @@ Deno.serve(async (req) => {
     if (input.action === "search_insights") return json(await localSearchInsights());
     if (input.action === "auto_publish") {
       if (typeof input.enabled !== "boolean") return json({ error: "Choose enabled or disabled" }, 400);
+      if (input.enabled) {
+        const state = await google("/verifications/v1/locations/3479985456859544818/VoiceOfMerchantState");
+        if (state.hasVoiceOfMerchant !== true) return json({ error: "Verify this Google listing before enabling weekly updates" }, 409);
+      }
       const { error } = await db.from("google_business_settings").update({ auto_publish: input.enabled, updated_at: new Date().toISOString() }).eq("id", "primary");
       if (error) throw error;
       return json({ ok: true });
     }
     if (internal && !settings.auto_publish) return json({ skipped: "Weekly Google updates are switched off" });
+    // The Monday engine owns automatic posts; the old article hook must not create a second update.
+    if (internal && input.action === "publish") return json({ skipped: "Automatic Google updates are handled by the Monday growth engine" });
+    const weekly = input.action === "weekly_publish" || input.action === "weekly_preview";
+    if (input.action === "weekly_publish" && !settings.auto_publish) return json({ skipped: "Weekly Google updates are switched off" });
+    if (settings.location_name !== LOCATION) return json({ error: "Google listing does not match configured publishing location" }, 409);
     let content = input.content ?? "", link = input.link ?? `${SITE}/labour-cost-calculator`, articleId = input.post_id;
+    if (weekly) {
+      const { data: trend, error } = await db.from("weekly_trending_content").select("topic,faqs").eq("week", mondayKey()).maybeSingle();
+      if (error) throw error;
+      const draft = weeklyDraft(trend);
+      content = draft.content; link = draft.link; articleId = undefined;
+      const state = await google("/verifications/v1/locations/3479985456859544818/VoiceOfMerchantState");
+      if (state.hasVoiceOfMerchant !== true) return json({ error: "Google listing is not verified for publishing" }, 409);
+      if (input.action === "weekly_preview") return json({ content, link, week: mondayKey(), enabled: settings.auto_publish, verified: true });
+    }
     if (articleId) {
       const { data: post, error } = await db.from("blog_posts").select("id,title,excerpt,slug,published").eq("id", articleId).maybeSingle();
       if (error) throw error;
@@ -86,7 +104,7 @@ Deno.serve(async (req) => {
     const valid = validatePost(content, link);
     if (!claimedId) {
       const hash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${valid.content}\n${valid.link}`));
-      const dedupe = articleId ? `article:${articleId}` : [...new Uint8Array(hash)].map((n) => n.toString(16).padStart(2, "0")).join("");
+      const dedupe = weekly ? `monday:${mondayKey()}` : articleId ? `article:${articleId}` : [...new Uint8Array(hash)].map((n) => n.toString(16).padStart(2, "0")).join("");
       const { data: claim, error } = await db.from("google_business_posts").insert({ location_name: LOCATION, dedupe_key: dedupe, blog_post_id: articleId ?? null, content: valid.content, link: valid.link, status: "publishing", source: internal ? "auto" : "manual" }).select("id").single();
       if (error?.code === "23505") return json({ skipped: "This update has already been submitted or is in progress; check its history" });
       if (error) throw error;
@@ -96,7 +114,7 @@ Deno.serve(async (req) => {
     const post = await google(`/my_business/v4/${LOCATION}/localPosts`, "POST", { languageCode: "en", summary: valid.content, topicType: "STANDARD", callToAction: { actionType: "LEARN_MORE", url: valid.link } });
     const { error } = await db.from("google_business_posts").update({ status: post.state === "REJECTED" ? "failed" : "submitted", google_state: post.state ?? "PROCESSING", external_name: post.name, external_url: post.searchUrl ?? null, published_at: new Date().toISOString(), error_message: post.state === "REJECTED" ? "Google rejected this update" : null }).eq("id", claimedId);
     if (error) throw error;
-    return json({ ok: true, state: post.state ?? "PROCESSING", url: post.searchUrl });
+    return json({ ok: post.state !== "REJECTED", state: post.state ?? "PROCESSING", url: post.searchUrl });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error("google-business:", message);

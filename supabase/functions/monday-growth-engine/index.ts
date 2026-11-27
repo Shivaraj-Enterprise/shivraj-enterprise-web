@@ -4,6 +4,7 @@ import { z } from "npm:zod@3.25.76";
 import { createNewsResearch, researchBuyerNews } from "../_shared/news-research.ts";
 import { editorialJson } from "../_shared/editorial-ai.ts";
 import { createDemandResearch } from "../_shared/demand-research.ts";
+import { mondayKey } from "../_shared/monday-key.ts";
 
 // Every Monday: pull last 7 days of Google Search Console, Business Profile and Bing data plus Semrush keyword ideas,
 // find opportunities, store a snapshot, and email the owner a briefing.
@@ -41,7 +42,7 @@ Deno.serve(async (req) => {
   const now = new Date();
   const end = new Date(now.getTime() - 2 * 864e5); // GSC data lags ~2 days
   const start = new Date(end.getTime() - 6 * 864e5);
-  const week = day(now);
+  const week = mondayKey(now);
   const { data: existing } = await db.from("growth_reports").select("email_sent").eq("week", week).maybeSingle();
   const { data: trendRow } = await db.from("weekly_trending_content").select("id").eq("week", week).maybeSingle();
   if (!researchOnly && existing?.email_sent && trendRow) return json({ skipped: "already done this week" });
@@ -217,6 +218,20 @@ Return JSON: {"topic": string (max 60 chars), "keywords": string[] (3-6), "faqs"
     }
   } catch (e) { errors.push(`Trending content: ${(e as Error).message}`); }
 
+  // Reuse this week's stored FAQ: no additional AI call or independent schedule.
+  let googleUpdate: { ok?: boolean; state?: string; skipped?: string; error?: string } = {};
+  try {
+    const response = await fetch(`${url}/functions/v1/google-business`, {
+      method: "POST", headers: { "Content-Type": "application/json", "x-internal-secret": String(expected) },
+      body: JSON.stringify({ action: "weekly_publish" }),
+    });
+    const text = await response.text();
+    if (!response.ok) throw new Error(`[${response.status}]: ${text}`);
+    googleUpdate = JSON.parse(text);
+    if (googleUpdate.error || googleUpdate.ok === false) throw new Error(googleUpdate.error ?? `Google update: ${googleUpdate.state}`);
+  } catch (e) { googleUpdate.error = (e as Error).message; errors.push(`Google weekly update: ${googleUpdate.error}`); }
+  metrics.googleBusinessUpdate = googleUpdate;
+
   const { error: reportError } = await db.from("growth_reports").upsert({ week, metrics, opportunities, error_message: errors.join("; ") || null }, { onConflict: "week" });
   if (reportError) return json({ error: reportError.message }, 500);
 
@@ -226,6 +241,7 @@ Return JSON: {"topic": string (max 60 chars), "keywords": string[] (3-6), "faqs"
 <h2 style="color:#1e3a8a">Monday Growth Briefing (${esc(metrics.from)} to ${esc(metrics.to)})</h2>
 <p><b>Google Search:</b> ${esc(metrics.clicks ?? "n/a")} clicks, ${esc(metrics.impressions ?? "n/a")} impressions.</p>
 <p><b>Google Business:</b> ${esc(gb.CALL_CLICKS ?? "n/a")} call clicks, ${esc(gb.WEBSITE_CLICKS ?? "n/a")} website clicks, ${esc(gb.BUSINESS_DIRECTION_REQUESTS ?? "n/a")} direction requests.</p>
+<p><b>Monday Google update:</b> ${esc(googleUpdate.error ?? googleUpdate.skipped ?? (googleUpdate.ok ? `Submitted to Google (${googleUpdate.state ?? "PROCESSING"})` : "Not submitted"))}. Google controls approval and public visibility.</p>
 <p><b>Bing / Copilot:</b> ${esc((metrics.bing as any)?.clicks ?? "n/a")} clicks, ${esc((metrics.bing as any)?.impressions ?? "n/a")} impressions. ${((metrics.bing as any)?.submitted ?? []).length ? `Sent ${esc(((metrics.bing as any).submitted as string[]).length)} item(s) to Bing for re-crawl.` : ""}</p>
 <h3>Top searches</h3><table>${rows(metrics.topQueries as any[], ["query", "clicks", "impressions", "position"])}</table>
 ${bingQueries.length ? `<h3>Top Bing searches</h3><table>${rows(bingQueries, ["query", "clicks", "impressions", "position"])}</table>` : ""}
@@ -252,5 +268,5 @@ ${errors.length ? `<p style="color:#b91c1c">Data issues: ${esc(errors.join("; ")
     if (!r.ok) console.error("resend", r.status, await r.text());
   }
   await db.from("growth_reports").update({ email_sent: emailSent }).eq("week", week);
-  return json({ success: true, week, emailSent, opportunities: opportunities.length, errors });
+  return json({ success: true, week, emailSent, opportunities: opportunities.length, googleBusinessUpdate: googleUpdate, errors });
 });

@@ -1,4 +1,6 @@
 # Roadmap
+- [x] Phase 5B: enable one automatic Monday Google Business update with duplicate protection and owner briefing status
+- [x] Phase 5B: verify signed-in controls, persisted opt-in and live read-only draft; first scheduled submission is November 30, 2026
 - [x] Phase 5A: connect Perplexity Search and add dated local industrial-demand evidence to Monday FAQs and owner briefing
 - [x] Phase 5A: validate live research without sending email or publishing content
 - [x] Connector Phase 4: link Firecrawl and add shared fresh-news research to weekly articles and Monday FAQs/briefing
@@ -9,7 +11,7 @@
 - [x] Pillar 2: calculator and service-specific enquiry links; preserve profile lead capture
 - [x] Pillar 3: localized industrial service content, review-request shortcut, search-query monitoring
 - [x] Verify signed-in confirmation/cancellation, real Google query reads, enquiry handoffs, mobile layout and safeguard tests
-- [ ] Real Google update submission: awaits owner confirmation in Social Studio; weekly updates remain off
+- [ ] Real Google update submission: automatic updates enabled; provider acceptance awaits the first Monday run on November 30, 2026 (no extra public test post sent)
 - [x] Phase 4: reliable stored quote/profile leads, immediate email alerts and visible alert status; free/manual WhatsApp only
 - [x] Pillar 4: searchable private candidate bench and controlled recruitment sharing
 - [x] Verify Phase 4 and Pillar 4: signed-in candidate filters and lead readback, mobile layout, provider acceptance and safeguard tests
