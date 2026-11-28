@@ -12,6 +12,7 @@ import { useRateCard } from "@/hooks/useRateCard";
 import { SERVICE_AREAS, servicePages, type ServicePage } from "@/data/servicePages";
 import { Stagger, StaggerItem } from "@/components/motion";
 import IndustrialAreas from "./IndustrialAreas";
+import WhatsAppQuickEnquiry from "./WhatsAppQuickEnquiry";
 import { quoteEnquiry, serviceEnquiry, whatsappEnquiry } from "@/lib/enquiryLinks";
 
 const SITE = "https://shivraj-enterprise.lovable.app";
@@ -250,6 +251,7 @@ const ServicePageShell = ({ page }: { page: ServicePage }) => {
         </div>
       </section>
 
+      <WhatsAppQuickEnquiry service={page.navLabel} title={`Quick ${page.navLabel} enquiry on WhatsApp`} />
       <IndustrialAreas service={page.navLabel} />
       <FaqSection
         title={`${page.navLabel} — FAQs`}

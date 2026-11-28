@@ -1,4 +1,5 @@
 # Roadmap
+- [x] Phase 5C: free WhatsApp quick-enquiry card on service and locations pages, page-aware mobile WhatsApp button
 - [x] Phase 5B: enable one automatic Monday Google Business update with duplicate protection and owner briefing status
 - [x] Phase 5B: verify signed-in controls, persisted opt-in and live read-only draft; first scheduled submission is November 30, 2026
 - [x] Phase 5A: connect Perplexity Search and add dated local industrial-demand evidence to Monday FAQs and owner briefing

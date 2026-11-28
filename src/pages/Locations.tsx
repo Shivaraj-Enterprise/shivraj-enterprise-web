@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { CheckCircle, MapPin } from "lucide-react";
+import { CheckCircle, MapPin, MessageCircle } from "lucide-react";
 import Layout from "@/components/Layout";
 import LocationMap from "@/components/contact/LocationMap";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,8 @@ import AuroraBackground from "@/components/three/AuroraBackground";
 import BlurText from "@/components/reactbits/BlurText";
 import { Stagger, StaggerItem } from "@/components/motion";
 import IndustrialAreas from "@/components/services/IndustrialAreas";
+import WhatsAppQuickEnquiry from "@/components/services/WhatsAppQuickEnquiry";
+import { serviceEnquiry, whatsappEnquiry } from "@/lib/enquiryLinks";
 
 const Locations = () => {
   return (
@@ -94,6 +96,7 @@ const Locations = () => {
       </section>
 
       <IndustrialAreas />
+      <WhatsAppQuickEnquiry title="Quick manpower enquiry for your area" />
       <LocationMap />
 
       <section className="py-16 bg-shivraj-800 text-white">
@@ -102,9 +105,16 @@ const Locations = () => {
           <p className="text-shivraj-100 mb-6 max-w-2xl mx-auto">
             Get a quote within 24 hours for any location across Vapi GIDC and surrounding districts.
           </p>
-          <Button asChild size="lg" className="bg-white text-shivraj-800 hover:bg-shivraj-50">
-            <Link to="/contact">Request a Quote</Link>
-          </Button>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" className="bg-white text-shivraj-800 hover:bg-shivraj-50">
+              <Link to="/contact">Request a Quote</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-white/40 bg-white/10 text-white hover:bg-white/20 hover:text-white">
+              <a href={whatsappEnquiry(serviceEnquiry("Industrial Manpower", "the Vapi industrial belt"))} target="_blank" rel="noopener noreferrer">
+                <MessageCircle size={18} className="mr-2" />WhatsApp Us
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
     </Layout>
