@@ -101,8 +101,8 @@ const LabourCostCalculator = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Labour Cost Calculator 2026 | Gujarat Manpower Rates</title>
-        <meta name="description" content="Free labour cost calculator for Gujarat: daily & monthly manpower cost with minimum wage, PF, ESIC, bonus, service charge & GST. Get an instant quote." />
+        <title>Labour Cost Calculator 2026 | Gujarat Labour Rates</title>
+        <meta name="description" content="Free labour cost calculator with Gujarat labour rates: daily & monthly manpower cost with minimum wage, PF, ESIC, bonus, service charge & GST. Get an instant quote." />
         <link rel="canonical" href={URL} />
         <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>

@@ -129,10 +129,10 @@ const Services = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Labour Contractor & Manpower Supply Services in Vapi GIDC</title>
-        <meta name="description" content="Licensed labour contractor in Vapi GIDC. Manpower supply & outsourcing with skilled, semi-skilled & unskilled factory workers, PF, ESIC & GST compliance. View our rate card." />
+        <title>GIDC Labour Rates & Manpower Supply in Vapi | Shivraj</title>
+        <meta name="description" content="GIDC labour rates for Vapi: skilled, semi-skilled, unskilled, operator & housekeeping per-shift rates from a labour contractor with PF, ESIC & GST compliance." />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/services" />
-        <meta property="og:title" content="Manpower Outsourcing & Supply Services – Shivraj Enterprise" />
+        <meta property="og:title" content="GIDC Labour Rates & Manpower Supply in Vapi – Shivraj Enterprise" />
         <meta property="og:description" content="Manpower outsourcing and manpower supply services with transparent rates and full statutory compliance." />
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/services" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
@@ -241,7 +241,7 @@ const Services = () => {
 
           {/* Rate Card */}
           <div className="mt-20">
-            <h2 className="text-3xl font-bold text-shivraj-800 mb-4 text-center">Rate Card</h2>
+            <h2 className="text-3xl font-bold text-shivraj-800 mb-4 text-center">GIDC Labour Rates in Vapi (Rate Card)</h2>
             <p className="text-gray-600 text-center mb-8 max-w-3xl mx-auto">
               Transparent and flexible pricing for our manpower and housekeeping services.
             </p>

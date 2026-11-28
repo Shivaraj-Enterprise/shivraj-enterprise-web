@@ -32,12 +32,12 @@ const Index = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Shivraj Enterprise | Labour Contractor & Manpower Supply in Vapi GIDC</title>
-        <meta name="description" content="Labour contractor in Vapi GIDC, Sarigam & Daman. Skilled, unskilled & housekeeping manpower with PF/ESIC compliance. Rated 5.0 on Google. Quick deployment." />
+        <title>Manpower Supplier in Vapi GIDC | Shivraj Enterprise</title>
+        <meta name="description" content="Manpower supplier in Vapi GIDC since 2016: skilled, unskilled & housekeeping workers for Sarigam, Daman & Silvassa factories with PF/ESIC. Rated 5.0 on Google." />
         <link rel="preload" as="image" href={logo} fetchPriority="high" />
         <link rel="canonical" href="https://shivraj-enterprise.lovable.app/" />
-        <meta property="og:title" content="Shivraj Enterprise | Labour Contractor & Manpower Supply in Vapi GIDC" />
-        <meta property="og:description" content="Labour contractor in Vapi GIDC, Sarigam & Daman. Skilled, unskilled & housekeeping manpower with PF/ESIC compliance. Rated 5.0 on Google. Quick deployment." />
+        <meta property="og:title" content="Manpower Supplier in Vapi GIDC | Shivraj Enterprise" />
+        <meta property="og:description" content="Manpower supplier in Vapi GIDC since 2016: skilled, unskilled & housekeeping workers for Sarigam, Daman & Silvassa factories with PF/ESIC. Rated 5.0 on Google." />
         <meta property="og:url" content="https://shivraj-enterprise.lovable.app/" />
       </Helmet>
       <div className="homepage-motion">
@@ -52,8 +52,8 @@ const Index = () => {
               </div>
             </div>
             <div className="flex justify-center mb-5"><GoogleRatingBadge /></div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" aria-label="Trusted Manpower & Housekeeping Services in Vapi GIDC, Gujarat">
-              <BlurText as="span" text="Trusted Manpower & Housekeeping Services in" delay={0.1} />
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" aria-label="Trusted Manpower Supplier & Housekeeping Services in Vapi GIDC, Gujarat">
+              <BlurText as="span" text="Trusted Manpower Supplier & Housekeeping Services in" delay={0.1} />
               <BlurText
                 as="span"
                 text="Vapi GIDC, Gujarat"

@@ -464,10 +464,10 @@ export const servicePages: ServicePage[] = [
     navLabel: "Skilled (Operator) Labour",
     cardBlurb:
       "Machine and process operators for engineering, chemical and pharma lines on 8-hour or 12-hour shifts.",
-    metaTitle: "Skilled Operator Labour Supply in Vapi GIDC",
+    metaTitle: "Skilled Workers in Vapi & Sarigam GIDC | Shivraj",
     metaDescription:
-      "Skilled manpower supply in Vapi GIDC — machine and process operators on 8-hour or 12-hour shifts, with PF, ESIC and GST compliance. Transparent per-shift rates.",
-    h1: "Skilled Operator Labour Supply in Vapi GIDC, Silvassa, Daman, Sarigam & Umbergaon",
+      "Skilled workers for Vapi and Sarigam GIDC: machine, CNC and process operators on 8 or 12-hour shifts with PF, ESIC and GST compliance. Transparent per-shift rates.",
+    h1: "Skilled Workers & Operator Labour in Vapi GIDC, Sarigam, Silvassa, Daman & Umbergaon",
     heroSubtitle:
       "Machine operators, process operators and line technicians supplied on 8-hour or 12-hour shifts, screened for the equipment and industry you run.",
     intro: [
@@ -500,6 +500,18 @@ export const servicePages: ServicePage[] = [
         ],
       },
       {
+        heading: "Skilled workers for Sarigam GIDC",
+        paragraphs: [
+          "Sarigam GIDC in Umbergaon taluka, Valsad district, is a chemical and engineering manufacturing estate close to our Vapi base. We supply skilled workers to Sarigam units on the same terms as Vapi GIDC: screened operators and fitters, 8-hour or 12-hour shifts, and PF, ESIC and wage compliance handled by us.",
+        ],
+        bullets: [
+          "Machine, CNC and process operators for Sarigam GIDC production lines",
+          "Fitters and electricians for maintenance shifts",
+          "Day, night and 12-hour shift coverage with replacement support",
+          "Share headcount, shift and start date for a Sarigam-specific quotation",
+        ],
+      },
+      {
         heading: "Shift patterns and rates",
         paragraphs: [
           "Skilled operators are supplied on both 8-hour and 12-hour shifts. The 12-hour rate is quoted separately rather than derived from the 8-hour rate, because overtime and statutory treatment differ. Current indicative rates for skilled operator labour are shown in the rate table on this page.",
@@ -524,6 +536,11 @@ export const servicePages: ServicePage[] = [
         question: "What is the rate for skilled operator labour?",
         answer:
           "Skilled operator labour is charged per 8-hour or per 12-hour shift. Current indicative rates for both patterns are shown in the rate table on this page and are subject to wage notifications and site requirements.",
+      },
+      {
+        question: "Do you supply skilled workers in Sarigam GIDC?",
+        answer:
+          "Yes. We supply skilled operators, fitters and electricians to units in Sarigam GIDC on 8-hour or 12-hour shifts, with PF, ESIC and wage compliance handled by us. Share your headcount, shift and start date for a quotation.",
       },
       {
         question: "How do you verify an operator's skill level?",
